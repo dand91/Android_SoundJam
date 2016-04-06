@@ -22,6 +22,11 @@
             android:name=".ExampleActivity"
             android:label="@string/title_activity_example" >
         </activity>
+
+        <activity
+            android:name=".ExampleActivity1"
+            android:label="@string/title_activity_example" >
+        </activity>
     </application>
 
 </manifest>

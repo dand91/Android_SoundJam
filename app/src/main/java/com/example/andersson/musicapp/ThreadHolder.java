@@ -42,21 +42,16 @@ public class ThreadHolder implements Parcelable {
         }
     }
 
-    public void halt(){
-
-        for (Map.Entry<String,Thread> e : threads.entrySet()){
-            ((InstrumentThread) e.getValue()).halt();
-        }
-    }
-
-    public HashMap<String,Thread> threads(){return threads;}
+    public HashMap<String,Thread> threads(){
+        return threads;}
     public boolean containsKey(String key){
 
         Log.d("Thread","Contains: " + threads.containsKey(key));
         return threads.containsKey(key)? true:false;
 
     }
-    public Thread get(String key){return threads.get(key);}
+    public Thread get(String key){
+        return threads.get(key);}
     public void addThread(String s,Thread t){
 
         threads.put(s,t);

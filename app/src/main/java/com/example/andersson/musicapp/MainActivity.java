@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
             public void onClick(View view) {
 
-                Intent myIntent = new Intent(MainActivity.this, ExampleActivity.class);
+                Intent myIntent = new Intent(MainActivity.this, ExampleActivity1.class);
 
                 ThreadHolder tempHolder =  new ThreadHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());

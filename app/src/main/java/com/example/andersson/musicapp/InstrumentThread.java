@@ -35,6 +35,21 @@ public abstract class InstrumentThread extends Thread {
         i = 1;
 
     }
+    public void halt(){
+
+        try {
+
+            while(!this.isInterrupted()) {
+                this.wait();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deHalt(){
+        this.interrupt();
+    }
 
     public void run(){
 
@@ -44,16 +59,9 @@ public abstract class InstrumentThread extends Thread {
             calendar = Calendar.getInstance();
             int seconds = calendar.get(Calendar.SECOND);
 
-            Log.d("Play", "looping: " + seconds);
+            //Log.d("Play", "looping: " + seconds);
 
-            try {
 
-                this.sleep(100);
-
-            } catch (InterruptedException e) {
-
-                e.printStackTrace();
-            }
 
             if (seconds % loopTime == 0) {
 

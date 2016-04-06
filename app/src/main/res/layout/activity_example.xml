@@ -24,18 +24,21 @@
         android:layout_marginTop="54dp" />
 
     <EditText
+        android:inputType="number"
+        android:ems="5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/LoopTimeView"
         android:layout_below="@+id/LoopTimetext"
         android:layout_centerHorizontal="true"
-        android:text="Input time" />
+        />
 
     <EditText
+        android:inputType="number"
+        android:ems="5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/BarView"
-        android:text="Input nbr bars"
         android:layout_below="@+id/BarText"
         android:layout_centerHorizontal="true"
         android:singleLine="true" />
@@ -48,5 +51,25 @@
         android:layout_below="@+id/BarView"
         android:layout_alignLeft="@+id/LoopTimeView"
         android:layout_alignStart="@+id/LoopTimeView" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:id="@+id/loopTimeButton"
+        android:layout_alignBottom="@+id/LoopTimeView"
+        android:layout_toRightOf="@+id/recordButton"
+        android:layout_toEndOf="@+id/recordButton" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:id="@+id/BarButton"
+        android:layout_alignTop="@+id/BarView"
+        android:layout_toRightOf="@+id/BarView"
+        android:layout_toEndOf="@+id/BarView" />
 
 </RelativeLayout>

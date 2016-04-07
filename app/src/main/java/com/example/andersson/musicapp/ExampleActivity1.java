@@ -30,7 +30,7 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
     private Button barButton;
     private EditText barText;
 
-    //
+    // end GUI
 
     //  Sensor code
 
@@ -62,8 +62,7 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-
-    //
+    // end Sensor Code
 
     // Instrument code
 
@@ -246,10 +245,9 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
                     }
 
                 }.start();
-
             }
         });
-        //
+        // end Instrument code
 
     }
 

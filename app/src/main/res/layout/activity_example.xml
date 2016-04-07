@@ -72,4 +72,11 @@
         android:layout_toRightOf="@+id/BarView"
         android:layout_toEndOf="@+id/BarView" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dataView"
+        android:layout_below="@+id/recordButton"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

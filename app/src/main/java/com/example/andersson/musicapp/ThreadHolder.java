@@ -5,54 +5,79 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ThreadHolder implements Parcelable {
 
     private HashMap<String,Thread> threads;
+    private TimeThread timer;
+
     private static ThreadHolder holder;
 
     public ThreadHolder(){
 
         this.threads = new  HashMap<String,Thread>();
+        this.timer = new TimeThread();
+        this.timer.start();
+
     }
 
     public ThreadHolder(ThreadHolder holder) {
+
         this.holder = holder;
-        Log.d("Thread","Added holders object");
+        Log.d("ThreadHolder","Added holders and time object");
 
     }
     public boolean hasHolder(){
 
         return (holder != null)? true:false;
     }
+
+    public TimeThread getTimer(){
+        return timer;
+    }
+
+
     public void transfer(){
 
         if(holder == null){
-
             threads = new  HashMap<String,Thread>();
-            Log.d("Thread","No holders object");
+            Log.d("ThreadHolder", "No holders object");
 
         }else{
 
             threads = holder.threads();
-            Log.d("Thread","Transfering threads: " + threads.size());
+            this.timer = holder.getTimer();
+            Log.d("ThreadHolder","Transfering threads: " + threads.size());
 
         }
+
     }
 
     public HashMap<String,Thread> threads(){
         return threads;}
     public boolean containsKey(String key){
 
-        Log.d("Thread","Contains: " + threads.containsKey(key));
+        Log.d("ThreadHolder","Contains: " + threads.containsKey(key));
         return threads.containsKey(key)? true:false;
 
     }
     public Thread get(String key){
-        return threads.get(key);}
+        return threads.get(key);
+    }
     public void addThread(String s,Thread t){
+
+        if(timer != null) {
+
+            timer.add((InstrumentThread) t);
+            Log.d("ThreadHolder", "Timer is not null");
+
+        }else{
+
+            Log.d("ThreadHolder","Timer is null");
+        }
 
         threads.put(s,t);
         Log.d("Thread", "Number of objects: " + threads.size());

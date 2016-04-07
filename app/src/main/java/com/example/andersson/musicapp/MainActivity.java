@@ -19,6 +19,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
     private Button exampleButton;
     private ThreadHolder holder;
+    private TimeThread timer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

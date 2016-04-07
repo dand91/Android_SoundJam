@@ -41,6 +41,10 @@ public abstract class InstrumentActivity extends Activity {
     abstract int getActivity();
     abstract int getMenu();
 
+    public Context getContext(){
+
+        return this.getBaseContext();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -18,69 +18,35 @@ public abstract class InstrumentThread extends Thread implements Observer {
 
     private int loopTime = 100;
     private int bars = 10;
-    int i;
-    private Calendar calendar;
+    public int i;
     public ArrayList<Integer> soundList;
     private final Object stopper = new Object();
-
-    private TimeThread timer;
-    private Context context;
+    public TimeThread timer;
+    public InstrumentActivity activity;
 
     public abstract void instrument(int index);
     public abstract void initiate();
 
-
-    public InstrumentThread(Context context,TimeThread timer){
+    public InstrumentThread(InstrumentActivity activity,TimeThread timer){
 
         this.timer = timer;
-        this.context = context;
-
-        initiate();
+        this.activity = activity;
+        this.i = 1;
 
         soundList = new ArrayList<Integer>(Arrays.asList(200, 210, 220, 230, 240, 250, 260, 270));
-        i = 1;
 
-    }
+        if(activity == null){
 
-    public void run1(){
+            Log.d("IT", "Constructor activity is null");
 
-
-        while(true) {
-
-            calendar = Calendar.getInstance();
-            int seconds = calendar.get(Calendar.SECOND);
-
-            if (seconds % loopTime == 0) {
-
-                while (true) {
-
-                    instrument(i);
-
-                    i++;
-
-                    if (i == bars) {
-
-                        i = 1;
-                        break;
-                    }
-
-                    try {
-
-                        this.sleep((loopTime/bars)*1000);
-
-                    } catch (InterruptedException e) {
-
-                        e.printStackTrace();
-                    }
-                }
-            }
         }
+
+        initiate();
     }
 
     public void run(){
 
         while(true) {
-
 
             Log.d("InstrumentThread","Stop");
 
@@ -94,7 +60,6 @@ public abstract class InstrumentThread extends Thread implements Observer {
 
             while (true) {
 
-
                 instrument(i);
 
                 i++;
@@ -104,7 +69,7 @@ public abstract class InstrumentThread extends Thread implements Observer {
                     i = 1;
                     break;
                 }
-
+                
                 try {
 
                     this.sleep((loopTime / bars) * 1000);

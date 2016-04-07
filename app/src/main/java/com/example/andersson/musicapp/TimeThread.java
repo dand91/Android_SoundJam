@@ -12,8 +12,7 @@ import java.util.Observer;
 public class TimeThread extends Thread{
 
     private ObservableObject ob;
-    private int loopTime = 100;
-    private int bars = 10;
+    private int loopTime = 10;
     int i;
 
     private Calendar calendar;

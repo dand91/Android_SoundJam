@@ -1,6 +1,5 @@
 package com.example.andersson.musicapp;
 
-
 import android.content.Context;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -38,7 +37,6 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
     private Sensor mAccelerometer;
     private TextView mAccelData;
     private int CurrentVal = 0;
-
 
     protected void onResume() {
         super.onResume();
@@ -83,7 +81,6 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
 
         // Listan att fylla i
 
-
         //soundList.add(randomNum);
         soundList.add(CurrentVal);
     }
@@ -108,15 +105,24 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
 
     @Override
     InstrumentThread getInstrumentClass() {// Return corresponding instrument that the activity should use
-        return new ExampleInstrumentThread(this,holder.getTimer());
+        return new ExampleInstrumentThread2(this,holder.getTimer());
     }
 
     @Override
     void initiate() { // Sets basic information regarding bars, looptime and possibly initial sound.
 
-        instrument.setSoundList(new ArrayList<Integer>(Arrays.asList(200, 210, 220, 230, 240, 250, 260, 270)));
-        instrument.setBars(8);
-        instrument.setLoopTime(16);
+        int bar = 16;
+        int loop = 16;
+
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for(int i = 0; i < loop/bar; i++){
+
+            list.add(0);
+        }
+       // instrument.setSoundList(new ArrayList<Integer>(Arrays.asList(200, 210, 220, 230, 240, 250, 260, 270)));
+        instrument.setSoundList(list);
+        instrument.setBars(bar);
+        instrument.setLoopTime(loop);
 
         // Sensor initiate
         setContentView(R.layout.activity_example);
@@ -247,7 +253,7 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
                 }.start();
             }
         });
-        // end Instrument code
+        // end Instrumecode
 
     }
 

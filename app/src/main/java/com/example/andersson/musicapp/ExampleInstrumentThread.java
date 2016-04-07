@@ -22,8 +22,8 @@ public class ExampleInstrumentThread extends InstrumentThread {
     private final double freqOfTone2 = 440;
     private final byte generatedSnd[] = new byte[2 * numSamples];
 
-    public ExampleInstrumentThread(Context context,TimeThread thread) {
-        super(context,thread);
+    public ExampleInstrumentThread(InstrumentActivity activity,TimeThread thread) {
+        super(activity,thread);
     }
 
     @Override

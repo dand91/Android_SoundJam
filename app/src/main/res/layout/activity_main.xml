@@ -8,9 +8,17 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Example"
-        android:id="@+id/exampleButton"
+        android:text="Example1"
+        android:id="@+id/exampleButton1"
         android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Example2"
+        android:id="@+id/exampleButton2"
+        android:layout_below="@+id/exampleButton1"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

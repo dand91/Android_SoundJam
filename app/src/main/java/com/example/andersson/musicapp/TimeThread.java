@@ -23,9 +23,7 @@ public class TimeThread extends Thread{
     }
     public void run() {
 
-
         boolean run = true;
-
 
         while (true) {
 
@@ -40,7 +38,6 @@ public class TimeThread extends Thread{
                 ob.setChange();
 
             }else if(seconds % loopTime != 0){
-
 
                 run = true;
 

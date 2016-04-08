@@ -1,19 +1,14 @@
 package com.example.andersson.musicapp;
 
-import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
-
-import java.net.PortUnreachableException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
 
 /**
  * Created by Andersson on 05/04/16.
  */
+
 public abstract class InstrumentThread extends Thread implements Observer {
 
     private int loopTime = 100;
@@ -31,20 +26,19 @@ public abstract class InstrumentThread extends Thread implements Observer {
 
         this.timer = timer;
         this.activity = activity;
-        this.i = 1;
-
-        soundList = new ArrayList<Integer>(Arrays.asList(200, 210, 220, 230, 240, 250, 260, 270));
+        this.i = 0;
 
         if(activity == null){
 
-            Log.d("IT", "Constructor activity is null");
+            Log.d("InstrumentThread", "Constructor activity is null");
 
         }
 
         initiate();
     }
 
-    public void run(){
+    public void run(){}
+    public void run1(){
 
         while(true) {
 
@@ -60,23 +54,33 @@ public abstract class InstrumentThread extends Thread implements Observer {
 
             while (true) {
 
-                instrument(i);
+                new Thread(){
+                    @Override
+                    public void run() {
+
+                        instrument(i);
+
+                    }
+
+                }.start();
 
                 i++;
 
                 if (i == bars) {
 
-                    i = 1;
+                    i = 0;
                     break;
-                }
-                
-                try {
 
-                    this.sleep((loopTime / bars) * 1000);
+                }else{
 
-                } catch (InterruptedException e) {
+                    try {
 
-                    e.printStackTrace();
+                        this.sleep((loopTime / bars) * 1000);
+
+                    } catch (InterruptedException e) {
+
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -123,8 +127,38 @@ public abstract class InstrumentThread extends Thread implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg){
-        go();
-    }
+    public void update(Observable o, Object arg) {
 
+
+        new Thread() {
+            @Override
+            public void run() {
+
+                while (true) {
+
+                    instrument(i);
+
+                    i++;
+
+                    if (i == bars) {
+
+                        i = 0;
+                        break;
+
+                    } else {
+
+                        try {
+
+                            this.sleep((loopTime / bars) * 1000);
+
+                        } catch (InterruptedException e) {
+
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+            }
+        }.start();
+    }
 }

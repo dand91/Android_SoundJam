@@ -17,7 +17,8 @@ import java.util.HashMap;
 
 public class MainActivity extends ActionBarActivity implements Serializable {
 
-    private Button exampleButton;
+    private Button exampleButton1;
+    private Button exampleButton2;
     private ThreadHolder holder;
     private TimeThread timer;
     @Override
@@ -27,8 +28,8 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
         holder = new ThreadHolder();
 
-        exampleButton = (Button) findViewById(R.id.exampleButton);
-        exampleButton.setOnClickListener(new View.OnClickListener() {
+        exampleButton1 = (Button) findViewById(R.id.exampleButton1);
+        exampleButton1.setOnClickListener(new View.OnClickListener() {
 
             @Override
 
@@ -36,6 +37,22 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
                 Intent myIntent = new Intent(MainActivity.this, ExampleActivity1.class);
 
+                ThreadHolder tempHolder =  new ThreadHolder(holder);
+                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
+                myIntent.putExtra("holder", tempHolder);
+                MainActivity.this.startActivityForResult(myIntent, 10);
+
+            }
+        });
+
+        exampleButton2 = (Button) findViewById(R.id.exampleButton2);
+        exampleButton2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(MainActivity.this, ExampleActivity2.class);
                 ThreadHolder tempHolder =  new ThreadHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);

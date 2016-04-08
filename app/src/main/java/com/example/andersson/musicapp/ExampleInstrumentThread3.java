@@ -1,5 +1,6 @@
 package com.example.andersson.musicapp;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.media.AudioFormat;
@@ -11,12 +12,12 @@ import android.util.Log;
 /**
  * Created by Andersson on 07/04/16.
  */
-public class ExampleInstrumentThread2 extends InstrumentThread {
+public class ExampleInstrumentThread3 extends InstrumentThread {
 
     private SoundPool mySound;
     private int soundId;
 
-    public ExampleInstrumentThread2(InstrumentActivity activity,TimeThread thread) {
+    public ExampleInstrumentThread3(InstrumentActivity activity,TimeThread thread) {
         super(activity,thread);
 
         if(activity == null){
@@ -40,7 +41,7 @@ public class ExampleInstrumentThread2 extends InstrumentThread {
 
             if(activity.getContext() != null) {
 
-                soundId = mySound.load(activity.getContext(), R.raw.bd, 1);
+                soundId = mySound.load(activity.getContext(), R.raw.bd2, 1);
 
             }else{
 

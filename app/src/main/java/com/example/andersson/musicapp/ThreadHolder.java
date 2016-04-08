@@ -27,7 +27,7 @@ public class ThreadHolder implements Parcelable {
     public ThreadHolder(ThreadHolder holder) {
 
         this.holder = holder;
-        Log.d("ThreadHolder","Added holders and time object");
+        Log.d("ThreadHolder", "Added holders and time object");
 
     }
     public boolean hasHolder(){
@@ -42,15 +42,15 @@ public class ThreadHolder implements Parcelable {
 
     public void transfer(){
 
-        if(holder == null){
-            threads = new  HashMap<String,Thread>();
-            Log.d("ThreadHolder", "No holders object");
+        if(holder != null){
+
+            this.threads = holder.threads();
+            this.timer = holder.getTimer();
+            Log.d("ThreadHolder","Transfering threads: " + threads.size());
 
         }else{
 
-            threads = holder.threads();
-            this.timer = holder.getTimer();
-            Log.d("ThreadHolder","Transfering threads: " + threads.size());
+            Log.d("ThreadHolder", "No holders object");
 
         }
 

@@ -65,7 +65,7 @@ public abstract class InstrumentActivity extends Activity {
             if (holder.containsKey(name)) {
 
                 instrument = (InstrumentThread) holder.get(name);
-                Log.d("IA Intent","New instrument created");
+                Log.d("IA Intent", "New instrument fetched");
 
 
             } else {
@@ -73,7 +73,8 @@ public abstract class InstrumentActivity extends Activity {
                 instrument = getInstrumentClass();
                 holder.addThread(name, instrument);
                 instrument.start();
-                Log.d("IA Intent", "New instrument fetched");
+                Log.d("IA Intent", "New instrument created");
+
 
             }
 

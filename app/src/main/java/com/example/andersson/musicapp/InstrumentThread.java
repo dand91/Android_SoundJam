@@ -18,6 +18,7 @@ public abstract class InstrumentThread extends Thread implements Observer {
     private final Object stopper = new Object();
     public TimeThread timer;
     public InstrumentActivity activity;
+    public boolean set;
 
     public abstract void instrument(int index);
     public abstract void initiate();
@@ -111,8 +112,17 @@ public abstract class InstrumentThread extends Thread implements Observer {
 
     public void setSoundList(ArrayList<Integer> soundList){
 
+        set = true;
         this.soundList = soundList;
     }
+    public ArrayList<Integer>  getSoundList(){
+        if(set) {
+            return soundList;
+        }else{
+            return new ArrayList<Integer>();
+        }
+    }
+
 
     public void go() {
         synchronized (stopper) {

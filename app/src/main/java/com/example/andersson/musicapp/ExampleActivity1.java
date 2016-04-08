@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ExampleActivity1 extends InstrumentActivity implements SensorEventListener {
 
@@ -113,7 +114,7 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
             list.add(0);
         }
 
-       // instrument.setSoundList(new ArrayList<Integer>(Arrays.asList(200, 210, 220, 230, 240, 250, 260, 270)));
+        instrument.setSoundList(new ArrayList<Integer>(Arrays.asList(1,0, 1, 0, 1, 0, 1, 0)));
         instrument.setSoundList(list);
         instrument.setBars(bar);
         instrument.setLoopTime(loop);

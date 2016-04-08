@@ -4,15 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import java.io.Serializable;
-import java.sql.Time;
 import java.util.HashMap;
-import java.util.Map;
 
 public class ThreadHolder implements Parcelable {
 
     private HashMap<String,Thread> threads;
     private TimeThread timer;
+    private UpdateThread updater;
 
     private static ThreadHolder holder;
 
@@ -21,13 +19,16 @@ public class ThreadHolder implements Parcelable {
         this.threads = new  HashMap<String,Thread>();
         this.timer = new TimeThread();
         this.timer.start();
+        this.updater = new UpdateThread(this);
+        this.updater.start();
+
+        Log.d("ThreadHolder","Initiating Timer and Updater");
 
     }
 
     public ThreadHolder(ThreadHolder holder) {
 
         this.holder = holder;
-        Log.d("ThreadHolder", "Added holders and time object");
 
     }
     public boolean hasHolder(){
@@ -38,25 +39,25 @@ public class ThreadHolder implements Parcelable {
     public TimeThread getTimer(){
         return timer;
     }
-
-
+    public UpdateThread getUpdater(){return updater;}
     public void transfer(){
 
         if(holder != null){
 
-            this.threads = holder.threads();
+            this.threads = holder.getThreads();
             this.timer = holder.getTimer();
-            Log.d("ThreadHolder","Transfering threads: " + threads.size());
+            this.updater = holder.getUpdater();
+
+            Log.d("ThreadHolder","Transfering getThreads: " + threads.size());
 
         }else{
 
             Log.d("ThreadHolder", "No holders object");
 
         }
-
     }
 
-    public HashMap<String,Thread> threads(){
+    public HashMap<String,Thread> getThreads(){
         return threads;}
     public boolean containsKey(String key){
 
@@ -64,7 +65,7 @@ public class ThreadHolder implements Parcelable {
         return threads.containsKey(key)? true:false;
 
     }
-    public Thread get(String key){
+    public Thread getThread(String key){
         return threads.get(key);
     }
     public void addThread(String s,Thread t){

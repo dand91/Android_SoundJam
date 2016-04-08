@@ -11,16 +11,17 @@ import java.util.Observer;
  */
 public class TimeThread extends Thread{
 
+    private Calendar calendar;
     private ObservableObject ob;
     private int loopTime = 10;
     int i;
 
-    private Calendar calendar;
 
     public TimeThread(){
 
         ob = new ObservableObject();
     }
+
     public void run() {
 
         boolean run = true;

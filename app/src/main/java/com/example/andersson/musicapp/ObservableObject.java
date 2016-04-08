@@ -14,4 +14,11 @@ public class ObservableObject extends Observable {
         setChanged();
 
     }
+
+    public void setChange(Object object){
+
+        notifyObservers(object);
+        setChanged();
+
+    }
 }

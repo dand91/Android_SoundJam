@@ -3,25 +3,12 @@ package com.example.andersson.musicapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Handler;
-import android.os.Parcelable;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.os.Vibrator;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
 
 public abstract class InstrumentActivity extends Activity {
 
@@ -64,7 +51,7 @@ public abstract class InstrumentActivity extends Activity {
 
             if (holder.containsKey(name)) {
 
-                instrument = (InstrumentThread) holder.get(name);
+                instrument = (InstrumentThread) holder.getThread(name);
                 Log.d("IA Intent", "New instrument fetched");
 
 

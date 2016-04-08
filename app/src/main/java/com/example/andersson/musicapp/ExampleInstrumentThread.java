@@ -35,8 +35,9 @@ public class ExampleInstrumentThread extends InstrumentThread {
             for(int in : soundList){
                 s = s + in + " ";
             }
+
             Log.d("EIT - instrumentCall" ,s);
-            // freqOfTone
+
             // This is were the sound generation takes place, index is the current bar
             this.genTone(index);
             this.playSound();

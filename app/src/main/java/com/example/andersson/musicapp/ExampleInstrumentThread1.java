@@ -1,24 +1,20 @@
 package com.example.andersson.musicapp;
 
-
-import android.app.Activity;
 import android.content.Context;
-import android.media.AudioFormat;
 import android.media.AudioManager;
-import android.media.AudioTrack;
 import android.media.SoundPool;
 import android.util.Log;
 
 /**
  * Created by Andersson on 07/04/16.
  */
-public class ExampleInstrumentThread3 extends InstrumentThread {
+public class ExampleInstrumentThread1 extends InstrumentThread {
 
     private SoundPool mySound;
     private int soundId;
 
-    public ExampleInstrumentThread3(InstrumentActivity activity,TimeThread thread) {
-        super(activity,thread);
+    public ExampleInstrumentThread1(InstrumentActivity activity, TimeThread thread) {
+        super(activity, thread);
 
         if(activity == null){
 
@@ -30,7 +26,10 @@ public class ExampleInstrumentThread3 extends InstrumentThread {
     @Override
     public void instrument(int index) {
 
-        playSound();
+        AudioManager mgr = (AudioManager) activity.getContext().getSystemService(Context.AUDIO_SERVICE);
+        int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
+        streamVolume = streamVolume / mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        mySound.play(soundId, streamVolume, streamVolume, 1, 0, 1f);
     }
 
     public void initiate(){
@@ -41,7 +40,7 @@ public class ExampleInstrumentThread3 extends InstrumentThread {
 
             if(activity.getContext() != null) {
 
-                soundId = mySound.load(activity.getContext(), R.raw.bd2, 1);
+                soundId = mySound.load(activity.getContext(), R.raw.bd, 1);
 
             }else{
 
@@ -50,13 +49,5 @@ public class ExampleInstrumentThread3 extends InstrumentThread {
         }else{
             Log.d("EIT2","Actvity is null");
         }
-    }
-
-    public void playSound() {
-
-        AudioManager mgr = (AudioManager) activity.getContext().getSystemService(Context.AUDIO_SERVICE);
-        int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
-        streamVolume = streamVolume / mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        mySound.play(soundId,streamVolume, streamVolume, 1, 0, 1f);
     }
 }

@@ -16,28 +16,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 
 public class ExampleActivity1 extends InstrumentActivity implements SensorEventListener {
 
-    // GUI code
-
+    // GUI/Instrument variables
     private Button recordButton;
     private Button loopTimeButton;
     private EditText loopTimeText;
     private Button barButton;
     private EditText barText;
+    // end GUI/Instrument variables
 
-    // end GUI
-
-    //  Sensor code
-
+    //  Sensor variables
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private TextView mAccelData;
     private int CurrentVal = 0;
+    // end Sensor variables
 
+    // Sensor code
     protected void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
@@ -57,13 +54,10 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
 
     }
 
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
     // end Sensor Code
 
-    // Instrument code
-
+    // GUI/Instrument code
     public ExampleActivity1(){
         super();
     }
@@ -71,17 +65,6 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
     @Override
     void generateSoundInfo(int index) { // should be connected to a sensor, it's called at new beatTime
 
-        // android AIP typ drum machine API
-
-        int min = 200;
-        int max = 500;
-
-        Random rand = new Random();
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-
-        // Listan att fylla i
-
-        //soundList.add(randomNum);
         soundList.add(CurrentVal);
     }
 
@@ -105,12 +88,22 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
 
     @Override
     InstrumentThread getInstrumentClass() {// Return corresponding instrument that the activity should use
-        return new ExampleInstrumentThread2(this,holder.getTimer());
+        return new ExampleInstrumentThread1(this,holder.getTimer());
     }
+    // end GUI/Instrument code
 
     @Override
     void initiate() { // Sets basic information regarding bars, looptime and possibly initial sound.
 
+
+        // Sensor initiate
+        setContentView(R.layout.activity_example);
+        this.mSensorManager =(SensorManager)getSystemService(SENSOR_SERVICE);
+        this.mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        this.mAccelData = (TextView)findViewById(R.id.dataView);
+        // end Sensor initiate
+
+        // GUI/Instrument initiate
         int bar = 16;
         int loop = 16;
 
@@ -119,19 +112,20 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
 
             list.add(0);
         }
+
        // instrument.setSoundList(new ArrayList<Integer>(Arrays.asList(200, 210, 220, 230, 240, 250, 260, 270)));
         instrument.setSoundList(list);
         instrument.setBars(bar);
         instrument.setLoopTime(loop);
 
-        // Sensor initiate
-        setContentView(R.layout.activity_example);
-        this.mSensorManager =(SensorManager)getSystemService(SENSOR_SERVICE);
-        this.mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        this.mAccelData = (TextView)findViewById(R.id.dataView);
-        //
+        loopGUI();
+        barGUI();
+        recordGUI();
+        // end GUI/Instrument initiate
 
-        // GUI initiate
+    }
+
+    private void loopGUI(){
 
         loopTimeText = (EditText) findViewById(R.id.LoopTimeView);
         loopTimeButton = (Button) findViewById(R.id.loopTimeButton);
@@ -156,6 +150,8 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
                 }
             }
         });
+    }
+    private void barGUI(){
 
         barText = (EditText) findViewById(R.id.BarView);
         barButton = (Button) findViewById(R.id.BarButton);
@@ -179,6 +175,8 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
             }
 
         });
+    }
+    private void recordGUI(){
 
         recordButton = (Button) findViewById(R.id.recordButton);
         recordButton.setOnClickListener(new View.OnClickListener() {
@@ -214,7 +212,6 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
                 new Thread() {
 
                     public synchronized void run() {
-
 
                         while (true) {
 
@@ -253,8 +250,6 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
                 }.start();
             }
         });
-        // end Instrumecode
-
     }
 
 }

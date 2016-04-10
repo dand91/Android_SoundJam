@@ -2,7 +2,6 @@ package com.example.andersson.musicapp;
 
 import android.content.Context;
 import android.media.AudioManager;
-import android.media.SoundPool;
 import android.util.Log;
 
 /**
@@ -10,11 +9,10 @@ import android.util.Log;
  */
 public class ExampleInstrumentThread1 extends InstrumentThread {
 
-    private SoundPool mySound;
     private int soundId;
 
-    public ExampleInstrumentThread1(InstrumentActivity activity, TimeThread thread) {
-        super(activity, thread);
+    public ExampleInstrumentThread1(InstrumentActivity activity, ThreadHolder holder) {
+        super(activity, holder);
 
         if(activity == null){
 
@@ -31,7 +29,7 @@ public class ExampleInstrumentThread1 extends InstrumentThread {
             AudioManager mgr = (AudioManager) activity.getContext().getSystemService(Context.AUDIO_SERVICE);
             int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
             streamVolume = streamVolume / mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-            mySound.play(soundId, streamVolume, streamVolume, 1, 0, 1f);
+            holder.getSoundPool().play(soundId, streamVolume, streamVolume, 1, 0, 1f);
 
         }else{
 
@@ -41,13 +39,19 @@ public class ExampleInstrumentThread1 extends InstrumentThread {
 
     public void initiate(){
 
-        mySound = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-
         if(activity != null) {
 
             if(activity.getContext() != null) {
 
-                soundId = mySound.load(activity.getContext(), R.raw.bd, 1);
+                if(holder.getSoundPool() != null) {
+
+                    soundId = holder.getSoundPool().load(activity.getContext(), R.raw.bd, 1);
+
+                }else{
+
+                    Log.d("EIT2","soundPool is null");
+                    System.exit(0);
+                }
 
             }else{
 

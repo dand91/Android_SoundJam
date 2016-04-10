@@ -3,7 +3,6 @@ package com.example.andersson.musicapp;
 import android.util.Log;
 
 import java.util.Calendar;
-import java.util.Observable;
 import java.util.Observer;
 
 /**

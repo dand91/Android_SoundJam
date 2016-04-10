@@ -6,7 +6,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-
 import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
@@ -14,9 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ExampleActivity1 extends InstrumentActivity implements SensorEventListener {
 
@@ -89,7 +86,7 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
 
     @Override
     InstrumentThread getInstrumentClass() {// Return corresponding instrument that the activity should use
-        return new ExampleInstrumentThread1(this,holder.getTimer());
+        return new ExampleInstrumentThread1(this,holder);
     }
     // end GUI/Instrument code
 
@@ -105,8 +102,8 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
         // end Sensor initiate
 
         // GUI/Instrument initiate
-        int bar = 16;
-        int loop = 16;
+        int bar = 8;
+        int loop = 8;
 
         //instrument.setSoundList(new ArrayList<Integer>(Arrays.asList(1,0, 1, 0, 1, 0, 1, 0)));
         instrument.setBars(bar);

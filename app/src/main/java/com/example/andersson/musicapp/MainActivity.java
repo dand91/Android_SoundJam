@@ -1,7 +1,11 @@
 package com.example.andersson.musicapp;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Parcelable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,10 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 
 
 public class MainActivity extends ActionBarActivity implements Serializable {
@@ -20,13 +22,13 @@ public class MainActivity extends ActionBarActivity implements Serializable {
     private Button exampleButton1;
     private Button exampleButton2;
     private ThreadHolder holder;
-    private TimeThread timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        holder = new ThreadHolder();
+        holder = new ThreadHolder(this);
 
         exampleButton1 = (Button) findViewById(R.id.exampleButton1);
         exampleButton1.setOnClickListener(new View.OnClickListener() {
@@ -53,13 +55,33 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(MainActivity.this, ExampleActivity2.class);
-                ThreadHolder tempHolder =  new ThreadHolder(holder);
+                ThreadHolder tempHolder = new ThreadHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);
                 MainActivity.this.startActivityForResult(myIntent, 10);
 
             }
         });
+
+
+
+        if(!haveNetworkConnection()) {
+
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            builder1.setMessage("No internet connection.");
+            builder1.setCancelable(true);
+
+            builder1.setPositiveButton(
+                    "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+        }
     }
 
 
@@ -99,5 +121,22 @@ public class MainActivity extends ActionBarActivity implements Serializable {
         return super.onOptionsItemSelected(item);
     }
 
+    private boolean haveNetworkConnection() {
+
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(this.getApplicationContext().CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
 
 }

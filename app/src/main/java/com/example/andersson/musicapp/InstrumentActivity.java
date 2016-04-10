@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import java.util.ArrayList;
 
 public abstract class InstrumentActivity extends Activity {

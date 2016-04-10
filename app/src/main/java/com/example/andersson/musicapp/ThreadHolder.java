@@ -1,5 +1,8 @@
 package com.example.andersson.musicapp;
 
+import android.app.Activity;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -11,11 +14,16 @@ public class ThreadHolder implements Parcelable {
     private HashMap<String,Thread> threads;
     private TimeThread timer;
     private UpdateThread updater;
+    private String groupName = "testGroup";
+    private SoundPool mySound;
+    private Activity mainActivity;
 
     private static ThreadHolder holder;
 
-    public ThreadHolder(){
+    public ThreadHolder(Activity mainActivity){
 
+        this.mainActivity = mainActivity;
+        mySound = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         this.threads = new  HashMap<String,Thread>();
         this.timer = new TimeThread();
         this.timer.start();
@@ -39,7 +47,20 @@ public class ThreadHolder implements Parcelable {
     public TimeThread getTimer(){
         return timer;
     }
+    public String getGroupName(){
+        return groupName;
+    }
+    public void setGroupName(String groupName){
+        this.groupName = groupName;
+    }
     public UpdateThread getUpdater(){return updater;}
+    public SoundPool getSoundPool(){
+        return mySound;
+    }
+    public Activity getMainActivity(){
+        return mainActivity;
+    }
+
     public void transfer(){
 
         if(holder != null){
@@ -47,6 +68,7 @@ public class ThreadHolder implements Parcelable {
             this.threads = holder.getThreads();
             this.timer = holder.getTimer();
             this.updater = holder.getUpdater();
+            this.mySound = holder.getSoundPool();
 
             Log.d("ThreadHolder","Transfering getThreads: " + threads.size());
 

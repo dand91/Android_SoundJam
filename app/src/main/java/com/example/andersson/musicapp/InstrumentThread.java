@@ -11,22 +11,22 @@ import java.util.Observer;
 
 public abstract class InstrumentThread extends Thread implements Observer {
 
-    private int loopTime = 100;
+    private int loopTime = 10;
     private int bars = 10;
     public int i;
     public ArrayList<Integer> tempSoundList;
     public ArrayList<Integer> soundList;
     private final Object stopper = new Object();
-    public TimeThread timer;
+    public ThreadHolder holder;
     public InstrumentActivity activity;
     public boolean set;
 
     public abstract void instrument(int index);
     public abstract void initiate();
 
-    public InstrumentThread(InstrumentActivity activity,TimeThread timer){
+    public InstrumentThread(InstrumentActivity activity,ThreadHolder holder){
 
-        this.timer = timer;
+        this.holder = holder;
         this.activity = activity;
         this.i = 0;
 
@@ -91,7 +91,7 @@ public abstract class InstrumentThread extends Thread implements Observer {
     public void setLoopTime(int loopTime){
 
         this.loopTime = loopTime;
-        timer.setLoopTime(loopTime);
+        holder.getTimer().setLoopTime(loopTime);
 
     }
     public void setBars(int bars){

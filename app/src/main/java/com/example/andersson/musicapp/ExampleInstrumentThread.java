@@ -1,10 +1,8 @@
 package com.example.andersson.musicapp;
 
-import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
-import android.media.MediaPlayer;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -22,8 +20,8 @@ public class ExampleInstrumentThread extends InstrumentThread {
     private final double freqOfTone2 = 440;
     private final byte generatedSnd[] = new byte[2 * numSamples];
 
-    public ExampleInstrumentThread(InstrumentActivity activity,TimeThread thread) {
-        super(activity,thread);
+    public ExampleInstrumentThread(InstrumentActivity activity,ThreadHolder holder) {
+        super(activity,holder);
     }
 
     @Override

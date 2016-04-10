@@ -14,7 +14,7 @@ public class ThreadHolder implements Parcelable {
     private HashMap<String,Thread> threads;
     private TimeThread timer;
     private UpdateThread updater;
-    private String groupName = "testGroup";
+    private String groupName;
     private SoundPool mySound;
     private Activity mainActivity;
 
@@ -23,12 +23,11 @@ public class ThreadHolder implements Parcelable {
     public ThreadHolder(Activity mainActivity){
 
         this.mainActivity = mainActivity;
-        mySound = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        mySound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
         this.threads = new  HashMap<String,Thread>();
         this.timer = new TimeThread();
         this.timer.start();
         this.updater = new UpdateThread(this);
-        this.updater.start();
 
         Log.d("ThreadHolder","Initiating Timer and Updater");
 
@@ -52,6 +51,10 @@ public class ThreadHolder implements Parcelable {
     }
     public void setGroupName(String groupName){
         this.groupName = groupName;
+        if(!updater.isAlive()) {
+            this.updater.start();
+        }
+
     }
     public UpdateThread getUpdater(){return updater;}
     public SoundPool getSoundPool(){

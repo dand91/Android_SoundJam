@@ -1,6 +1,5 @@
 package com.example.andersson.musicapp;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
 import java.io.Serializable;
 
 
@@ -21,6 +22,8 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
     private Button exampleButton1;
     private Button exampleButton2;
+    private Button groupNameButton;
+    private EditText groupNameText;
     private ThreadHolder holder;
 
     @Override
@@ -63,6 +66,19 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             }
         });
 
+        groupNameText = (EditText) findViewById(R.id.groupNameText);
+
+        groupNameButton = (Button) findViewById(R.id.groupNameButton);
+        groupNameButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+          holder.setGroupName(groupNameText.getText().toString());
+
+            }
+        });
 
 
         if(!haveNetworkConnection()) {

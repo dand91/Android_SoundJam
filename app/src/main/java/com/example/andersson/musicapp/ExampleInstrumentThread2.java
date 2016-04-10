@@ -31,7 +31,7 @@ public class ExampleInstrumentThread2 extends InstrumentThread {
             AudioManager mgr = (AudioManager) activity.getContext().getSystemService(Context.AUDIO_SERVICE);
             int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
             streamVolume = streamVolume / mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-            holder.getSoundPool().play(soundId, streamVolume, streamVolume, 1, 0, 1f);
+            holder.getSoundPool().play(soundId, 0.5f, 0.5f, 1, 0, 1f);
         }
     }
 
@@ -43,7 +43,7 @@ public class ExampleInstrumentThread2 extends InstrumentThread {
 
                 if(holder.getSoundPool() != null) {
 
-                    soundId = holder.getSoundPool().load(activity.getContext(), R.raw.bd, 1);
+                    soundId = holder.getSoundPool().load(activity.getContext(), R.raw.bd2, 1);
 
                 }else{
 

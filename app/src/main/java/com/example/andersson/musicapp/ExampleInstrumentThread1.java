@@ -26,10 +26,17 @@ public class ExampleInstrumentThread1 extends InstrumentThread {
     @Override
     public void instrument(int index) {
 
-        AudioManager mgr = (AudioManager) activity.getContext().getSystemService(Context.AUDIO_SERVICE);
-        int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
-        streamVolume = streamVolume / mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        mySound.play(soundId, streamVolume, streamVolume, 1, 0, 1f);
+        if(tempSoundList != null &&  tempSoundList.size() > index && tempSoundList.get(index) == 1 ) {
+
+            AudioManager mgr = (AudioManager) activity.getContext().getSystemService(Context.AUDIO_SERVICE);
+            int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
+            streamVolume = streamVolume / mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            mySound.play(soundId, streamVolume, streamVolume, 1, 0, 1f);
+
+        }else{
+
+
+        }
     }
 
     public void initiate(){

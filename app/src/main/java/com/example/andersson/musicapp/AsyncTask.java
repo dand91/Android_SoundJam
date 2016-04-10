@@ -1,14 +1,12 @@
 package com.example.andersson.musicapp;
 
-import android.os.AsyncTask;
-
-public class MyAsyncTask extends AsyncTask<Void, Void, String> {
+public class AsyncTask extends android.os.AsyncTask<Void, Void, String> {
 
     private ThreadHolder holder;
 
     @Override
     protected String doInBackground(Void... params) {
-        String result = FetchClass.getResultFromRss(holder);
+        String result = UpdateTask.saveAndLoad(holder);
         return result;
     }
     @Override

@@ -1,8 +1,7 @@
 package com.example.andersson.musicapp;
 
 import android.util.Log;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.Observer;
 
 /**
@@ -22,17 +21,17 @@ public class UpdateThread extends Thread{
 
     public void run(){
 
-        MyAsyncTask mMyAsyncTask = new MyAsyncTask();
-        mMyAsyncTask.execute();
+        AsyncTask mAsyncTask = new AsyncTask();
+        mAsyncTask.execute();
 
         while(true) {
 
             if(holder == null){
 
-                Log.d("ThreadHolder","NULL");
+                Log.d("ThreadHolder","Holder is null");
             }
-            mMyAsyncTask.addHolder(holder);
-            mMyAsyncTask.doInBackground();
+            mAsyncTask.addHolder(holder);
+            mAsyncTask.doInBackground();
 
             try {
                 Thread.sleep(10000);

@@ -18,16 +18,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FetchClass {
-    public static String getResultFromRss(ThreadHolder holder) {
+public class UpdateTask {
+    public static String saveAndLoad(ThreadHolder holder) {
 
-        Log.d("FetchClass", "Collecting info from threads" );
+        String tempGroupName = "testGroup";
 
-        String info = "info=";
+        Log.d("UpdateTask", "Collecting info from threads" );
+
+        String group = "group=" + tempGroupName;
+        String info = "&info=";
 
         if(holder == null){
 
-            Log.d("FetchClass", "NULL" );
+            Log.d("UpdateTask", "Holder is null" );
 
         }else {
 
@@ -65,13 +68,13 @@ public class FetchClass {
                 }
             }
 
-
             InputStream is = null;
 
-            Log.d("FetchClass", "Sending request: " + info);
+            Log.d("UpdateTask", "Sending request: " + info);
 
             URL url;
             try {
+
                 url = new URL("http://213.21.69.152:1234/test");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setDoOutput(true);
@@ -79,7 +82,7 @@ public class FetchClass {
                 OutputStreamWriter wr = new OutputStreamWriter(conn
                         .getOutputStream());
                 // this is were we're adding post data to the request
-                wr.write(info);
+                wr.write(group + info);
                 wr.flush();
                 wr.close();
 
@@ -90,7 +93,7 @@ public class FetchClass {
                     responseOutput.append(line);
                 }
                 br.close();
-                Log.d("FetchClass Result: ", responseOutput.toString());
+                Log.d("UpdateTask Result: ", responseOutput.toString());
 
                 for (String resultString : responseOutput.toString().split(":")) {
 
@@ -100,14 +103,20 @@ public class FetchClass {
                     for (String s : subresult[1].split(",")) {
 
                         list.add(Integer.valueOf(s));
-                        ((InstrumentThread) holder.getThread(subresult[0])).setSoundList(list);
+                        InstrumentThread tempThreads =  ((InstrumentThread) holder.getThread(subresult[0]));
+                        if(tempThreads != null) {
+                            tempThreads.setSoundList(list);
+                        }else{
+                            Log.e("UpdateTask", "Thread is null for: " + subresult[0]);
+
+                        }
                     }
-                    Log.d("FetchClass Restult2", subresult[0] + " " + list.toString());
+                    Log.d("UpdateTask Result2", subresult[0] + " " + list.toString());
                 }
 
 
             } catch (Exception e) {
-                Log.e("FetchClass", e.getMessage());
+                Log.e("UpdateTask", e.getMessage());
             }
 
 

@@ -108,14 +108,7 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
         int bar = 16;
         int loop = 16;
 
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        for(int i = 0; i < loop/bar; i++){
-
-            list.add(0);
-        }
-
-        instrument.setSoundList(new ArrayList<Integer>(Arrays.asList(1,0, 1, 0, 1, 0, 1, 0)));
-        instrument.setSoundList(list);
+        //instrument.setSoundList(new ArrayList<Integer>(Arrays.asList(1,0, 1, 0, 1, 0, 1, 0)));
         instrument.setBars(bar);
         instrument.setLoopTime(loop);
 

@@ -14,6 +14,7 @@ public abstract class InstrumentThread extends Thread implements Observer {
     private int loopTime = 100;
     private int bars = 10;
     public int i;
+    public ArrayList<Integer> tempSoundList;
     public ArrayList<Integer> soundList;
     private final Object stopper = new Object();
     public TimeThread timer;
@@ -139,6 +140,7 @@ public abstract class InstrumentThread extends Thread implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
+       tempSoundList = soundList;
 
         new Thread() {
             @Override
@@ -146,7 +148,14 @@ public abstract class InstrumentThread extends Thread implements Observer {
 
                 while (true) {
 
-                    instrument(i);
+                    new Thread() {
+                        @Override
+                        public void run() {
+
+                            instrument(i);
+
+                        }
+                    }.start();
 
                     i++;
 

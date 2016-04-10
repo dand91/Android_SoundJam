@@ -60,10 +60,10 @@ public class ExampleActivity2 extends InstrumentActivity {
     @Override
     void initiate() { // Sets basic information regarding bars, looptime and possibly initial sound.
 
-        int bar = 8;
+        int bar = 16;
         int loop = 16;
 
-        instrument.setSoundList(new ArrayList<Integer>(Arrays.asList(0,1,0,1,0,1,0,1)));
+        //instrument.setSoundList(new ArrayList<Integer>(Arrays.asList(0,1,0,1,0,1,0,1)));
         instrument.setBars(bar);
         instrument.setLoopTime(loop);
 

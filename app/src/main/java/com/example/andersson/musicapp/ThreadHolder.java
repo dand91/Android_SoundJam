@@ -72,6 +72,7 @@ public class ThreadHolder implements Parcelable {
             this.timer = holder.getTimer();
             this.updater = holder.getUpdater();
             this.mySound = holder.getSoundPool();
+            this.groupName = holder.getGroupName();
 
             Log.d("ThreadHolder","Transfering getThreads: " + threads.size());
 
@@ -106,6 +107,7 @@ public class ThreadHolder implements Parcelable {
         }
 
         threads.put(s,t);
+
         Log.d("Thread", "Number of objects: " + threads.size());
 
     }

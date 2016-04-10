@@ -76,7 +76,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             public void onClick(View view) {
 
           holder.setGroupName(groupNameText.getText().toString());
-
+                Log.d("Main","New group name: " + groupNameText.getText().toString());
             }
         });
 

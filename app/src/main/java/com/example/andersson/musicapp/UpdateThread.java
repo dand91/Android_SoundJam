@@ -23,19 +23,19 @@ public class UpdateThread extends Thread{
 
         AsyncTask mAsyncTask = new AsyncTask();
         mAsyncTask.execute();
+        if(holder == null){
+
+            Log.d("ThreadHolder","Holder is null");
+
+        }else {
+            
+            mAsyncTask.addHolder(holder);
+        }
 
         while(true) {
 
-            if(holder == null){
-
-                Log.d("ThreadHolder","Holder is null");
-
-            }else {
-
-                mAsyncTask.addHolder(holder);
                 mAsyncTask.doInBackground();
 
-            }
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {

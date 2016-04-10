@@ -20,7 +20,7 @@ public class UpdateTask {
 
         String tempGroupName = holder.getGroupName();
 
-        Log.d("UpdateTask", "Collecting info from threads" );
+        Log.d("UpdateTask", "Collecting info from threads from group name: "  + holder.getGroupName());
 
         String tempInfo = "";
 
@@ -28,7 +28,7 @@ public class UpdateTask {
 
             Log.d("UpdateTask", "Holder is null");
 
-        }else if(!haveNetworkConnection(holder.getMainActivity())){
+        }else if(!haveNetworkConnection(holder.getMainActivity())) {
 
             Log.d("UpdateTask", "No internet connection");
 

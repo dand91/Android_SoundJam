@@ -1,4 +1,4 @@
-package com.example.andersson.musicapp;
+package com.example.andersson.musicapp.Activity;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,6 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread2;
+import com.example.andersson.musicapp.Instrument.InstrumentThread;
+import com.example.andersson.musicapp.R;
+
 import java.util.ArrayList;
 
 public class ExampleActivity2 extends InstrumentActivity {
@@ -51,7 +56,7 @@ public class ExampleActivity2 extends InstrumentActivity {
     }
 
     @Override
-    InstrumentThread getInstrumentClass() {// Return corresponding instrument that the activity should use
+    InstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
         return new ExampleInstrumentThread2(this,holder);
     }
 
@@ -61,7 +66,7 @@ public class ExampleActivity2 extends InstrumentActivity {
         int bar = 8;
         int loop = 8;
 
-        //instrument.setSoundList(new ArrayList<Integer>(Arrays.asList(0,1,0,1,0,1,0,1)));
+        //playLoop.setSoundList(new ArrayList<Integer>(Arrays.asList(0,1,0,1,0,1,0,1)));
         instrument.setBars(bar);
         instrument.setLoopTime(loop);
 

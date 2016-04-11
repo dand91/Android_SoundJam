@@ -1,6 +1,8 @@
-package com.example.andersson.musicapp;
+package com.example.andersson.musicapp.TimeTracking;
 
 import android.util.Log;
+
+import com.example.andersson.musicapp.SharedResources.ObservableObject;
 
 import java.util.Calendar;
 import java.util.Observer;

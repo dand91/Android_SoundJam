@@ -1,4 +1,4 @@
-package com.example.andersson.musicapp;
+package com.example.andersson.musicapp.Activity;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,6 +13,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread1;
+import com.example.andersson.musicapp.Instrument.InstrumentThread;
+import com.example.andersson.musicapp.R;
+
 import java.util.ArrayList;
 
 public class ExampleActivity1 extends InstrumentActivity implements SensorEventListener {
@@ -30,6 +35,7 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
     private Sensor mAccelerometer;
     private TextView mAccelData;
     private int CurrentVal = 0;
+    private boolean playRealTime;
     // end Sensor variables
 
     // Sensor code
@@ -46,10 +52,13 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        float[] Reading = event.values;
-        CurrentVal = (int) Reading[0] + (int)  Reading[1] + (int)  Reading[2] + 200;
-        mAccelData.setText(String.valueOf(Math.abs(CurrentVal)));
+        if(playRealTime) {
 
+            float[] Reading = event.values;
+            CurrentVal = (int) Reading[0];
+            mAccelData.setText(String.valueOf(Math.abs(CurrentVal)));
+            instrument.playRealTime(CurrentVal);
+        }
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {}
@@ -85,7 +94,7 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
     }
 
     @Override
-    InstrumentThread getInstrumentClass() {// Return corresponding instrument that the activity should use
+    InstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
         return new ExampleInstrumentThread1(this,holder);
     }
     // end GUI/Instrument code
@@ -102,10 +111,11 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
         // end Sensor initiate
 
         // GUI/Instrument initiate
+        playRealTime = false;
         int bar = 8;
         int loop = 8;
 
-        //instrument.setSoundList(new ArrayList<Integer>(Arrays.asList(1,0, 1, 0, 1, 0, 1, 0)));
+        //playLoop.setSoundList(new ArrayList<Integer>(Arrays.asList(1,0, 1, 0, 1, 0, 1, 0)));
         instrument.setBars(bar);
         instrument.setLoopTime(loop);
 

@@ -1,4 +1,4 @@
-package com.example.andersson.musicapp;
+package com.example.andersson.musicapp.SharedResources;
 
 import java.util.Observable;
 

@@ -1,8 +1,10 @@
-package com.example.andersson.musicapp;
+package com.example.andersson.musicapp.AsyncUpdate;
+
+import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 
 public class AsyncTask extends android.os.AsyncTask<Void, Void, String> {
 
-    private ThreadHolder holder;
+    private SharedInfoHolder holder;
 
     @Override
     protected String doInBackground(Void... params) {
@@ -14,8 +16,7 @@ public class AsyncTask extends android.os.AsyncTask<Void, Void, String> {
         super.onPostExecute(result);
 
     }
-
-    public void addHolder(ThreadHolder holder) {
+    public void addHolder(SharedInfoHolder holder) {
         this.holder = holder;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.andersson.musicapp;
+package com.example.andersson.musicapp.Activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,6 +14,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.andersson.musicapp.R;
+import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
+
 import java.io.Serializable;
 
 
@@ -24,14 +27,14 @@ public class MainActivity extends ActionBarActivity implements Serializable {
     private Button exampleButton2;
     private Button groupNameButton;
     private EditText groupNameText;
-    private ThreadHolder holder;
+    private SharedInfoHolder holder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        holder = new ThreadHolder(this);
+        holder = new SharedInfoHolder(this);
 
         exampleButton1 = (Button) findViewById(R.id.exampleButton1);
         exampleButton1.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +45,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
                 Intent myIntent = new Intent(MainActivity.this, ExampleActivity1.class);
 
-                ThreadHolder tempHolder =  new ThreadHolder(holder);
+                SharedInfoHolder tempHolder =  new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);
                 MainActivity.this.startActivityForResult(myIntent, 10);
@@ -58,7 +61,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(MainActivity.this, ExampleActivity2.class);
-                ThreadHolder tempHolder = new ThreadHolder(holder);
+                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);
                 MainActivity.this.startActivityForResult(myIntent, 10);
@@ -106,7 +109,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
         if (requestCode == 10) {
             if(resultCode == RESULT_OK){
 
-                ThreadHolder tempHolder = data.getParcelableExtra("holder");
+                SharedInfoHolder tempHolder = data.getParcelableExtra("holder");
                 Log.d("Main","Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
 
                 this.holder = tempHolder;

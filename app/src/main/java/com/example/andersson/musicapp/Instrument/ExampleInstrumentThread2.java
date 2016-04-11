@@ -1,9 +1,13 @@
-package com.example.andersson.musicapp;
+package com.example.andersson.musicapp.Instrument;
 
 
 import android.content.Context;
 import android.media.AudioManager;
 import android.util.Log;
+
+import com.example.andersson.musicapp.Activity.InstrumentActivity;
+import com.example.andersson.musicapp.R;
+import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 
 /**
  * Created by Andersson on 07/04/16.
@@ -12,18 +16,13 @@ public class ExampleInstrumentThread2 extends InstrumentThread {
 
     private int soundId;
 
-    public ExampleInstrumentThread2(InstrumentActivity activity, ThreadHolder holder) {
+    public ExampleInstrumentThread2(InstrumentActivity activity, SharedInfoHolder holder) {
         super(activity, holder);
 
-        if(activity == null){
-
-            Log.d("EIT2", "Constructor activity is null");
-
-        }
     }
 
     @Override
-    public void instrument(int index) {
+    public void playLoop(int index) {
 
 
         if(tempSoundList != null &&  tempSoundList.size() > index && tempSoundList.get(index) == 1 ) {
@@ -32,7 +31,16 @@ public class ExampleInstrumentThread2 extends InstrumentThread {
             int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
             streamVolume = streamVolume / mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
             holder.getSoundPool().play(soundId, 0.5f, 0.5f, 1, 0, 1f);
+
+        }else{
+
         }
+    }
+
+    public void playRealTime(int value){
+
+        //Play real time audio
+
     }
 
     public void initiate(){

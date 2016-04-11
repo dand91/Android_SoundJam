@@ -1,9 +1,13 @@
-package com.example.andersson.musicapp;
+package com.example.andersson.musicapp.AsyncUpdate;
 
 import android.app.Activity;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+
+import com.example.andersson.musicapp.Instrument.InstrumentThread;
+import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,7 +20,7 @@ import java.util.Map;
 
 public class UpdateTask {
 
-    public static String saveAndLoad(ThreadHolder holder) {
+    public static String saveAndLoad(SharedInfoHolder holder) {
 
         String tempGroupName = holder.getGroupName();
 

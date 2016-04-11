@@ -1,11 +1,12 @@
-package com.example.andersson.musicapp;
+package com.example.andersson.musicapp.Instrument;
 
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.util.Log;
 
-import java.util.ArrayList;
+import com.example.andersson.musicapp.Activity.InstrumentActivity;
+import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 
 /**
  * Created by Andersson on 05/04/16.
@@ -20,12 +21,12 @@ public class ExampleInstrumentThread extends InstrumentThread {
     private final double freqOfTone2 = 440;
     private final byte generatedSnd[] = new byte[2 * numSamples];
 
-    public ExampleInstrumentThread(InstrumentActivity activity,ThreadHolder holder) {
+    public ExampleInstrumentThread(InstrumentActivity activity,SharedInfoHolder holder) {
         super(activity,holder);
     }
 
     @Override
-    public void instrument(int index) {
+    public void playLoop(int index) {
 
         if(soundList.size() > 0) {
 

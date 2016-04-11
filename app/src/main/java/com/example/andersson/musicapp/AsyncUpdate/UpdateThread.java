@@ -1,6 +1,9 @@
-package com.example.andersson.musicapp;
+package com.example.andersson.musicapp.AsyncUpdate;
 
 import android.util.Log;
+
+import com.example.andersson.musicapp.SharedResources.ObservableObject;
+import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 
 import java.util.Observer;
 
@@ -9,10 +12,10 @@ import java.util.Observer;
  */
 public class UpdateThread extends Thread{
 
-    private ThreadHolder holder;
+    private SharedInfoHolder holder;
     private ObservableObject ob;
 
-    public UpdateThread(ThreadHolder holder){
+    public UpdateThread(SharedInfoHolder holder){
 
         this.holder = holder;
         ob = new ObservableObject();
@@ -23,12 +26,13 @@ public class UpdateThread extends Thread{
 
         AsyncTask mAsyncTask = new AsyncTask();
         mAsyncTask.execute();
+
         if(holder == null){
 
             Log.d("ThreadHolder","Holder is null");
 
         }else {
-            
+
             mAsyncTask.addHolder(holder);
         }
 
@@ -47,9 +51,7 @@ public class UpdateThread extends Thread{
     public void add(Observer newOb){
 
         ob.addObserver(newOb);
+
     }
-
-
-
 }
 

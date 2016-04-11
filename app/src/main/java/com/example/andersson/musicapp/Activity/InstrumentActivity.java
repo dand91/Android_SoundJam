@@ -1,4 +1,4 @@
-package com.example.andersson.musicapp;
+package com.example.andersson.musicapp.Activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,11 +7,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.andersson.musicapp.Instrument.InstrumentThread;
+import com.example.andersson.musicapp.R;
+import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
+
 import java.util.ArrayList;
 
 public abstract class InstrumentActivity extends Activity {
 
-    public ThreadHolder holder;
+    public SharedInfoHolder holder;
     public InstrumentThread instrument;
     public ArrayList<Integer> soundList;
     public String name;
@@ -40,7 +45,7 @@ public abstract class InstrumentActivity extends Activity {
 
         Intent i = getIntent();
 
-        holder = (ThreadHolder) i.getParcelableExtra("holder");
+        holder = (SharedInfoHolder) i.getParcelableExtra("holder");
 
         Log.d("IA Example", "Holder status: " + holder.hasHolder());
 
@@ -51,7 +56,7 @@ public abstract class InstrumentActivity extends Activity {
             if (holder.containsKey(name)) {
 
                 instrument = (InstrumentThread) holder.getThread(name);
-                Log.d("IA Intent", "New instrument fetched");
+                Log.d("IA Intent", "New playLoop fetched");
 
 
             } else {
@@ -59,7 +64,7 @@ public abstract class InstrumentActivity extends Activity {
                 instrument = getInstrumentClass();
                 holder.addThread(name, instrument);
                 instrument.start();
-                Log.d("IA Intent", "New instrument created");
+                Log.d("IA Intent", "New playLoop created");
 
 
             }
@@ -82,7 +87,7 @@ public abstract class InstrumentActivity extends Activity {
 
         if(holder != null) {
 
-            ThreadHolder tempHolder =  new ThreadHolder(holder);
+            SharedInfoHolder tempHolder =  new SharedInfoHolder(holder);
             Log.d("IA Backpress", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
             myIntent.putExtra("holder", tempHolder);
             Log.d("IA Backpress", "Holder != null");

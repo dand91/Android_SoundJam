@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-import com.example.andersson.musicapp.Instrument.InstrumentThread;
+import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 
 import java.io.BufferedReader;
@@ -46,7 +46,7 @@ public class UpdateTask {
                 int j = 0;
                 for (Map.Entry<String, Thread> entry : threads.entrySet()) {
 
-                    ArrayList<Integer> soundList = ((InstrumentThread) entry.getValue()).getSoundList();
+                    ArrayList<Integer> soundList = ((AbstractInstrumentThread) entry.getValue()).getSoundList();
 
                     if (soundList.size() > 0) {
 
@@ -121,7 +121,7 @@ public class UpdateTask {
 
                     }
 
-                    InstrumentThread tempThreads = ((InstrumentThread) holder.getThread(subresult[0]));
+                    AbstractInstrumentThread tempThreads = ((AbstractInstrumentThread) holder.getThread(subresult[0]));
 
                     if (tempThreads != null) {
 

@@ -34,24 +34,30 @@ public class UpdateThread extends Thread{
         }else {
 
             mAsyncTask.addHolder(holder);
-        }
 
-        while(true) {
+            while(true) {
 
                 mAsyncTask.doInBackground();
 
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
+
     }
 
     public void add(Observer newOb){
 
         ob.addObserver(newOb);
 
+    }
+    public void setHolder(SharedInfoHolder holder){
+
+        this.holder = holder;
     }
 }
 

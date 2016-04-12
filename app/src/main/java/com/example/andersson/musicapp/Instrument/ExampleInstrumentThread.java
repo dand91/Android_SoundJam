@@ -5,14 +5,14 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.util.Log;
 
-import com.example.andersson.musicapp.Activity.InstrumentActivity;
+import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 
 /**
  * Created by Andersson on 05/04/16.
  */
 
-public class ExampleInstrumentThread extends InstrumentThread {
+public class ExampleInstrumentThread extends AbstractInstrumentThread {
 
     private final double duration = 1; // seconds
     private final int sampleRate = 8000;
@@ -21,7 +21,7 @@ public class ExampleInstrumentThread extends InstrumentThread {
     private final double freqOfTone2 = 440;
     private final byte generatedSnd[] = new byte[2 * numSamples];
 
-    public ExampleInstrumentThread(InstrumentActivity activity,SharedInfoHolder holder) {
+    public ExampleInstrumentThread(AbstractInstrumentActivity activity,SharedInfoHolder holder) {
         super(activity,holder);
     }
 
@@ -43,6 +43,10 @@ public class ExampleInstrumentThread extends InstrumentThread {
             Log.d("EIT - Play", "Playing");
 
         }
+    }
+
+    public void playRealTime(int value){
+
     }
 
     void genTone(int index){

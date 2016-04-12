@@ -4,20 +4,23 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.util.Log;
 
-import com.example.andersson.musicapp.Activity.InstrumentActivity;
+import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 
 /**
  * Created by Andersson on 07/04/16.
  */
-public class ExampleInstrumentThread1 extends InstrumentThread {
+public class ExampleInstrumentThread1 extends AbstractInstrumentThread {
 
     private int soundId;
+    long startTime;
+    long sampleTime;
 
-    public ExampleInstrumentThread1(InstrumentActivity activity, SharedInfoHolder holder) {
+    public ExampleInstrumentThread1(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
         super(activity, holder);
-
+        startTime = 0;
+        sampleTime = 1000;
     }
 
     @Override
@@ -32,13 +35,33 @@ public class ExampleInstrumentThread1 extends InstrumentThread {
 
         }else{
 
-
         }
     }
 
     public void playRealTime(int value){
 
         //Play real time audio
+
+        if(System.currentTimeMillis() -  startTime > sampleTime) {
+
+            if (value == 0) {
+
+                Log.d("realTimeTest","0");
+
+            } else if (value == 1) {
+
+                Log.d("realTimeTest","1");
+
+            } else if (value == 2) {
+
+                Log.d("realTimeTest","2");
+
+            } else if (value == 3) {
+                Log.d("realTimeTest","3");
+            }
+
+            startTime = System.currentTimeMillis();
+        }
 
     }
 

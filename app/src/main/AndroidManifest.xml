@@ -21,10 +21,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.ExampleActivity1"
+            android:name=".Activity.ExampleInstrumentActivity1"
             android:label="@string/title_activity_example" />
         <activity
-            android:name=".Activity.ExampleActivity2"
+            android:name=".Activity.ExampleInstrumentActivity2"
             android:label="@string/title_activity_example2"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

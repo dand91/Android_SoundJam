@@ -8,7 +8,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.andersson.musicapp.AsyncUpdate.UpdateThread;
-import com.example.andersson.musicapp.Instrument.InstrumentThread;
+import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.TimeTracking.TimeThread;
 
 import java.util.HashMap;
@@ -45,11 +45,12 @@ public class SharedInfoHolder implements Parcelable {
         return timer;
     }
     public void setGroupName(String groupName){
-        
+
         this.groupName = groupName;
         if(!updater.isAlive()) {
             this.updater.start();
         }
+
     }
     public String getGroupName(){
         return groupName;
@@ -75,7 +76,7 @@ public class SharedInfoHolder implements Parcelable {
             this.mySound = holder.getSoundPool();
             this.groupName = holder.getGroupName();
             this.mainActivity = holder.getMainActivity();
-
+            this.updater.setHolder(this);
             Log.d("ThreadHolder","Transfering objects. getThreads: " + threads.size());
 
         }else{
@@ -100,7 +101,7 @@ public class SharedInfoHolder implements Parcelable {
 
         if(timer != null) {
 
-            timer.add((InstrumentThread) t);
+            timer.add((AbstractInstrumentThread) t);
             Log.d("ThreadHolder", "Timer is not null");
 
         }else{

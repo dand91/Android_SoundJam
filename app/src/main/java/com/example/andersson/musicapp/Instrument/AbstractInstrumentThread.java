@@ -2,7 +2,7 @@ package com.example.andersson.musicapp.Instrument;
 
 import android.util.Log;
 
-import com.example.andersson.musicapp.Activity.InstrumentActivity;
+import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.Observer;
  * Created by Andersson on 05/04/16.
  */
 
-public abstract class InstrumentThread extends Thread implements Observer {
+public abstract class AbstractInstrumentThread extends Thread implements Observer {
 
     private int loopTime = 10;
     private int bars = 10;
@@ -22,14 +22,14 @@ public abstract class InstrumentThread extends Thread implements Observer {
     public ArrayList<Integer> soundList;
     private final Object stopper = new Object();
     public SharedInfoHolder holder;
-    public InstrumentActivity activity;
+    public AbstractInstrumentActivity activity;
     public boolean set;
 
     public abstract void playLoop(int index);
     public abstract void playRealTime(int value);
     public abstract void initiate();
 
-    public InstrumentThread(InstrumentActivity activity,SharedInfoHolder holder){
+    public AbstractInstrumentThread(AbstractInstrumentActivity activity, SharedInfoHolder holder){
 
         this.holder = holder;
         this.activity = activity;

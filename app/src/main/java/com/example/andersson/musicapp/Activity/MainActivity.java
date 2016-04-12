@@ -43,7 +43,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
             public void onClick(View view) {
 
-                Intent myIntent = new Intent(MainActivity.this, ExampleActivity1.class);
+                Intent myIntent = new Intent(MainActivity.this, ExampleInstrumentActivity1.class);
 
                 SharedInfoHolder tempHolder =  new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
@@ -60,7 +60,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
             public void onClick(View view) {
 
-                Intent myIntent = new Intent(MainActivity.this, ExampleActivity2.class);
+                Intent myIntent = new Intent(MainActivity.this, ExampleInstrumentActivity2.class);
                 SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);
@@ -78,7 +78,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
             public void onClick(View view) {
 
-          holder.setGroupName(groupNameText.getText().toString());
+                holder.setGroupName(groupNameText.getText().toString());
                 Log.d("Main","New group name: " + groupNameText.getText().toString());
             }
         });
@@ -113,7 +113,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
                 Log.d("Main","Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
 
                 this.holder = tempHolder;
-                holder.transfer();
+                this.holder.transfer();
 
             }
         }

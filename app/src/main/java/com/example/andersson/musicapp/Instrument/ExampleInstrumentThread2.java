@@ -5,18 +5,18 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.util.Log;
 
-import com.example.andersson.musicapp.Activity.InstrumentActivity;
+import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 
 /**
  * Created by Andersson on 07/04/16.
  */
-public class ExampleInstrumentThread2 extends InstrumentThread {
+public class ExampleInstrumentThread2 extends AbstractInstrumentThread {
 
     private int soundId;
 
-    public ExampleInstrumentThread2(InstrumentActivity activity, SharedInfoHolder holder) {
+    public ExampleInstrumentThread2(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
         super(activity, holder);
 
     }

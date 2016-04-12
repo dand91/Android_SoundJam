@@ -10,12 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread2;
-import com.example.andersson.musicapp.Instrument.InstrumentThread;
+import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.R;
 
 import java.util.ArrayList;
 
-public class ExampleActivity2 extends InstrumentActivity {
+public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
 
     // GUI code
 
@@ -28,7 +28,7 @@ public class ExampleActivity2 extends InstrumentActivity {
     // end GUI
 
     // Instrument code
-    public ExampleActivity2(){
+    public ExampleInstrumentActivity2(){
         super();
     }
 
@@ -56,7 +56,7 @@ public class ExampleActivity2 extends InstrumentActivity {
     }
 
     @Override
-    InstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
+    AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
         return new ExampleInstrumentThread2(this,holder);
     }
 

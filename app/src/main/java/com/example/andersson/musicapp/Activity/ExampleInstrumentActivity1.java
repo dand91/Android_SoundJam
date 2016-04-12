@@ -15,16 +15,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread1;
-import com.example.andersson.musicapp.Instrument.InstrumentThread;
+import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.R;
 
 import java.util.ArrayList;
 
-public class ExampleActivity1 extends InstrumentActivity implements SensorEventListener {
+public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity implements SensorEventListener {
 
     // GUI/Instrument variables
     private Button recordButton;
     private Button loopTimeButton;
+    private Button playButton;
+    private Button stopButton;
     private EditText loopTimeText;
     private Button barButton;
     private EditText barText;
@@ -55,9 +57,28 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
         if(playRealTime) {
 
             float[] Reading = event.values;
-            CurrentVal = (int) Reading[0];
-            mAccelData.setText(String.valueOf(Math.abs(CurrentVal)));
-            instrument.playRealTime(CurrentVal);
+
+            int X = (int) Reading[0];
+            int Y = (int) Reading[1];
+            int Z = (int) Reading[2];
+
+            mAccelData.setText(String.valueOf("x: " + X + " y: " + X + " z: " + X));
+
+            int tol = 1;
+
+            if(X > tol && Y > tol){
+                instrument.playRealTime(0);
+
+            }else if(X > tol && Y < tol){
+                instrument.playRealTime(1);
+
+            }else if(X < tol && Y > tol){
+                instrument.playRealTime(2);
+
+            }else if(X < tol && Y < tol){
+                instrument.playRealTime(3);
+
+            }
         }
     }
 
@@ -65,7 +86,7 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
     // end Sensor Code
 
     // GUI/Instrument code
-    public ExampleActivity1(){
+    public ExampleInstrumentActivity1(){
         super();
     }
 
@@ -94,7 +115,7 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
     }
 
     @Override
-    InstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
+    AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
         return new ExampleInstrumentThread1(this,holder);
     }
     // end GUI/Instrument code
@@ -122,8 +143,34 @@ public class ExampleActivity1 extends InstrumentActivity implements SensorEventL
         loopGUI();
         barGUI();
         recordGUI();
+        stopPlayGUI();
         // end GUI/Instrument initiate
 
+    }
+
+
+    private void stopPlayGUI(){
+
+        playButton = (Button) findViewById(R.id.playButton);
+        playButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+                playRealTime = true;
+                Log.d("EA1","playRealTime");
+            }
+        });
+        stopButton = (Button) findViewById(R.id.stopButton);
+        stopButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+                playRealTime = false;
+                Log.d("EA1","stopRealTime");
+            }
+        });
     }
 
     private void loopGUI(){

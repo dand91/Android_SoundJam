@@ -8,16 +8,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.andersson.musicapp.Instrument.InstrumentThread;
+import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 
 import java.util.ArrayList;
 
-public abstract class InstrumentActivity extends Activity {
+public abstract class AbstractInstrumentActivity extends Activity {
 
     public SharedInfoHolder holder;
-    public InstrumentThread instrument;
+    public AbstractInstrumentThread instrument;
     public ArrayList<Integer> soundList;
     public String name;
     int index = 0;
@@ -28,7 +28,7 @@ public abstract class InstrumentActivity extends Activity {
     abstract void generateSoundInfo(int index);
     abstract String setName();
     abstract void initiate();
-    abstract InstrumentThread getInstrumentClass();
+    abstract AbstractInstrumentThread getInstrumentClass();
     abstract int getActivity();
     abstract int getMenu();
 
@@ -36,6 +36,7 @@ public abstract class InstrumentActivity extends Activity {
 
         return this.getBaseContext();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +56,7 @@ public abstract class InstrumentActivity extends Activity {
 
             if (holder.containsKey(name)) {
 
-                instrument = (InstrumentThread) holder.getThread(name);
+                instrument = (AbstractInstrumentThread) holder.getThread(name);
                 Log.d("IA Intent", "New playLoop fetched");
 
 
@@ -65,7 +66,6 @@ public abstract class InstrumentActivity extends Activity {
                 holder.addThread(name, instrument);
                 instrument.start();
                 Log.d("IA Intent", "New playLoop created");
-
 
             }
 

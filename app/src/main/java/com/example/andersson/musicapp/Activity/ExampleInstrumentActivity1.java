@@ -93,7 +93,7 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
     @Override
     void generateSoundInfo(int index) { // should be connected to a sensor, it's called at new beatTime
 
-        soundList.add(CurrentVal);
+        //soundList.add(CurrentVal);
     }
 
     @Override
@@ -147,7 +147,6 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
         // end GUI/Instrument initiate
 
     }
-
 
     private void stopPlayGUI(){
 
@@ -248,6 +247,7 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
 
                         barButton.setBackgroundColor(Color.GREEN);
                         loopTimeButton.setBackgroundColor(Color.GREEN);
+
                     }
                 }, loopTime*1000);
 
@@ -255,7 +255,6 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
                 loopTimeButton.setEnabled(false);
 
                 soundList = new ArrayList<Integer>();
-
 
                 new Thread() {
 

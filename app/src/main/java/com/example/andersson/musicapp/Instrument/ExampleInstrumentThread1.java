@@ -14,13 +14,18 @@ import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 public class ExampleInstrumentThread1 extends AbstractInstrumentThread {
 
     private int soundId;
+    private int soundId1;
+    private int soundId2;
+    private int soundId3;
+    private int soundId4;
+
     long startTime;
     long sampleTime;
 
     public ExampleInstrumentThread1(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
         super(activity, holder);
         startTime = 0;
-        sampleTime = 1000;
+        sampleTime = 100;
     }
 
     @Override
@@ -44,19 +49,27 @@ public class ExampleInstrumentThread1 extends AbstractInstrumentThread {
 
         if(System.currentTimeMillis() -  startTime > sampleTime) {
 
+
+            float streamVolume = 0.3f;
+
             if (value == 0) {
 
+                holder.getSoundPool().play(soundId1, streamVolume, streamVolume, 1, 0, 1f);
                 Log.d("realTimeTest","0");
 
             } else if (value == 1) {
 
+                holder.getSoundPool().play(soundId2, streamVolume, streamVolume, 1, 0, 1f);
                 Log.d("realTimeTest","1");
 
             } else if (value == 2) {
 
+                holder.getSoundPool().play(soundId3, streamVolume, streamVolume, 1, 0, 1f);
                 Log.d("realTimeTest","2");
 
             } else if (value == 3) {
+
+                holder.getSoundPool().play(soundId4, streamVolume, streamVolume, 1, 0, 1f);
                 Log.d("realTimeTest","3");
             }
 
@@ -74,6 +87,10 @@ public class ExampleInstrumentThread1 extends AbstractInstrumentThread {
                 if(holder.getSoundPool() != null) {
 
                     soundId = holder.getSoundPool().load(activity.getContext(), R.raw.bd, 1);
+                    soundId1 = holder.getSoundPool().load(activity.getContext(), R.raw.piano1, 1);
+                    soundId2 = holder.getSoundPool().load(activity.getContext(), R.raw.piano2, 1);
+                    soundId3 = holder.getSoundPool().load(activity.getContext(), R.raw.piano3, 1);
+                    soundId4 = holder.getSoundPool().load(activity.getContext(), R.raw.piano4, 1);
 
                 }else{
 

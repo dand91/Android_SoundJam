@@ -26,8 +26,8 @@ public abstract class AbstractInstrumentActivity extends Activity {
     public String name;
     int index = 0;
 
-    int bars;
-    int loopTime;
+    double bars;
+    double loopTime;
 
     abstract void generateSoundInfo(int index);
     abstract String setName();

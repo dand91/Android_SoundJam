@@ -138,8 +138,8 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
 
         // GUI/Instrument initiate
         playRealTime = false;
-        int bar = 8;
-        int loop = 8;
+        double bar = 8;
+        double loop = 4;
 
         //playLoop.setSoundList(new ArrayList<Integer>(Arrays.asList(1,0, 1, 0, 1, 0, 1, 0)));
         instrument.setBars(bar);
@@ -222,7 +222,7 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
                 } catch (Exception e) {
 
                     if (instrument != null) {
-                        loopTimeText.setText(instrument.getLoopTime());
+                        loopTimeText.setText((int) instrument.getLoopTime());
                     } else {
                         loopTimeText.setText("");
                     }
@@ -246,7 +246,7 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
                 } catch (Exception e) {
 
                     if (instrument != null) {
-                        barText.setText(instrument.getBars());
+                        barText.setText((int)instrument.getBars());
                     } else {
                         barText.setText("");
                     }
@@ -281,7 +281,7 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
                         loopTimeButton.setBackgroundColor(Color.GREEN);
 
                     }
-                }, loopTime*1000);
+                }, (long) (loopTime*1000));
 
                 barButton.setEnabled(false);
                 loopTimeButton.setEnabled(false);
@@ -308,7 +308,7 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
                                     break;
                                 }
 
-                                Thread.sleep(((loopTime / bars) * 1000) - 50);
+                                Thread.sleep((long)((loopTime / bars) * 1000) - 50);
 
                             } catch (InterruptedException e) {
 

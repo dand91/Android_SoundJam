@@ -15,8 +15,8 @@ import java.util.Observer;
 
 public abstract class AbstractInstrumentThread extends Thread implements Observer {
 
-    private int loopTime = 10;
-    private int bars = 10;
+    private double loopTime = 10;
+    private double bars = 10;
     public int i;
     public ArrayList<Integer> tempSoundList;
     public ArrayList<Integer> soundList;
@@ -85,7 +85,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
                     try {
 
-                        this.sleep((loopTime / bars) * 1000);
+                        this.sleep((long)(loopTime / bars) * 1000);
 
                     } catch (InterruptedException e) {
 
@@ -96,24 +96,24 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
         }
     }
 
-    public void setLoopTime(int loopTime){
+    public void setLoopTime(double loopTime){
 
         this.loopTime = loopTime;
         holder.getTimer().setLoopTime(loopTime);
 
     }
-    public void setBars(int bars){
+    public void setBars(double bars){
 
         this.bars = bars;
 
     }
 
-    public int getLoopTime(){
+    public double getLoopTime(){
 
         return loopTime;
 
     }
-    public int getBars(){
+    public double getBars(){
 
         return bars;
 
@@ -176,8 +176,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
                         try {
 
-                            this.sleep((loopTime / bars) * 1000);
-
+                            this.sleep((long)((loopTime / bars) * 1000));
                         } catch (InterruptedException e) {
 
                             e.printStackTrace();

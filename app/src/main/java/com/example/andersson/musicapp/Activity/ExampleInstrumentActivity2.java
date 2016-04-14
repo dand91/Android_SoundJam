@@ -65,7 +65,7 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
     void initiate() { // Sets basic information regarding bars, looptime and possibly initial sound.
 
         int bar = 8;
-        int loop = 8;
+        int loop = 4;
 
         //playLoop.setSoundList(new ArrayList<Integer>(Arrays.asList(0,1,0,1,0,1,0,1)));
         instrument.setBars(bar);
@@ -122,7 +122,7 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
                 } catch (Exception e) {
 
                     if (instrument != null) {
-                        loopTimeText.setText(instrument.getLoopTime());
+                        loopTimeText.setText((int)instrument.getLoopTime());
                     } else {
                         loopTimeText.setText("");
                     }
@@ -146,7 +146,7 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
                 } catch (Exception e) {
 
                     if (instrument != null) {
-                        barText.setText(instrument.getBars());
+                        barText.setText((int)instrument.getBars());
                     } else {
                         barText.setText("");
                     }
@@ -181,7 +181,7 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
                         loopTimeButton.setBackgroundColor(Color.GREEN);
 
                     }
-                }, loopTime*1000);
+                }, (long)(loopTime*1000));
 
                 barButton.setEnabled(false);
                 loopTimeButton.setEnabled(false);
@@ -209,7 +209,7 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
                                     break;
                                 }
 
-                                Thread.sleep(((loopTime / bars) * 1000) - 50);
+                                Thread.sleep((long)((loopTime / bars) * 1000) - 50);
 
                             } catch (InterruptedException e) {
 

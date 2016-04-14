@@ -14,7 +14,7 @@ public class TimeThread extends Thread{
 
     private Calendar calendar;
     private ObservableObject ob;
-    private int loopTime = 10;
+    private double loopTime = 10;
     int i;
 
 
@@ -47,7 +47,7 @@ public class TimeThread extends Thread{
         }
     }
 
-    public void setLoopTime(int loopTime){
+    public void setLoopTime(double loopTime){
 
         this.loopTime = loopTime;
 

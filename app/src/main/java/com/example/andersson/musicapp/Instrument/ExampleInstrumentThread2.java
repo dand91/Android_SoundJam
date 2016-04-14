@@ -17,6 +17,7 @@ public class ExampleInstrumentThread2 extends AbstractInstrumentThread {
     private int soundId;
 
     public ExampleInstrumentThread2(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
+
         super(activity, holder);
 
     }
@@ -24,13 +25,12 @@ public class ExampleInstrumentThread2 extends AbstractInstrumentThread {
     @Override
     public void playLoop(int index) {
 
-
         if(tempSoundList != null &&  tempSoundList.size() > index && tempSoundList.get(index) == 1 ) {
 
             AudioManager mgr = (AudioManager) activity.getContext().getSystemService(Context.AUDIO_SERVICE);
             int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
             streamVolume = streamVolume / mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-            holder.getSoundPool().play(soundId, 0.5f, 0.5f, 1, 0, 1f);
+            holder.getSoundPool().play(soundId, volume, volume, 1, 0, 1f);
 
         }else{
 
@@ -67,5 +67,16 @@ public class ExampleInstrumentThread2 extends AbstractInstrumentThread {
 
             Log.d("EIT2","Actvity is null");
         }
+    }
+
+    public void setVolume(float volume){
+
+        this.volume = volume;
+
+    }
+
+    public int getVolume(){
+
+        return (int) (volume*100);
     }
 }

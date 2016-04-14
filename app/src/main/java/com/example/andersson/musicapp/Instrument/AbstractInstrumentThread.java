@@ -24,10 +24,13 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public SharedInfoHolder holder;
     public AbstractInstrumentActivity activity;
     public boolean set;
+    public float volume = 0.5f;
 
     public abstract void playLoop(int index);
     public abstract void playRealTime(int value);
     public abstract void initiate();
+    public abstract void setVolume(float volume);
+    public abstract int getVolume();
 
     public AbstractInstrumentThread(AbstractInstrumentActivity activity, SharedInfoHolder holder){
 

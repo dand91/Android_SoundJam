@@ -83,5 +83,13 @@ public class ExampleInstrumentThread extends AbstractInstrumentThread {
 
 
     }
+    public void setVolume(float volume){
+
+    }
+
+    public int getVolume(){
+
+        return 1;
+    }
 
 }

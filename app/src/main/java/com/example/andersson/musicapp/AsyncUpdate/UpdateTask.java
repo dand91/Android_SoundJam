@@ -3,6 +3,7 @@ package com.example.andersson.musicapp.AsyncUpdate;
 import android.app.Activity;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.DropBoxManager;
 import android.util.Log;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
@@ -16,7 +17,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class UpdateTask {
 
@@ -27,6 +30,8 @@ public class UpdateTask {
         Log.d("UpdateTask", "Collecting info from threads from group name: "  + holder.getGroupName());
 
         String tempInfo = "";
+        String tempInstrument = "";
+        String tempVolume = "";
 
         if(holder == null) {
 
@@ -40,41 +45,44 @@ public class UpdateTask {
 
             HashMap<String, Thread> threads = holder.getThreads();
 
-
             if (threads.size() > 0) {
 
                 int j = 0;
+
                 for (Map.Entry<String, Thread> entry : threads.entrySet()) {
 
                     ArrayList<Integer> soundList = ((AbstractInstrumentThread) entry.getValue()).getSoundList();
 
                     if (soundList.size() > 0) {
 
-                        if(j == 0) {
-                            tempInfo = tempInfo + entry.getKey() + "-";
+                        if(j == threads.size() - 1) {
+                            tempInstrument = tempInstrument + entry.getKey();
+                            tempVolume = tempVolume + ((AbstractInstrumentThread) entry.getValue()).getVolume();
                         }else{
-                            tempInfo = tempInfo + ":" + entry.getKey() + "-";
+                            tempInstrument = tempInstrument + entry.getKey() + ":";
+                            tempVolume = tempVolume + ((AbstractInstrumentThread) entry.getValue()).getVolume() + ":";
                         }
+
                         j++;
 
                         int i = 0;
                         for (Integer in : soundList) {
 
                             if(i == soundList.size()-1) {
-                                tempInfo = tempInfo + in;
+                                tempInfo = tempInfo + in + ":";
                             }else{
                                 tempInfo = tempInfo + in + ",";
                             }
                             i++;
                         }
-
                     }
                 }
+            }else{
+
+                Log.d("UpdateTask","No threads availabe");
             }
 
             InputStream is = null;
-
-            Log.d("UpdateTask", "Sending request: " + tempInfo);
 
             URL url;
 
@@ -83,15 +91,20 @@ public class UpdateTask {
                 url = new URL("http://213.21.69.152:1234/test");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setDoOutput(true);
+                conn.setDoInput(true);
                 conn.setRequestMethod("POST");
                 OutputStreamWriter wr = new OutputStreamWriter(conn
                         .getOutputStream());
                 // this is were we're adding post data to the request
 
                 String group = "group=" + tempGroupName;
+                String instrument = "&instrument=" + tempInstrument;
                 String info = "&info=" + tempInfo;
+                String volume = "&volume=" + tempVolume;
 
-                wr.write(group + info);
+                Log.d("UpdateTask", "Sending request: " + group + instrument + info + volume);
+
+                wr.write(group + instrument + info + volume);
                 wr.flush();
                 wr.close();
 
@@ -107,6 +120,7 @@ public class UpdateTask {
                 String response = responseOutput.toString();
 
                 Log.d("UpdateTask Result: ", response);
+
 
                 if (response.length() > 0){
 
@@ -126,6 +140,7 @@ public class UpdateTask {
                     if (tempThreads != null) {
 
                         tempThreads.setSoundList(list);
+                        tempThreads.setVolume((Float.valueOf(subresult[2]))/100);
 
                     } else {
 
@@ -138,6 +153,7 @@ public class UpdateTask {
 
             }
             } catch (Exception e) {
+
                 Log.e("UpdateTask", e.getMessage());
             }
         }

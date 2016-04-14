@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 
 import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread2;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
@@ -74,10 +75,35 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
         loopGUI();
         barGUI();
         recordGUI();
+        volumeGUI();
         // end GUI/Instrumet initiate
-
     }
 
+    private void volumeGUI(){
+
+        volumeSeekBar = (SeekBar) findViewById(R.id.volumeSeekBar);
+        volumeSeekBar.setProgress(instrument.getVolume());
+        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                instrument.setVolume(((float)i)/100);
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+        });
+
+    }
     private void loopGUI(){
 
         loopTimeText = (EditText) findViewById(R.id.LoopTimeView);
@@ -153,6 +179,7 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
 
                         barButton.setBackgroundColor(Color.GREEN);
                         loopTimeButton.setBackgroundColor(Color.GREEN);
+
                     }
                 }, loopTime*1000);
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SeekBar;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.R;
@@ -15,6 +16,9 @@ import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 import java.util.ArrayList;
 
 public abstract class AbstractInstrumentActivity extends Activity {
+
+
+    public SeekBar volumeSeekBar;
 
     public SharedInfoHolder holder;
     public AbstractInstrumentThread instrument;

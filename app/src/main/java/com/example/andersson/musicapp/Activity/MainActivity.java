@@ -83,7 +83,6 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             }
         });
 
-
         if(!haveNetworkConnection()) {
 
             AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -102,7 +101,6 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             alert11.show();
         }
     }
-
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -157,5 +155,4 @@ public class MainActivity extends ActionBarActivity implements Serializable {
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
-
 }

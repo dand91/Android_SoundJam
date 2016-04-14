@@ -13,12 +13,10 @@ import java.util.Observer;
 public class UpdateThread extends Thread{
 
     private SharedInfoHolder holder;
-    private ObservableObject ob;
 
     public UpdateThread(SharedInfoHolder holder){
 
         this.holder = holder;
-        ob = new ObservableObject();
 
     }
 
@@ -46,15 +44,8 @@ public class UpdateThread extends Thread{
                 }
             }
         }
-
-
     }
 
-    public void add(Observer newOb){
-
-        ob.addObserver(newOb);
-
-    }
     public void setHolder(SharedInfoHolder holder){
 
         this.holder = holder;

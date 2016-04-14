@@ -79,4 +79,14 @@
         android:layout_below="@+id/recordButton"
         android:layout_centerHorizontal="true" />
 
+    <SeekBar
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/volumeSeekBar"
+        android:max="100"
+        android:indeterminate="false"
+        android:focusable="true"
+        android:layout_below="@+id/dataView"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

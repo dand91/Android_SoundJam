@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread1;
@@ -62,20 +63,24 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
             int Y = (int) Reading[1];
             int Z = (int) Reading[2];
 
-            mAccelData.setText(String.valueOf("x: " + X + " y: " + X + " z: " + X));
+            mAccelData.setText(String.valueOf("x: " + X + " y: " + Y + " z: " + Z));
 
             int tol = 1;
 
             if(X > tol && Y > tol){
+
                 instrument.playRealTime(0);
 
             }else if(X > tol && Y < tol){
+
                 instrument.playRealTime(1);
 
             }else if(X < tol && Y > tol){
+
                 instrument.playRealTime(2);
 
             }else if(X < tol && Y < tol){
+
                 instrument.playRealTime(3);
 
             }
@@ -144,9 +149,36 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
         barGUI();
         recordGUI();
         stopPlayGUI();
+        volumeGUI();
         // end GUI/Instrument initiate
 
     }
+
+    private void volumeGUI(){
+
+            volumeSeekBar = (SeekBar) findViewById(R.id.volumeSeekBar);
+            volumeSeekBar.setProgress(instrument.getVolume());
+            volumeSeekBar.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                instrument.setVolume(((float)i)/100);
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+        });
+
+        }
 
     private void stopPlayGUI(){
 

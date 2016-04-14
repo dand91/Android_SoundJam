@@ -33,10 +33,7 @@ public class ExampleInstrumentThread1 extends AbstractInstrumentThread {
 
         if(tempSoundList != null &&  tempSoundList.size() > index && tempSoundList.get(index) == 1 ) {
 
-            AudioManager mgr = (AudioManager) activity.getContext().getSystemService(Context.AUDIO_SERVICE);
-            int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
-            streamVolume = streamVolume / mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-            holder.getSoundPool().play(soundId, streamVolume, streamVolume, 1, 0, 1f);
+            holder.getSoundPool().play(soundId, volume, volume, 1, 0, 1f);
 
         }else{
 
@@ -50,26 +47,24 @@ public class ExampleInstrumentThread1 extends AbstractInstrumentThread {
         if(System.currentTimeMillis() -  startTime > sampleTime) {
 
 
-            float streamVolume = 0.3f;
-
             if (value == 0) {
 
-                holder.getSoundPool().play(soundId1, streamVolume, streamVolume, 1, 0, 1f);
+                holder.getSoundPool().play(soundId1, volume, volume, 1, 0, 1f);
                 Log.d("realTimeTest","0");
 
             } else if (value == 1) {
 
-                holder.getSoundPool().play(soundId2, streamVolume, streamVolume, 1, 0, 1f);
+                holder.getSoundPool().play(soundId2, volume, volume, 1, 0, 1f);
                 Log.d("realTimeTest","1");
 
             } else if (value == 2) {
 
-                holder.getSoundPool().play(soundId3, streamVolume, streamVolume, 1, 0, 1f);
+                holder.getSoundPool().play(soundId3, volume, volume, 1, 0, 1f);
                 Log.d("realTimeTest","2");
 
             } else if (value == 3) {
 
-                holder.getSoundPool().play(soundId4, streamVolume, streamVolume, 1, 0, 1f);
+                holder.getSoundPool().play(soundId4, volume, volume, 1, 0, 1f);
                 Log.d("realTimeTest","3");
             }
 
@@ -106,4 +101,15 @@ public class ExampleInstrumentThread1 extends AbstractInstrumentThread {
             Log.d("EIT2","Actvity is null");
         }
     }
+
+    public void setVolume(float volume){
+
+        this.volume = volume;
+    }
+    public int getVolume(){
+
+        return  (int) (volume*100);
+
+    }
+
 }

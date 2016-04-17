@@ -48,53 +48,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     }
 
     public void run(){}
-    public void run1(){
 
-        while(true) {
-
-            Log.d("InstrumentThread","Stop");
-
-            try {
-                halt();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            Log.d("InstrumentThread","Run");
-
-            while (true) {
-
-                new Thread(){
-                    @Override
-                    public void run() {
-
-                        playLoop(i);
-
-                    }
-
-                }.start();
-
-                i++;
-
-                if (i == bars) {
-
-                    i = 0;
-                    break;
-
-                }else{
-
-                    try {
-
-                        this.sleep((long)(loopTime / bars) * 1000);
-
-                    } catch (InterruptedException e) {
-
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
 
     public void setLoopTime(double loopTime){
 
@@ -129,19 +83,6 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
             return soundList;
         }else{
             return new ArrayList<Integer>();
-        }
-    }
-
-
-    public void go() {
-        synchronized (stopper) {
-            stopper.notify();
-        }
-    }
-
-    public void halt() throws InterruptedException {
-        synchronized (stopper) {
-            stopper.wait();
         }
     }
 

@@ -3,23 +3,27 @@ package com.example.andersson.musicapp.AsyncUpdate;
 import android.app.Activity;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.DropBoxManager;
 import android.util.Log;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class UpdateTask {
 
@@ -29,82 +33,104 @@ public class UpdateTask {
 
         Log.d("UpdateTask", "Collecting info from threads from group name: "  + holder.getGroupName());
 
-        String tempInfo = "";
-        String tempInstrument = "";
-        String tempVolume = "";
 
-        if(holder == null) {
+        if(holder == null) { // Check if SharedInfoHolder is active
 
             Log.d("UpdateTask", "Holder is null");
 
-        }else if(!haveNetworkConnection(holder.getMainActivity())) {
+        }else if(!haveNetworkConnection(holder.getMainActivity())) { // Check internet connection
 
             Log.d("UpdateTask", "No internet connection");
 
-        } else {
-
-            HashMap<String, Thread> threads = holder.getThreads();
-
-            if (threads.size() > 0) {
-
-                int j = 0;
-
-                for (Map.Entry<String, Thread> entry : threads.entrySet()) {
-
-                    ArrayList<Integer> soundList = ((AbstractInstrumentThread) entry.getValue()).getSoundList();
-
-                    if (soundList.size() > 0) {
-
-                        if(j == threads.size() - 1) {
-                            tempInstrument = tempInstrument + entry.getKey();
-                            tempVolume = tempVolume + ((AbstractInstrumentThread) entry.getValue()).getVolume();
-                        }else{
-                            tempInstrument = tempInstrument + entry.getKey() + ":";
-                            tempVolume = tempVolume + ((AbstractInstrumentThread) entry.getValue()).getVolume() + ":";
-                        }
-
-                        j++;
-
-                        int i = 0;
-                        for (Integer in : soundList) {
-
-                            if(i == soundList.size()-1) {
-                                tempInfo = tempInfo + in + ":";
-                            }else{
-                                tempInfo = tempInfo + in + ",";
-                            }
-                            i++;
-                        }
-                    }
-                }
-            }else{
-
-                Log.d("UpdateTask","No threads availabe");
-            }
+        } else { // Run HTTP POST
 
             InputStream is = null;
 
-            URL url;
+            URL url = null;
+            OutputStreamWriter wr = null;
+            HttpURLConnection conn = null;
 
             try {
 
-                url = new URL("http://213.21.69.152:1234/test");
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                url = new URL("http://213.21.69.152:1234/test"); // URL to HTTP server
+
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
                 conn.setRequestMethod("POST");
-                OutputStreamWriter wr = new OutputStreamWriter(conn
+                wr = new OutputStreamWriter(conn
                         .getOutputStream());
-                // this is were we're adding post data to the request
 
-                String group = "group=" + tempGroupName;
-                String instrument = "&instrument=" + tempInstrument;
-                String info = "&info=" + tempInfo;
-                String volume = "&volume=" + tempVolume;
 
-                Log.d("UpdateTask", "Sending request: " + group + instrument + info + volume);
+            } catch (Exception e) {
 
-                wr.write(group + instrument + info + volume);
+                Log.e("UpdateTask", "Message1: " + e.getMessage());
+            }
+
+            HashMap<String, Thread> threads = holder.getThreads();
+            threads = holder.getThreads();
+
+            StringWriter writer = new StringWriter();
+
+            Serializer serializer = new Persister(); // XML converter
+
+            SendClassList scl = new SendClassList();
+
+            if (!threads.entrySet().isEmpty()){ // If there is data to send
+
+                try {
+
+                        for (Map.Entry<String, Thread> entry : threads.entrySet()) {
+
+                            AbstractInstrumentThread tempThread = (AbstractInstrumentThread) entry.getValue();
+                            ArrayList<Integer> soundList = tempThread.getSoundList();
+                            String tempString = soundList.toString();
+
+                            if (tempString.length() > 2){
+
+                                tempString =  soundList.toString().substring(1,tempString.length()-1).replace(" ","");
+
+                            }else{
+
+                                tempString = "N/I";
+
+                            }
+
+                            SendClass temp = new SendClass();
+                            temp.setGroupName(holder.getGroupName());
+                            temp.setInstrumentName(entry.getKey());
+                            temp.setData(tempString);
+
+
+                            temp.setVolume(String.valueOf(tempThread.getVolume()));
+
+                            scl.getSendClassList().add(temp);
+                        }
+
+                    }catch(Exception e){
+                        Log.e("UpdateTask", "Message2: " + e.getMessage());
+                    }
+
+                }else{ // Send for information from server
+
+                    SendClass temp = new SendClass();
+                    temp.setGroupName(holder.getGroupName());
+                    temp.setInstrumentName("N/I");
+                    temp.setData("N/I");
+                    temp.setVolume("N/I");
+                    scl.getSendClassList().add(temp);
+                }
+
+            String response = "";
+
+            try{
+
+                serializer.write(scl, writer);
+                String temp = writer.toString();
+
+                Log.d("UpdateTask","Sending: " + temp);
+
+                wr.write(temp);
                 wr.flush();
                 wr.close();
 
@@ -117,46 +143,69 @@ public class UpdateTask {
                 }
                 br.close();
 
-                String response = responseOutput.toString();
+                response = responseOutput.toString();
 
-                Log.d("UpdateTask Result: ", response);
+                Log.d("UpdateTask", "Receiving: " + response);
 
+            } catch (Exception e) {
+
+                Log.e("UpdateTask", "Message3: " + e.getMessage());
+
+            }
 
                 if (response.length() > 0){
 
-                for (String resultString : response.split(":")) {
+                    try {
 
-                    String[] subresult = resultString.split("-");
+                        serializer = new Persister();
+                    SendClassList sc = null;
+
+
+                        sc = serializer.read(SendClassList.class, response);
+
+
+                int k = 0;
+
+                for (SendClass scTemp : sc.getSendClassList()) {
+
+                    String instrumentNameTemp = scTemp.getInstrumentName();
+                    String infoTemp = scTemp.getData();
+                    String volumeTemp = scTemp.getVolume();
+
                     ArrayList<Integer> list = new ArrayList<Integer>();
 
-                    for (String s : subresult[1].split(",")) {
+                    for (String s : infoTemp.split(",")) {
 
                         list.add(Integer.valueOf(s));
 
                     }
 
-                    AbstractInstrumentThread tempThreads = ((AbstractInstrumentThread) holder.getThread(subresult[0]));
+                    AbstractInstrumentThread tempThreads = ((AbstractInstrumentThread) holder.getThread(instrumentNameTemp));
 
                     if (tempThreads != null) {
 
                         tempThreads.setSoundList(list);
-                        tempThreads.setVolume((Float.valueOf(subresult[2]))/100);
+                        tempThreads.setVolume((Float.valueOf(volumeTemp))/100);
 
                     } else {
 
-                        Log.d("UpdateTask", "Thread is null for: " + subresult[0]);
+                        Log.d("UpdateTask", "Thread not found for name: " + instrumentNameTemp);
 
                     }
 
-                    Log.d("UpdateTask Result2", subresult[0] + " " + list.toString());
+                    Log.d("UpdateTask", "Result fetch: " + instrumentNameTemp + " " + list.toString());
                 }
 
-            }
-            } catch (Exception e) {
+                    } catch (Exception e) {
 
-                Log.e("UpdateTask", e.getMessage());
+                        Log.e("UpdateTask", "Message4: " + e.getMessage());
+                    }
+
             }
+
         }
+
+
         return "";
     }
 
@@ -176,4 +225,5 @@ public class UpdateTask {
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
+
 }

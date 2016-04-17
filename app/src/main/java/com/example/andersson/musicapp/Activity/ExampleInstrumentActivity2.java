@@ -19,13 +19,11 @@ import java.util.ArrayList;
 public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
 
     // GUI code
-
     private Button recordButton;
     private Button loopTimeButton;
     private EditText loopTimeText;
     private Button barButton;
     private EditText barText;
-
     // end GUI
 
     // Instrument code
@@ -62,6 +60,18 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
     }
 
     @Override
+    void initiateGUI() {
+
+        // GUI/Initiate initiate
+        loopGUI();
+        barGUI();
+        recordGUI();
+        volumeGUI();
+        // end GUI/Instrumet initiate
+
+    }
+
+    @Override
     void initiate() { // Sets basic information regarding bars, looptime and possibly initial sound.
 
         int bar = 8;
@@ -70,13 +80,6 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
         //playLoop.setSoundList(new ArrayList<Integer>(Arrays.asList(0,1,0,1,0,1,0,1)));
         instrument.setBars(bar);
         instrument.setLoopTime(loop);
-
-        // GUI/Initiate initiate
-        loopGUI();
-        barGUI();
-        recordGUI();
-        volumeGUI();
-        // end GUI/Instrumet initiate
     }
 
     private void volumeGUI(){

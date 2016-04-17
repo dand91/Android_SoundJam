@@ -32,14 +32,10 @@ public abstract class AbstractInstrumentActivity extends Activity {
     abstract void generateSoundInfo(int index);
     abstract String setName();
     abstract void initiate();
+    abstract void initiateGUI();
     abstract AbstractInstrumentThread getInstrumentClass();
     abstract int getActivity();
     abstract int getMenu();
-
-    public Context getContext(){
-
-        return this.getBaseContext();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +64,6 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
                 instrument = getInstrumentClass();
                 holder.addThread(name, instrument);
-                instrument.start();
                 Log.d("IA Intent", "New playLoop created");
 
             }
@@ -81,6 +76,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
         }
 
         initiate();
+        initiateGUI();
 
     }
 
@@ -125,4 +121,10 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public Context getContext(){
+
+        return this.getBaseContext();
+    }
+
 }

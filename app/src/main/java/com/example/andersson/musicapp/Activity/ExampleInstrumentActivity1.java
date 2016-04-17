@@ -126,6 +126,18 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
     // end GUI/Instrument code
 
     @Override
+    void initiateGUI() {
+
+        // GUI/Instrument initiate
+        loopGUI();
+        barGUI();
+        recordGUI();
+        stopPlayGUI();
+        volumeGUI();
+        // end GUI/Instrument initiate
+
+    }
+        @Override
     void initiate() { // Sets basic information regarding bars, looptime and possibly initial sound.
 
 
@@ -136,21 +148,13 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
         this.mAccelData = (TextView)findViewById(R.id.dataView);
         // end Sensor initiate
 
-        // GUI/Instrument initiate
         playRealTime = false;
         double bar = 8;
-        double loop = 4;
+            double loop = 4;
 
         //playLoop.setSoundList(new ArrayList<Integer>(Arrays.asList(1,0, 1, 0, 1, 0, 1, 0)));
         instrument.setBars(bar);
         instrument.setLoopTime(loop);
-
-        loopGUI();
-        barGUI();
-        recordGUI();
-        stopPlayGUI();
-        volumeGUI();
-        // end GUI/Instrument initiate
 
     }
 

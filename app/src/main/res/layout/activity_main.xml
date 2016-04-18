@@ -37,4 +37,20 @@
         android:layout_below="@+id/groupNameText"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Example3"
+        android:id="@+id/exampleButton3"
+        android:layout_above="@+id/exampleButton1"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Example4"
+        android:id="@+id/exampleButton4"
+        android:layout_above="@+id/exampleButton3"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

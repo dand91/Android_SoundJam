@@ -24,6 +24,8 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
     private Button exampleButton1;
     private Button exampleButton2;
+    private Button exampleButton3;
+    private Button exampleButton4;
     private Button groupNameButton;
     private EditText groupNameText;
     private SharedInfoHolder holder;
@@ -61,6 +63,38 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(MainActivity.this, ExampleInstrumentActivity2.class);
+                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
+                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
+                myIntent.putExtra("holder", tempHolder);
+                MainActivity.this.startActivityForResult(myIntent, 10);
+
+            }
+        });
+
+        exampleButton4 = (Button) findViewById(R.id.exampleButton4);
+        exampleButton4.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(MainActivity.this, ExampleInstrumentActivity4.class);
+                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
+                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
+                myIntent.putExtra("holder", tempHolder);
+                MainActivity.this.startActivityForResult(myIntent, 10);
+
+            }
+        });
+
+        exampleButton3 = (Button) findViewById(R.id.exampleButton3);
+        exampleButton3.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(MainActivity.this, ExampleInstrumentActivity3.class);
                 SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);

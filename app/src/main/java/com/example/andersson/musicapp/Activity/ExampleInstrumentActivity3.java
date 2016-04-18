@@ -17,11 +17,12 @@ import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread1;
+import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread3;
 import com.example.andersson.musicapp.R;
 
 import java.util.ArrayList;
 
-public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity implements SensorEventListener {
+public class ExampleInstrumentActivity3 extends AbstractInstrumentActivity implements SensorEventListener {
 
     // GUI/Instrument variables
     private Button recordButton;
@@ -56,6 +57,15 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
     @Override
     public void onSensorChanged(SensorEvent event) {
 
+        if (playRealTime) {
+
+            float[] Reading = event.values;
+
+            int X = (int) ((int) 400 + Reading[0]);
+
+            instrument.playRealTime(X);
+
+        }
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -63,7 +73,7 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
     // end Sensor Code
 
     // GUI/Instrument code
-    public ExampleInstrumentActivity1() {
+    public ExampleInstrumentActivity3() {
         super();
     }
 
@@ -76,24 +86,24 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
     @Override
     public String getName() { // Set the name, mostly for thread separation
 
-        return "ExampleActivity1";
+        return "ExampleActivity3";
     }
 
     @Override
     int getActivity() {
 
-        return R.layout.activity_example;
+        return R.layout.activity_example3;
     }
 
     @Override
     int getMenu() {
 
-        return R.menu.menu_example;
+        return R.menu.menu_example3;
     }
 
     @Override
     AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
-        return new ExampleInstrumentThread1(this, holder);
+        return new ExampleInstrumentThread3(this, holder);
     }
 
     // end GUI/Instrument code

@@ -6,4 +6,7 @@
     <string name="title_activity_example">ExampleActivity</string>
     <string name="title_activity_sensor">SensorActivity</string>
     <string name="title_activity_example2">ExampleActivity2</string>
+    <string name="title_activity_example3">ExampleActivity3</string>
+    <string name="title_activity_example4">ExampleActivity4</string>
+
 </resources>

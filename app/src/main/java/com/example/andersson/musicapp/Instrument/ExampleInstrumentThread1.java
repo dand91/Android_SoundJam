@@ -36,44 +36,12 @@ public class ExampleInstrumentThread1 extends AbstractInstrumentThread {
 
     public void playRealTime(int value) {
 
-        //Play real time audio
-
-        if (System.currentTimeMillis() - startTime > sampleTime) {
-
-
-            if (value == 0) {
-
-                holder.getSoundPool().play(soundId1, volume, volume, 1, 0, 1f);
-                Log.d("realTimeTest", "0");
-
-            } else if (value == 1) {
-
-                holder.getSoundPool().play(soundId2, volume, volume, 1, 0, 1f);
-                Log.d("realTimeTest", "1");
-
-            } else if (value == 2) {
-
-                holder.getSoundPool().play(soundId3, volume, volume, 1, 0, 1f);
-                Log.d("realTimeTest", "2");
-
-            } else if (value == 3) {
-
-                holder.getSoundPool().play(soundId4, volume, volume, 1, 0, 1f);
-                Log.d("realTimeTest", "3");
-            }
-
-            startTime = System.currentTimeMillis();
-        }
-
     }
 
     protected void initiateSound() {
 
         soundId = holder.getSoundPool().load(activity.getContext(), R.raw.bd, 1);
-        soundId1 = holder.getSoundPool().load(activity.getContext(), R.raw.piano1, 1);
-        soundId2 = holder.getSoundPool().load(activity.getContext(), R.raw.piano2, 1);
-        soundId3 = holder.getSoundPool().load(activity.getContext(), R.raw.piano3, 1);
-        soundId4 = holder.getSoundPool().load(activity.getContext(), R.raw.piano4, 1);
+
 
     }
 

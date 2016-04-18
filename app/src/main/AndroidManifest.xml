@@ -27,6 +27,15 @@
             android:name=".Activity.ExampleInstrumentActivity2"
             android:label="@string/title_activity_example2"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Activity.ExampleInstrumentActivity3"
+            android:label="@string/title_activity_example3"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name=".Activity.ExampleInstrumentActivity4"
+            android:label="@string/title_activity_example4"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

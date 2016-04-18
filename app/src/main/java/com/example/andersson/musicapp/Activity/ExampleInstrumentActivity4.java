@@ -17,11 +17,12 @@ import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread1;
+import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread4;
 import com.example.andersson.musicapp.R;
 
 import java.util.ArrayList;
 
-public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity implements SensorEventListener {
+public class ExampleInstrumentActivity4 extends AbstractInstrumentActivity implements SensorEventListener {
 
     // GUI/Instrument variables
     private Button recordButton;
@@ -56,6 +57,36 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
     @Override
     public void onSensorChanged(SensorEvent event) {
 
+        if (playRealTime) {
+
+            float[] Reading = event.values;
+
+            int X = (int) Reading[0];
+            int Y = (int) Reading[1];
+            int Z = (int) Reading[2];
+
+            mAccelData.setText(String.valueOf("x: " + X + " y: " + Y + " z: " + Z));
+
+            int tol = 1;
+
+            if (X > tol && Y > tol) {
+
+                instrument.playRealTime(0);
+
+            } else if (X > tol && Y < tol) {
+
+                instrument.playRealTime(1);
+
+            } else if (X < tol && Y > tol) {
+
+                instrument.playRealTime(2);
+
+            } else if (X < tol && Y < tol) {
+
+                instrument.playRealTime(3);
+
+            }
+        }
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -63,7 +94,7 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
     // end Sensor Code
 
     // GUI/Instrument code
-    public ExampleInstrumentActivity1() {
+    public ExampleInstrumentActivity4() {
         super();
     }
 
@@ -76,24 +107,24 @@ public class ExampleInstrumentActivity1 extends AbstractInstrumentActivity imple
     @Override
     public String getName() { // Set the name, mostly for thread separation
 
-        return "ExampleActivity1";
+        return "ExampleActivity4";
     }
 
     @Override
     int getActivity() {
 
-        return R.layout.activity_example;
+        return R.layout.activity_example4;
     }
 
     @Override
     int getMenu() {
 
-        return R.menu.menu_example;
+        return R.menu.menu_example4;
     }
 
     @Override
     AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
-        return new ExampleInstrumentThread1(this, holder);
+        return new ExampleInstrumentThread4(this, holder);
     }
 
     // end GUI/Instrument code

@@ -3,49 +3,49 @@ package com.example.andersson.musicapp.AsyncUpdate;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-@Root(name="sendclass")
+@Root(name = "sendclass")
 public class SendClass {
 
-	@Element
-	private String groupName;
-	@Element
-	private String instrumentName;
-	@Element
-	private String data;
-	@Element
-	private String volume;
-	
-	public String getGroupName() {
-		return groupName;
-	}
+    @Element
+    private String groupName;
+    @Element
+    private String instrumentName;
+    @Element
+    private String data;
+    @Element
+    private String volume;
 
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
-	}
-	
-	public String getInstrumentName() {
-		return instrumentName;
-	}
+    public String getGroupName() {
+        return groupName;
+    }
 
-	public void setInstrumentName(String instrumentName) {
-		this.instrumentName = instrumentName;
-	}
-	
-	public String getData() {
-		return data;
-	}
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 
-	public void setData(String data) {
-		this.data = data;
-	}
+    public String getInstrumentName() {
+        return instrumentName;
+    }
 
-	public String getVolume() {
-		return volume;
-	}
+    public void setInstrumentName(String instrumentName) {
+        this.instrumentName = instrumentName;
+    }
 
-	public void setVolume(String volume) {
-		this.volume = volume;
-	}
+    public String getData() {
+        return data;
+    }
 
-	
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public String getVolume() {
+        return volume;
+    }
+
+    public void setVolume(String volume) {
+        this.volume = volume;
+    }
+
+
 }

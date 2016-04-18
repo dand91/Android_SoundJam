@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 
-import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread2;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
+import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread2;
 import com.example.andersson.musicapp.R;
 
 import java.util.ArrayList;
@@ -24,10 +24,11 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
     private EditText loopTimeText;
     private Button barButton;
     private EditText barText;
+    private SeekBar volumeSeekBar;
     // end GUI
 
     // Instrument code
-    public ExampleInstrumentActivity2(){
+    public ExampleInstrumentActivity2() {
         super();
     }
 
@@ -37,38 +38,26 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
     }
 
     @Override
-    String setName() { // Set the name, mostly for thread separation
+    public String getName() { // Set the name, mostly for thread separation
 
         return "ExampleActivity2";
     }
 
     @Override
-    int getActivity(){
+    int getActivity() {
 
         return R.layout.activity_example2;
     }
 
     @Override
-    int getMenu(){
+    int getMenu() {
 
         return R.menu.menu_example2;
     }
 
     @Override
     AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
-        return new ExampleInstrumentThread2(this,holder);
-    }
-
-    @Override
-    void initiateGUI() {
-
-        // GUI/Initiate initiate
-        loopGUI();
-        barGUI();
-        recordGUI();
-        volumeGUI();
-        // end GUI/Instrumet initiate
-
+        return new ExampleInstrumentThread2(this, holder);
     }
 
     @Override
@@ -82,7 +71,19 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
         instrument.setLoopTime(loop);
     }
 
-    private void volumeGUI(){
+    @Override
+    void initiateGUI() {
+
+        // GUI/Initiate initiateSound
+        loopGUI();
+        barGUI();
+        recordGUI();
+        volumeGUI();
+        // end GUI/Instrumet initiateSound
+
+    }
+
+    private void volumeGUI() {
 
         volumeSeekBar = (SeekBar) findViewById(R.id.volumeSeekBar);
         volumeSeekBar.setProgress(instrument.getVolume());
@@ -90,7 +91,7 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-                instrument.setVolume(((float)i)/100);
+                instrument.setVolume(((float) i) / 100);
 
             }
 
@@ -107,7 +108,8 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
         });
 
     }
-    private void loopGUI(){
+
+    private void loopGUI() {
 
         loopTimeText = (EditText) findViewById(R.id.LoopTimeView);
         loopTimeButton = (Button) findViewById(R.id.loopTimeButton);
@@ -125,7 +127,7 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
                 } catch (Exception e) {
 
                     if (instrument != null) {
-                        loopTimeText.setText((int)instrument.getLoopTime());
+                        loopTimeText.setText((int) instrument.getLoopTime());
                     } else {
                         loopTimeText.setText("");
                     }
@@ -133,7 +135,8 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
             }
         });
     }
-    private void barGUI(){
+
+    private void barGUI() {
 
         barText = (EditText) findViewById(R.id.BarView);
         barButton = (Button) findViewById(R.id.BarButton);
@@ -149,7 +152,7 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
                 } catch (Exception e) {
 
                     if (instrument != null) {
-                        barText.setText((int)instrument.getBars());
+                        barText.setText((int) instrument.getBars());
                     } else {
                         barText.setText("");
                     }
@@ -158,7 +161,8 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
 
         });
     }
-    private void recordGUI(){
+
+    private void recordGUI() {
 
         recordButton = (Button) findViewById(R.id.recordButton);
         recordButton.setOnClickListener(new View.OnClickListener() {
@@ -184,7 +188,7 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
                         loopTimeButton.setBackgroundColor(Color.GREEN);
 
                     }
-                }, (long)(loopTime*1000));
+                }, (long) (loopTime * 1000));
 
                 barButton.setEnabled(false);
                 loopTimeButton.setEnabled(false);
@@ -212,7 +216,7 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
                                     break;
                                 }
 
-                                Thread.sleep((long)((loopTime / bars) * 1000) - 50);
+                                Thread.sleep((long) ((loopTime / bars) * 1000) - 50);
 
                             } catch (InterruptedException e) {
 
@@ -221,7 +225,7 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
                         }
 
                         String s = "";
-                        for(int in : soundList){
+                        for (int in : soundList) {
                             s = s + in + " ";
                         }
                         Log.d("EA - Record", s);

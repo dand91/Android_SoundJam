@@ -5,8 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +20,6 @@ import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 import java.io.Serializable;
 
 
-
 public class MainActivity extends ActionBarActivity implements Serializable {
 
     private Button exampleButton1;
@@ -28,6 +27,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
     private Button groupNameButton;
     private EditText groupNameText;
     private SharedInfoHolder holder;
+    private String groupName = "noName";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
                 Intent myIntent = new Intent(MainActivity.this, ExampleInstrumentActivity1.class);
 
-                SharedInfoHolder tempHolder =  new SharedInfoHolder(holder);
+                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);
                 MainActivity.this.startActivityForResult(myIntent, 10);
@@ -78,37 +78,24 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
             public void onClick(View view) {
 
-                holder.setGroupName(groupNameText.getText().toString());
-                Log.d("Main","New group name: " + groupNameText.getText().toString());
+                groupName = groupNameText.getText().toString();
+                Log.d("Main", "New group name: " + groupNameText.getText().toString());
             }
         });
 
-        if(!haveNetworkConnection()) {
+        if (!haveNetworkConnection()) {
 
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-            builder1.setMessage("No internet connection.");
-            builder1.setCancelable(true);
-
-            builder1.setPositiveButton(
-                    "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
+            AlertNoInternet();
         }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 10) {
-            if(resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
 
                 SharedInfoHolder tempHolder = data.getParcelableExtra("holder");
-                Log.d("Main","Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
+                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
 
                 this.holder = tempHolder;
                 this.holder.transfer();
@@ -116,6 +103,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             }
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -136,6 +124,29 @@ public class MainActivity extends ActionBarActivity implements Serializable {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public String getGroupName() {
+
+        return groupName;
+    }
+
+    public void AlertNoInternet() {
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("No internet connection.");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     private boolean haveNetworkConnection() {

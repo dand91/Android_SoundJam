@@ -21,21 +21,21 @@ public class ExampleInstrumentThread extends AbstractInstrumentThread {
     private final double freqOfTone2 = 440;
     private final byte generatedSnd[] = new byte[2 * numSamples];
 
-    public ExampleInstrumentThread(AbstractInstrumentActivity activity,SharedInfoHolder holder) {
-        super(activity,holder);
+    public ExampleInstrumentThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
+        super(activity, holder);
     }
 
     @Override
     public void playLoop(int index) {
 
-        if(soundList.size() > 0) {
+        if (soundList.size() > 0) {
 
             String s = "";
-            for(int in : soundList){
+            for (int in : soundList) {
                 s = s + in + " ";
             }
 
-            Log.d("EIT - instrumentCall" ,s);
+            Log.d("EIT - instrumentCall", s);
 
             // This is were the sound generation takes place, index is the current bar
             this.genTone(index);
@@ -45,15 +45,15 @@ public class ExampleInstrumentThread extends AbstractInstrumentThread {
         }
     }
 
-    public void playRealTime(int value){
+    public void playRealTime(int value) {
 
     }
 
-    void genTone(int index){
+    void genTone(int index) {
         // fill out the array
         for (int i = 0; i < numSamples; ++i) {
 
-            sample[i] = Math.sin(2 * Math.PI * i / (sampleRate/soundList.get(index)));
+            sample[i] = Math.sin(2 * Math.PI * i / (sampleRate / soundList.get(index)));
             //sample[i] = Math.sin(2 * Math.PI * i / (sampleRate/freqOfTone2));
         }
 
@@ -70,7 +70,7 @@ public class ExampleInstrumentThread extends AbstractInstrumentThread {
         }
     }
 
-    void playSound(){
+    void playSound() {
         final AudioTrack audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
                 sampleRate, AudioFormat.CHANNEL_OUT_MONO,
                 AudioFormat.ENCODING_PCM_16BIT, generatedSnd.length,
@@ -79,15 +79,16 @@ public class ExampleInstrumentThread extends AbstractInstrumentThread {
         audioTrack.play();
     }
 
-    public void initiate(){
+    public void initiateSound() {
 
 
     }
-    public void setVolume(float volume){
+
+    public void setVolume(float volume) {
 
     }
 
-    public int getVolume(){
+    public int getVolume() {
 
         return 1;
     }

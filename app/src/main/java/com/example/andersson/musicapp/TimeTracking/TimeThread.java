@@ -2,7 +2,7 @@ package com.example.andersson.musicapp.TimeTracking;
 
 import android.util.Log;
 
-import com.example.andersson.musicapp.SharedResources.ObservableObject;
+import com.example.andersson.musicapp.SharedResources.TimeObservable;
 
 import java.util.Calendar;
 import java.util.Observer;
@@ -10,17 +10,17 @@ import java.util.Observer;
 /**
  * Created by Andersson on 07/04/16.
  */
-public class TimeThread extends Thread{
+public class TimeThread extends Thread {
 
     private Calendar calendar;
-    private ObservableObject ob;
+    private TimeObservable ob;
     private double loopTime = 10;
     int i;
 
 
-    public TimeThread(){
+    public TimeThread() {
 
-        ob = new ObservableObject();
+        ob = new TimeObservable();
     }
 
     public void run() {
@@ -39,7 +39,7 @@ public class TimeThread extends Thread{
                 run = false;
                 ob.setChange();
 
-            }else if(seconds % loopTime != 0){
+            } else if (seconds % loopTime != 0) {
 
                 run = true;
 
@@ -47,12 +47,13 @@ public class TimeThread extends Thread{
         }
     }
 
-    public void setLoopTime(double loopTime){
+    public void setLoopTime(double loopTime) {
 
         this.loopTime = loopTime;
 
     }
-    public void add(Observer newOb){
+
+    public void add(Observer newOb) {
 
         ob.addObserver(newOb);
     }

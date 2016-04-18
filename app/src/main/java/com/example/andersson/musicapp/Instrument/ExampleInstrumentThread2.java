@@ -1,10 +1,6 @@
 package com.example.andersson.musicapp.Instrument;
 
 
-import android.content.Context;
-import android.media.AudioManager;
-import android.util.Log;
-
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
@@ -25,58 +21,24 @@ public class ExampleInstrumentThread2 extends AbstractInstrumentThread {
     @Override
     public void playLoop(int index) {
 
-        if(tempSoundList != null &&  tempSoundList.size() > index && tempSoundList.get(index) == 1 ) {
+        if (soundList != null && soundList.size() > index && soundList.get(index) == 1) {
 
-            AudioManager mgr = (AudioManager) activity.getContext().getSystemService(Context.AUDIO_SERVICE);
-            int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
-            streamVolume = streamVolume / mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
             holder.getSoundPool().play(soundId, volume, volume, 1, 0, 1f);
-
-        }else{
 
         }
     }
 
-    public void playRealTime(int value){
+    public void playRealTime(int value) {
 
         //Play real time audio
 
     }
 
-    public void initiate(){
+    protected void initiateSound() {
 
-        if(activity != null) {
 
-            if(activity.getContext() != null) {
-
-                if(holder.getSoundPool() != null) {
-
-                    soundId = holder.getSoundPool().load(activity.getContext(), R.raw.bd2, 1);
-
-                }else{
-
-                    Log.d("EIT2","soundPool is null");
-                    System.exit(0);
-                }
-            }else{
-
-                Log.d("EIT2","Context is null");
-            }
-
-        }else{
-
-            Log.d("EIT2","Actvity is null");
-        }
-    }
-
-    public void setVolume(float volume){
-
-        this.volume = volume;
+        soundId = holder.getSoundPool().load(activity.getContext(), R.raw.bd2, 1);
 
     }
 
-    public int getVolume(){
-
-        return (int) (volume*100);
-    }
 }

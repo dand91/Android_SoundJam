@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.SeekBar;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.R;
@@ -16,9 +15,6 @@ import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 import java.util.ArrayList;
 
 public abstract class AbstractInstrumentActivity extends Activity {
-
-
-    public SeekBar volumeSeekBar;
 
     public SharedInfoHolder holder;
     public AbstractInstrumentThread instrument;
@@ -30,11 +26,17 @@ public abstract class AbstractInstrumentActivity extends Activity {
     double loopTime;
 
     abstract void generateSoundInfo(int index);
-    abstract String setName();
+
+    public abstract String getName();
+
     abstract void initiate();
+
     abstract void initiateGUI();
+
     abstract AbstractInstrumentThread getInstrumentClass();
+
     abstract int getActivity();
+
     abstract int getMenu();
 
     @Override
@@ -42,15 +44,15 @@ public abstract class AbstractInstrumentActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(getActivity());
 
-        name = setName();
+        name = getName();
 
         Intent i = getIntent();
 
-        holder = (SharedInfoHolder) i.getParcelableExtra("holder");
+        holder = i.getParcelableExtra("holder");
 
         Log.d("IA Example", "Holder status: " + holder.hasHolder());
 
-        if(holder != null) {
+        if (holder != null) {
 
             holder.transfer();
 
@@ -68,10 +70,10 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
             }
 
-        }else{
+        } else {
 
             instrument = getInstrumentClass();
-            Log.d("IA Intent","holder is null");
+            Log.d("IA Intent", "holder is null");
 
         }
 
@@ -85,18 +87,17 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
         Intent myIntent = new Intent();
 
-        if(holder != null) {
+        if (holder != null) {
 
-            SharedInfoHolder tempHolder =  new SharedInfoHolder(holder);
-            Log.d("IA Backpress", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
+            SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
+            Log.d("IA Backpress", "Holder status: " + tempHolder.hasHolder());
             myIntent.putExtra("holder", tempHolder);
-            Log.d("IA Backpress", "Holder != null");
             setResult(RESULT_OK, myIntent);
             finish();
 
-        }else{
+        } else {
 
-            Log.d("IA Backpress","Holder == null");
+            Log.d("IA Backpress", "Holder == null");
         }
     }
 
@@ -122,7 +123,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public Context getContext(){
+    public Context getContext() {
 
         return this.getBaseContext();
     }

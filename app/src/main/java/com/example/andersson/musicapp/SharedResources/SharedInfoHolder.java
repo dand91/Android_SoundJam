@@ -7,6 +7,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.example.andersson.musicapp.Activity.MainActivity;
 import com.example.andersson.musicapp.AsyncUpdate.UpdateThread;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.TimeTracking.TimeThread;
@@ -15,107 +16,126 @@ import java.util.HashMap;
 
 public class SharedInfoHolder implements Parcelable {
 
-    private HashMap<String,Thread> threads;
+    private HashMap<String, Thread> threads;
     private TimeThread timer;
     private UpdateThread updater;
-    private String groupName;
     private SoundPool mySound;
     private Activity mainActivity;
     private static SharedInfoHolder holder;
 
-    public SharedInfoHolder(Activity mainActivity){
+    public SharedInfoHolder(Activity mainActivity) {
 
         this.mainActivity = mainActivity;
-        mySound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-        this.threads = new  HashMap<String,Thread>();
+        this.mySound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        this.threads = new HashMap<String, Thread>();
         this.timer = new TimeThread();
         this.timer.start();
         this.updater = new UpdateThread(this);
+        this.updater.start();
 
-        Log.d("ThreadHolder","Initiating Timer and Updater");
+        Log.d("ThreadHolder", "Initiating Timer and Updater");
 
     }
 
     public SharedInfoHolder(SharedInfoHolder holder) {
 
-        this.holder = holder;
+        SharedInfoHolder.holder = holder;
 
     }
-    public TimeThread getTimer(){
+
+    public TimeThread getTimer() {
         return timer;
     }
-    public void setGroupName(String groupName){
 
-        this.groupName = groupName;
-        if(!updater.isAlive()) {
-            this.updater.start();
-        }
+    public String getGroupName() {
 
+        return ((MainActivity) mainActivity).getGroupName();
     }
-    public String getGroupName(){
-        return groupName;
+
+    public HashMap<String, Thread> getThreads() {
+        return threads;
     }
-    public HashMap<String,Thread> getThreads(){return threads;}
-    public Thread getThread(String key){
-         return threads.get(key);
-     }
-    public UpdateThread getUpdater(){return updater;}
-    public SoundPool getSoundPool(){return mySound;}
-    public Activity getMainActivity(){
+
+    public Thread getThread(String key) {
+        return threads.get(key);
+    }
+
+    public UpdateThread getUpdater() {
+        return updater;
+    }
+
+    public SoundPool getSoundPool() {
+        return mySound;
+    }
+
+    public Activity getMainActivity() {
 
         return mainActivity;
     }
 
-    public void transfer(){
+    public void transfer() {
 
-        if(holder != null){
+        if (holder != null) {
 
             this.threads = holder.getThreads();
             this.timer = holder.getTimer();
             this.updater = holder.getUpdater();
             this.mySound = holder.getSoundPool();
-            this.groupName = holder.getGroupName();
             this.mainActivity = holder.getMainActivity();
             this.updater.setHolder(this);
-            Log.d("ThreadHolder","Transfering objects. getThreads: " + threads.size());
 
-        }else{
+            Log.d("ThreadHolder", "Transfering objects. getThreads: " + threads.size());
+
+        } else {
 
             Log.d("ThreadHolder", "No holders object");
+            System.exit(0);
 
         }
     }
 
-    public boolean hasHolder(){
+    public boolean hasHolder() {
 
-        return (holder != null)? true:false;
+        return (holder != null) ? true : false;
     }
 
-    public boolean containsKey(String key){
+    public boolean containsKey(String key) {
 
-        Log.d("ThreadHolder","Contains: " + threads.containsKey(key));
-        return threads.containsKey(key)? true:false;
+        return threads.containsKey(key) ? true : false;
 
     }
-    public void addThread(String s,Thread t){
 
-        if(timer != null) {
+    public void addThread(String name, Thread thread) {
 
-            timer.add((AbstractInstrumentThread) t);
-            Log.d("ThreadHolder", "Timer is not null");
+        if (timer != null) {
 
-        }else{
+            timer.add((AbstractInstrumentThread) thread);
 
-            Log.d("ThreadHolder","Timer is null");
+        } else {
+
+            Log.d("ThreadHolder", "Timer is null");
+            System.exit(0);
         }
 
-        threads.put(s,t);
+        if (updater != null) {
+
+            updater.add((AbstractInstrumentThread) thread);
+
+        } else {
+
+            Log.d("ThreadHolder", "Updater is null");
+            System.exit(0);
+
+        }
+
+        threads.put(name, thread);
 
         Log.d("Thread", "Number of objects: " + threads.size());
 
     }
 
     protected SharedInfoHolder(Parcel in) {
+
         threads = (HashMap) in.readValue(HashMap.class.getClassLoader());
     }
 

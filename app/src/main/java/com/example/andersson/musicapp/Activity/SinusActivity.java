@@ -16,20 +16,17 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
-import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread1;
-import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread3;
+import com.example.andersson.musicapp.Instrument.SinusThread;
 import com.example.andersson.musicapp.R;
 
 import java.util.ArrayList;
 
-public class ExampleInstrumentActivity3 extends AbstractInstrumentActivity implements SensorEventListener {
+public class SinusActivity extends AbstractInstrumentActivity implements SensorEventListener {
 
     // GUI/Instrument variables
     private Button recordButton;
-    private Button loopTimeButton;
     private Button playButton;
     private Button stopButton;
-    private EditText loopTimeText;
     private Button barButton;
     private EditText barText;
     private SeekBar volumeSeekBar;
@@ -40,7 +37,7 @@ public class ExampleInstrumentActivity3 extends AbstractInstrumentActivity imple
     private Sensor mAccelerometer;
     private TextView mAccelData;
     private int CurrentVal = 0;
-    private boolean playRealTime;
+
     // end Sensor variables
 
     // Sensor code
@@ -73,7 +70,7 @@ public class ExampleInstrumentActivity3 extends AbstractInstrumentActivity imple
     // end Sensor Code
 
     // GUI/Instrument code
-    public ExampleInstrumentActivity3() {
+    public SinusActivity() {
         super();
     }
 
@@ -86,24 +83,24 @@ public class ExampleInstrumentActivity3 extends AbstractInstrumentActivity imple
     @Override
     public String getName() { // Set the name, mostly for thread separation
 
-        return "ExampleActivity3";
+        return "SinusActivity";
     }
 
     @Override
     int getActivity() {
 
-        return R.layout.activity_example3;
+        return R.layout.activity_sinus;
     }
 
     @Override
     int getMenu() {
 
-        return R.menu.menu_example3;
+        return R.menu.menu_sinus;
     }
 
     @Override
     AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
-        return new ExampleInstrumentThread3(this, holder);
+        return new SinusThread(this, holder);
     }
 
     // end GUI/Instrument code
@@ -113,19 +110,17 @@ public class ExampleInstrumentActivity3 extends AbstractInstrumentActivity imple
 
 
         // Sensor initiateSound
-        setContentView(R.layout.activity_example);
+        setContentView(R.layout.activity_bassdrum);
         this.mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         this.mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         this.mAccelData = (TextView) findViewById(R.id.dataView);
         // end Sensor initiateSound
 
         playRealTime = false;
-        double bar = 8;
-        double loop = 4;
+        double bar = 16;
 
         //playLoop.setSoundList(new ArrayList<Integer>(Arrays.asList(1,0, 1, 0, 1, 0, 1, 0)));
         instrument.setBars(bar);
-        instrument.setLoopTime(loop);
 
     }
 
@@ -133,7 +128,6 @@ public class ExampleInstrumentActivity3 extends AbstractInstrumentActivity imple
     void initiateGUI() {
 
         // GUI/Instrument initiateSound
-        loopGUI();
         barGUI();
         recordGUI();
         stopPlayGUI();
@@ -192,33 +186,6 @@ public class ExampleInstrumentActivity3 extends AbstractInstrumentActivity imple
         });
     }
 
-    private void loopGUI() {
-
-        loopTimeText = (EditText) findViewById(R.id.LoopTimeView);
-        loopTimeButton = (Button) findViewById(R.id.loopTimeButton);
-        loopTimeButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                try {
-
-                    instrument.setLoopTime(Integer.valueOf(loopTimeText.getText().toString()));
-                    loopTimeText.setText("");
-
-                } catch (Exception e) {
-
-                    if (instrument != null) {
-                        loopTimeText.setText((int) instrument.getLoopTime());
-                    } else {
-                        loopTimeText.setText("");
-                    }
-                }
-            }
-        });
-    }
-
     private void barGUI() {
 
         barText = (EditText) findViewById(R.id.BarView);
@@ -255,26 +222,22 @@ public class ExampleInstrumentActivity3 extends AbstractInstrumentActivity imple
             public void onClick(View view) {
 
                 index = 0;
-                bars = instrument.getBars();
-                loopTime = instrument.getLoopTime();
+                bars = 16;
+                loopTime = ((MainActivity)holder.getMainActivity()).getLoopTime();
                 barButton.setBackgroundColor(Color.RED);
-                loopTimeButton.setBackgroundColor(Color.RED);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
                         barButton.setEnabled(true);
-                        loopTimeButton.setEnabled(true);
 
                         barButton.setBackgroundColor(Color.GREEN);
-                        loopTimeButton.setBackgroundColor(Color.GREEN);
 
                     }
                 }, (long) (loopTime * 1000));
 
                 barButton.setEnabled(false);
-                loopTimeButton.setEnabled(false);
 
                 soundList = new ArrayList<Integer>();
 

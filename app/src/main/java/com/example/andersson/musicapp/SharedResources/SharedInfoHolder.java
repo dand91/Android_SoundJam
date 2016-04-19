@@ -13,6 +13,7 @@ import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.TimeTracking.TimeThread;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class SharedInfoHolder implements Parcelable {
 
@@ -26,7 +27,7 @@ public class SharedInfoHolder implements Parcelable {
     public SharedInfoHolder(Activity mainActivity) {
 
         this.mainActivity = mainActivity;
-        this.mySound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        this.mySound = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
         this.threads = new HashMap<String, Thread>();
         this.timer = new TimeThread();
         this.timer.start();
@@ -66,6 +67,18 @@ public class SharedInfoHolder implements Parcelable {
 
     public SoundPool getSoundPool() {
         return mySound;
+    }
+
+    public void setLoopTime(int loopTime){
+
+        timer.setLoopTime(loopTime);
+
+        for(Map.Entry<String, Thread> thread : threads.entrySet()){
+
+            ((AbstractInstrumentThread)thread.getValue()).setLoopTime(loopTime);
+
+        }
+
     }
 
     public Activity getMainActivity() {

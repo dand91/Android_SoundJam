@@ -14,7 +14,7 @@ public class TimeThread extends Thread {
 
     private Calendar calendar;
     private TimeObservable ob;
-    private double loopTime = 10;
+    private double loopTime = 8;
     int i;
 
 

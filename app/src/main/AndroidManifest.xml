@@ -21,19 +21,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.ExampleInstrumentActivity1"
+            android:name=".Activity.BassdrumActivity"
             android:label="@string/title_activity_example" />
         <activity
-            android:name=".Activity.ExampleInstrumentActivity2"
+            android:name=".Activity.SnareActivity"
             android:label="@string/title_activity_example2"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".Activity.ExampleInstrumentActivity3"
+            android:name=".Activity.SinusActivity"
             android:label="@string/title_activity_example3"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
-            android:name=".Activity.ExampleInstrumentActivity4"
+            android:name=".Activity.BassActivity"
             android:label="@string/title_activity_example4"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

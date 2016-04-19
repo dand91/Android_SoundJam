@@ -2,6 +2,10 @@ package com.example.andersson.musicapp.Activity;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
@@ -9,73 +13,106 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
-import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread2;
+import com.example.andersson.musicapp.Instrument.SnareThread;
 import com.example.andersson.musicapp.R;
 
 import java.util.ArrayList;
 
-public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
+public class SnareActivity extends AbstractInstrumentActivity implements SensorEventListener {
 
     // GUI code
     private Button recordButton;
-    private Button loopTimeButton;
-    private EditText loopTimeText;
     private Button barButton;
     private EditText barText;
     private SeekBar volumeSeekBar;
     // end GUI
 
+
+    //  Sensor variables
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    private TextView mAccelData;
+    private int CurrentVal = 0;
+
+    private boolean isActive;
+    // end Sensor variables
+
+
     // Instrument code
-    public ExampleInstrumentActivity2() {
+    public SnareActivity() {
         super();
     }
 
     @Override
     void generateSoundInfo(int index) { // should be connected to a sensor, it's called at new beatTime
 
+        if(isActive) {
+            soundList.add(1);
+        }else{
+            soundList.add(0);
+        }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+
+        //Insert shake code
+
+        isActive = true;
+        try {
+            Thread.sleep((long) ((loopTime/bars)/2));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        isActive = false;
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
     }
 
     @Override
     public String getName() { // Set the name, mostly for thread separation
 
-        return "ExampleActivity2";
+        return "SnareActivity";
     }
 
     @Override
     int getActivity() {
 
-        return R.layout.activity_example2;
+        return R.layout.activity_snare;
     }
 
     @Override
     int getMenu() {
 
-        return R.menu.menu_example2;
+        return R.menu.menu_snare;
     }
 
     @Override
     AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
-        return new ExampleInstrumentThread2(this, holder);
+        return new SnareThread(this, holder);
     }
 
     @Override
     void initiate() { // Sets basic information regarding bars, looptime and possibly initial sound.
 
-        int bar = 8;
-        int loop = 4;
+        bars = 16;
+        loopTime = ((MainActivity)holder.getMainActivity()).getLoopTime();
+        instrument.setLoopTime(loopTime);
+        instrument.setBars(bars);
 
-        //playLoop.setSoundList(new ArrayList<Integer>(Arrays.asList(0,1,0,1,0,1,0,1)));
-        instrument.setBars(bar);
-        instrument.setLoopTime(loop);
     }
 
     @Override
     void initiateGUI() {
 
         // GUI/Initiate initiateSound
-        loopGUI();
         barGUI();
         recordGUI();
         volumeGUI();
@@ -107,33 +144,6 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
 
         });
 
-    }
-
-    private void loopGUI() {
-
-        loopTimeText = (EditText) findViewById(R.id.LoopTimeView);
-        loopTimeButton = (Button) findViewById(R.id.loopTimeButton);
-        loopTimeButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                try {
-
-                    instrument.setLoopTime(Integer.valueOf(loopTimeText.getText().toString()));
-                    loopTimeText.setText("");
-
-                } catch (Exception e) {
-
-                    if (instrument != null) {
-                        loopTimeText.setText((int) instrument.getLoopTime());
-                    } else {
-                        loopTimeText.setText("");
-                    }
-                }
-            }
-        });
     }
 
     private void barGUI() {
@@ -172,33 +182,26 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
             public void onClick(View view) {
 
                 index = 0;
-                bars = instrument.getBars();
-                loopTime = instrument.getLoopTime();
                 barButton.setBackgroundColor(Color.RED);
-                loopTimeButton.setBackgroundColor(Color.RED);
-
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
                         barButton.setEnabled(true);
-                        loopTimeButton.setEnabled(true);
-
                         barButton.setBackgroundColor(Color.GREEN);
-                        loopTimeButton.setBackgroundColor(Color.GREEN);
 
                     }
                 }, (long) (loopTime * 1000));
 
                 barButton.setEnabled(false);
-                loopTimeButton.setEnabled(false);
 
                 soundList = new ArrayList<Integer>();
 
-
                 new Thread() {
 
-                    public synchronized void run() {
+                    public void run() {
+
+                        record = true;
 
                         while (true) {
 
@@ -216,7 +219,7 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
                                     break;
                                 }
 
-                                Thread.sleep((long) ((loopTime / bars) * 1000) - 50);
+                                Thread.sleep((long) (((double) loopTime / (double) bars) * 1000) - 50);
 
                             } catch (InterruptedException e) {
 
@@ -228,15 +231,16 @@ public class ExampleInstrumentActivity2 extends AbstractInstrumentActivity {
                         for (int in : soundList) {
                             s = s + in + " ";
                         }
-                        Log.d("EA - Record", s);
+                        Log.d("Recorded: ", s);
 
                         instrument.setSoundList(soundList);
-
+                        record = false;
                     }
 
                 }.start();
             }
         });
     }
+
 
 }

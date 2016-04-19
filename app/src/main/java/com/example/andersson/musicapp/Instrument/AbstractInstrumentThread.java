@@ -18,14 +18,17 @@ import java.util.Observer;
 
 public abstract class AbstractInstrumentThread extends Thread implements Observer {
 
-    private double loopTime = 10;
-    private double bars = 10;
+    private double loopTime;
+    private double bars;
     public int i;
-    public ArrayList<Integer> soundList;
+    public ArrayList<Integer> soundList = new ArrayList<Integer>();
     public SharedInfoHolder holder;
     public AbstractInstrumentActivity activity;
     public boolean set;
     public float volume = 0.5f;
+
+    public boolean playRealTime;
+    public boolean record;
 
     public abstract void playLoop(int index);
 
@@ -89,7 +92,6 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public void setLoopTime(double loopTime) {
 
         this.loopTime = loopTime;
-        holder.getTimer().setLoopTime(loopTime);
 
     }
 
@@ -142,6 +144,10 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
     }
 
+    public void setRecord(boolean record){
+
+        this.record = record;
+    }
     @Override
     public void update(Observable o, Object arg) {
 

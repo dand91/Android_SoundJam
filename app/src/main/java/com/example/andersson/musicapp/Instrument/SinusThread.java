@@ -13,7 +13,7 @@ import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
  * Created by Andersson on 05/04/16.
  */
 
-public class ExampleInstrumentThread3 extends AbstractInstrumentThread {
+public class SinusThread extends AbstractInstrumentThread {
 
     long startTime = 0;
     long sampleTime = 500;
@@ -27,7 +27,7 @@ public class ExampleInstrumentThread3 extends AbstractInstrumentThread {
 
     private final byte generatedSnd[] = new byte[2 * numSamples];
 
-    public ExampleInstrumentThread3(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
+    public SinusThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
         super(activity, holder);
     }
 
@@ -39,6 +39,7 @@ public class ExampleInstrumentThread3 extends AbstractInstrumentThread {
 
     public void playRealTime(int value) {
 
+        sampleTime = (long) (getLoopTime()/getBars());
 
         if (System.currentTimeMillis() - startTime > sampleTime) {
 

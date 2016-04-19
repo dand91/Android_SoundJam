@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
@@ -27,9 +28,11 @@ public class MainActivity extends ActionBarActivity implements Serializable {
     private Button exampleButton3;
     private Button exampleButton4;
     private Button groupNameButton;
+    private SeekBar BPMBar;
     private EditText groupNameText;
     private SharedInfoHolder holder;
     private String groupName = "noName";
+    private int loopTime = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
             public void onClick(View view) {
 
-                Intent myIntent = new Intent(MainActivity.this, ExampleInstrumentActivity1.class);
+                Intent myIntent = new Intent(MainActivity.this, BassdrumActivity.class);
 
                 SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
@@ -62,7 +65,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
             public void onClick(View view) {
 
-                Intent myIntent = new Intent(MainActivity.this, ExampleInstrumentActivity2.class);
+                Intent myIntent = new Intent(MainActivity.this, SnareActivity.class);
                 SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);
@@ -78,7 +81,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
             public void onClick(View view) {
 
-                Intent myIntent = new Intent(MainActivity.this, ExampleInstrumentActivity4.class);
+                Intent myIntent = new Intent(MainActivity.this, BassActivity.class);
                 SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);
@@ -94,7 +97,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
             public void onClick(View view) {
 
-                Intent myIntent = new Intent(MainActivity.this, ExampleInstrumentActivity3.class);
+                Intent myIntent = new Intent(MainActivity.this, SinusActivity.class);
                 SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);
@@ -104,7 +107,6 @@ public class MainActivity extends ActionBarActivity implements Serializable {
         });
 
         groupNameText = (EditText) findViewById(R.id.groupNameText);
-
         groupNameButton = (Button) findViewById(R.id.groupNameButton);
         groupNameButton.setOnClickListener(new View.OnClickListener() {
 
@@ -121,6 +123,34 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
             AlertNoInternet();
         }
+
+        BPMBar = (SeekBar) findViewById(R.id.BPMBar);
+        BPMBar.setProgress(120);
+        BPMBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                EditText text = (EditText) findViewById(R.id.BPMText);
+                text.setText("BPM: " + i);
+
+                loopTime = (16*60)/i;
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                holder.setLoopTime(loopTime);
+
+            }
+
+        });
+
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -164,7 +194,9 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
         return groupName;
     }
-
+    public int getLoopTime(){
+        return loopTime;
+    }
     public void AlertNoInternet() {
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);

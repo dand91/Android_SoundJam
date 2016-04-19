@@ -16,20 +16,17 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
-import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread1;
-import com.example.andersson.musicapp.Instrument.ExampleInstrumentThread4;
+import com.example.andersson.musicapp.Instrument.BassdrumThread;
 import com.example.andersson.musicapp.R;
 
 import java.util.ArrayList;
 
-public class ExampleInstrumentActivity4 extends AbstractInstrumentActivity implements SensorEventListener {
+public class BassdrumActivity extends AbstractInstrumentActivity implements SensorEventListener {
 
     // GUI/Instrument variables
     private Button recordButton;
-    private Button loopTimeButton;
     private Button playButton;
     private Button stopButton;
-    private EditText loopTimeText;
     private Button barButton;
     private EditText barText;
     private SeekBar volumeSeekBar;
@@ -40,7 +37,8 @@ public class ExampleInstrumentActivity4 extends AbstractInstrumentActivity imple
     private Sensor mAccelerometer;
     private TextView mAccelData;
     private int CurrentVal = 0;
-    private boolean playRealTime;
+
+    private boolean isActive;
     // end Sensor variables
 
     // Sensor code
@@ -57,36 +55,17 @@ public class ExampleInstrumentActivity4 extends AbstractInstrumentActivity imple
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        if (playRealTime) {
+        //Insert shake code
 
-            float[] Reading = event.values;
-
-            int X = (int) Reading[0];
-            int Y = (int) Reading[1];
-            int Z = (int) Reading[2];
-
-            mAccelData.setText(String.valueOf("x: " + X + " y: " + Y + " z: " + Z));
-
-            int tol = 1;
-
-            if (X > tol && Y > tol) {
-
-                instrument.playRealTime(0);
-
-            } else if (X > tol && Y < tol) {
-
-                instrument.playRealTime(1);
-
-            } else if (X < tol && Y > tol) {
-
-                instrument.playRealTime(2);
-
-            } else if (X < tol && Y < tol) {
-
-                instrument.playRealTime(3);
-
-            }
+        isActive = true;
+        try {
+            Thread.sleep((long) ((loopTime/bars)/2));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        isActive = false;
+
+
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -94,37 +73,42 @@ public class ExampleInstrumentActivity4 extends AbstractInstrumentActivity imple
     // end Sensor Code
 
     // GUI/Instrument code
-    public ExampleInstrumentActivity4() {
+    public BassdrumActivity() {
         super();
     }
 
     @Override
     void generateSoundInfo(int index) { // should be connected to a sensor, it's called at new beatTime
 
-        //soundList.add(CurrentVal);
+        if(isActive) {
+            soundList.add(1);
+        }else{
+            soundList.add(0);
+        }
+
     }
 
     @Override
     public String getName() { // Set the name, mostly for thread separation
 
-        return "ExampleActivity4";
+        return "BassdrumActivity";
     }
 
     @Override
     int getActivity() {
 
-        return R.layout.activity_example4;
+        return R.layout.activity_bassdrum;
     }
 
     @Override
     int getMenu() {
 
-        return R.menu.menu_example4;
+        return R.menu.menu_bassdrum;
     }
 
     @Override
     AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
-        return new ExampleInstrumentThread4(this, holder);
+        return new BassdrumThread(this, holder);
     }
 
     // end GUI/Instrument code
@@ -134,19 +118,17 @@ public class ExampleInstrumentActivity4 extends AbstractInstrumentActivity imple
 
 
         // Sensor initiateSound
-        setContentView(R.layout.activity_example);
+        setContentView(R.layout.activity_bassdrum);
         this.mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         this.mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         this.mAccelData = (TextView) findViewById(R.id.dataView);
         // end Sensor initiateSound
 
         playRealTime = false;
-        double bar = 8;
-        double loop = 4;
-
-        //playLoop.setSoundList(new ArrayList<Integer>(Arrays.asList(1,0, 1, 0, 1, 0, 1, 0)));
-        instrument.setBars(bar);
-        instrument.setLoopTime(loop);
+        bars = 16;
+        loopTime = ((MainActivity)holder.getMainActivity()).getLoopTime();
+        instrument.setLoopTime(loopTime);
+        instrument.setBars(bars);
 
     }
 
@@ -154,7 +136,6 @@ public class ExampleInstrumentActivity4 extends AbstractInstrumentActivity imple
     void initiateGUI() {
 
         // GUI/Instrument initiateSound
-        loopGUI();
         barGUI();
         recordGUI();
         stopPlayGUI();
@@ -213,32 +194,6 @@ public class ExampleInstrumentActivity4 extends AbstractInstrumentActivity imple
         });
     }
 
-    private void loopGUI() {
-
-        loopTimeText = (EditText) findViewById(R.id.LoopTimeView);
-        loopTimeButton = (Button) findViewById(R.id.loopTimeButton);
-        loopTimeButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                try {
-
-                    instrument.setLoopTime(Integer.valueOf(loopTimeText.getText().toString()));
-                    loopTimeText.setText("");
-
-                } catch (Exception e) {
-
-                    if (instrument != null) {
-                        loopTimeText.setText((int) instrument.getLoopTime());
-                    } else {
-                        loopTimeText.setText("");
-                    }
-                }
-            }
-        });
-    }
 
     private void barGUI() {
 
@@ -276,32 +231,26 @@ public class ExampleInstrumentActivity4 extends AbstractInstrumentActivity imple
             public void onClick(View view) {
 
                 index = 0;
-                bars = instrument.getBars();
-                loopTime = instrument.getLoopTime();
                 barButton.setBackgroundColor(Color.RED);
-                loopTimeButton.setBackgroundColor(Color.RED);
-
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
                         barButton.setEnabled(true);
-                        loopTimeButton.setEnabled(true);
-
                         barButton.setBackgroundColor(Color.GREEN);
-                        loopTimeButton.setBackgroundColor(Color.GREEN);
 
                     }
                 }, (long) (loopTime * 1000));
 
                 barButton.setEnabled(false);
-                loopTimeButton.setEnabled(false);
 
                 soundList = new ArrayList<Integer>();
 
                 new Thread() {
 
-                    public synchronized void run() {
+                    public void run() {
+
+                        record = true;
 
                         while (true) {
 
@@ -319,7 +268,7 @@ public class ExampleInstrumentActivity4 extends AbstractInstrumentActivity imple
                                     break;
                                 }
 
-                                Thread.sleep((long) ((loopTime / bars) * 1000) - 50);
+                                Thread.sleep((long) (((double) loopTime / (double) bars) * 1000) - 50);
 
                             } catch (InterruptedException e) {
 
@@ -331,10 +280,10 @@ public class ExampleInstrumentActivity4 extends AbstractInstrumentActivity imple
                         for (int in : soundList) {
                             s = s + in + " ";
                         }
-                        Log.d("EA - Record", s);
+                        Log.d("Recorded: ", s);
 
                         instrument.setSoundList(soundList);
-
+                        record = false;
                     }
 
                 }.start();

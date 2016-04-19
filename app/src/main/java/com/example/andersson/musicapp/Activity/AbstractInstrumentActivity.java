@@ -22,6 +22,9 @@ public abstract class AbstractInstrumentActivity extends Activity {
     public String name;
     int index = 0;
 
+    public boolean playRealTime;
+    public boolean record;
+
     double bars;
     double loopTime;
 
@@ -127,5 +130,4 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
         return this.getBaseContext();
     }
-
 }

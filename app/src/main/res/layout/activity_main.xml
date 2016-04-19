@@ -8,7 +8,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Example1"
+        android:text="Bassdrum"
         android:id="@+id/exampleButton1"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
@@ -16,7 +16,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Example2"
+        android:text="Snare"
         android:id="@+id/exampleButton2"
         android:layout_below="@+id/exampleButton1"
         android:layout_centerHorizontal="true" />
@@ -40,17 +40,38 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Example3"
+        android:text="Sinus"
         android:id="@+id/exampleButton3"
-        android:layout_above="@+id/exampleButton1"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignTop="@+id/exampleButton1"
+        android:layout_toRightOf="@+id/exampleButton1"
+        android:layout_toEndOf="@+id/exampleButton1" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Example4"
+        android:text="Bass"
         android:id="@+id/exampleButton4"
-        android:layout_above="@+id/exampleButton3"
+        android:layout_alignBaseline="@+id/exampleButton2"
+        android:layout_alignBottom="@+id/exampleButton2"
+        android:layout_toRightOf="@+id/exampleButton1"
+        android:layout_toEndOf="@+id/exampleButton1" />
+
+    <SeekBar
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/BPMBar"
+        android:max="130"
+        android:indeterminate="false"
+        android:focusable="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/BPMText"
+        android:layout_below="@+id/BPMBar"
+        android:layout_centerHorizontal="true"
+        android:text="BPM: 100" />
 
 </RelativeLayout>

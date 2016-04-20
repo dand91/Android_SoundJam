@@ -16,12 +16,12 @@ import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.Instrument.BassdrumThread;
-import com.example.andersson.musicapp.Instrument.SnareThread;
+import com.example.andersson.musicapp.Instrument.HighHatThread;
 import com.example.andersson.musicapp.R;
 
 import java.util.ArrayList;
 
-public class SnareActivity extends AbstractInstrumentActivity implements SensorEventListener {
+public class HighHatActivity extends AbstractInstrumentActivity implements SensorEventListener {
 
 
     // end GUI/Instrument variables
@@ -64,7 +64,7 @@ public class SnareActivity extends AbstractInstrumentActivity implements SensorE
     // end Sensor Code
 
     // GUI/Instrument code
-    public SnareActivity() {
+    public HighHatActivity() {
         super();
     }
 
@@ -82,13 +82,13 @@ public class SnareActivity extends AbstractInstrumentActivity implements SensorE
     @Override
     public String getName() { // Set the name, mostly for thread separation
 
-        return "SnareActivity";
+        return "HighHatActivity";
     }
 
     @Override
     int getActivity() {
 
-        return R.layout.activity_snare;
+        return R.layout.activity_high_hat;
     }
 
     @Override
@@ -99,7 +99,7 @@ public class SnareActivity extends AbstractInstrumentActivity implements SensorE
 
     @Override
     AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
-        return new SnareThread(this, holder);
+        return new HighHatThread(this, holder);
     }
 
     // end GUI/Instrument code

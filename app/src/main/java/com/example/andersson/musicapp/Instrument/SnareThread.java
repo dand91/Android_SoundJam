@@ -9,19 +9,16 @@ import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
  * Created by Andersson on 07/04/16.
  */
 public class SnareThread extends AbstractInstrumentThread {
-
     private int soundId;
 
     public SnareThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
-
         super(activity, holder);
-
     }
 
     @Override
     public void playLoop(int index) {
 
-        if (soundList != null && soundList.size() > index && soundList.get(index) == 1) {
+        if (soundList != null && soundList.size() > index && soundList.get(index) == 1 && !record && !playRealTime) {
 
             holder.getSoundPool().play(soundId, volume, volume, 1, 0, 1f);
 
@@ -36,7 +33,8 @@ public class SnareThread extends AbstractInstrumentThread {
 
     protected void initiateSound() {
 
-        soundId = holder.getSoundPool().load(activity.getContext(), R.raw.bd2, 1);
+        soundId = holder.getSoundPool().load(activity.getContext(), R.raw.sd01, 1);
+
 
     }
 

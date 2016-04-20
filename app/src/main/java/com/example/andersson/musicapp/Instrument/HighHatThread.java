@@ -1,6 +1,5 @@
 package com.example.andersson.musicapp.Instrument;
 
-import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.R;
@@ -9,11 +8,10 @@ import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 /**
  * Created by Andersson on 07/04/16.
  */
-public class BassdrumThread extends AbstractInstrumentThread {
-
+public class HighHatThread extends AbstractInstrumentThread {
     private int soundId;
 
-    public BassdrumThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
+    public HighHatThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
         super(activity, holder);
     }
 
@@ -29,15 +27,15 @@ public class BassdrumThread extends AbstractInstrumentThread {
 
     public void playRealTime(int value) {
 
-        Log.d("BassDrum","playRealTime");
         holder.getSoundPool().play(soundId, volume, volume, 1, 0, 1f);
 
     }
 
     protected void initiateSound() {
 
-        soundId = holder.getSoundPool().load(activity.getContext(), R.raw.bd, 1);
+        soundId = holder.getSoundPool().load(activity.getContext(), R.raw.hh02, 1);
 
 
     }
+
 }

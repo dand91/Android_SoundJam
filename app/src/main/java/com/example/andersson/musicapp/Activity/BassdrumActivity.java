@@ -1,6 +1,7 @@
 package com.example.andersson.musicapp.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -23,21 +24,22 @@ import java.util.ArrayList;
 
 public class BassdrumActivity extends AbstractInstrumentActivity implements SensorEventListener {
 
-    // GUI/Instrument variables
-    private Button recordButton;
-    private Button playButton;
-    private Button stopButton;
-    private Button barButton;
-    private EditText barText;
-    private SeekBar volumeSeekBar;
-    // end GUI/Instrument variables
 
+    // end GUI/Instrument variables
+    // GUI/Instrument variables
+    public Button recordButton;
+    public Button playButton;
+    public Button stopButton;
+    public Button barButton;
+    public EditText barText;
+    public SeekBar volumeSeekBar;
+    public TextView progressText;
     //  Sensor variables
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private TextView mAccelData;
-    private int CurrentVal = 0;
 
+    private int countDown;
     private boolean isActive;
     // end Sensor variables
 
@@ -109,14 +111,13 @@ public class BassdrumActivity extends AbstractInstrumentActivity implements Sens
 
 
         // Sensor initiateSound
-        setContentView(R.layout.activity_bassdrum);
         this.mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         this.mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         this.mAccelData = (TextView) findViewById(R.id.dataView);
         // end Sensor initiateSound
 
         playRealTime = false;
-        bars = 16;
+        bars = 8;
         loopTime = ((MainActivity)holder.getMainActivity()).getLoopTime();
         instrument.setLoopTime(loopTime);
         instrument.setBars(bars);
@@ -170,11 +171,136 @@ public class BassdrumActivity extends AbstractInstrumentActivity implements Sens
     void initiateGUI() {
 
         // GUI/Instrument initiateSound
-        barGUI();
+
         recordGUI();
+        barGUI();
         stopPlayGUI();
         volumeGUI();
         // end GUI/Instrument initiateSound
+
+    }
+
+
+    private void recordGUI() {
+
+        recordButton = (Button) findViewById(R.id.recordButton);
+        progressText = (TextView) findViewById(R.id.progressText);
+
+        recordButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                if (!record) {
+
+                    index = 0;
+                    instrument.setChangedStatus(true);
+                    barButton.setBackgroundColor(Color.RED);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            barButton.setEnabled(true);
+                            barButton.setBackgroundColor(Color.GREEN);
+
+                        }
+                    }, (long) (loopTime * 1000));
+
+                    barButton.setEnabled(false);
+
+                    soundList = new ArrayList<Integer>();
+
+
+                    runOnUiThread(new Runnable(){
+                        @Override
+                        public void run(){
+                            // change UI elements here
+                        }
+                    });
+
+                    new Thread() {
+
+                        public void run() {
+
+                            record = true;
+                            instrument.setRecord(true);
+
+                            try {
+
+                                Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                                v.vibrate(2*1000);
+
+                                for(int i = 3; i >= 0 ; i--) {
+
+                                    countDown = i;
+                                    runOnUiThread(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+
+                                            progressText.setText("Record start in: " + countDown);
+
+                                        }
+                                    });
+
+                                    sleep(1000);
+
+                                }
+
+
+                            while (true) {
+
+                                    generateSoundInfo(index);
+
+
+                                    index++;
+
+                                runOnUiThread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+
+                                        progressText.setText("Beat " + index + " of " + bars);
+
+                                    }
+                                });
+
+                                sleep(200);
+                                v.vibrate(50);
+
+                                    if (index == bars) {
+
+                                        break;
+                                    }
+
+                                sleep((long) (((double) loopTime / (double) bars) * 1000) - 200);
+
+
+                            }
+
+                            } catch (InterruptedException e) {
+
+                                e.printStackTrace();
+                            }
+
+                            String s = "";
+                            for (int in : soundList) {
+                                s = s + in + " ";
+                            }
+                            Log.d("Recorded: ", s);
+
+                            instrument.setSoundList(soundList);
+                            record = false;
+                            instrument.setRecord(false);
+
+                        }
+
+                    }.start();
+                }
+            }
+        });
+
 
     }
 
@@ -204,6 +330,7 @@ public class BassdrumActivity extends AbstractInstrumentActivity implements Sens
 
     }
 
+
     private void stopPlayGUI() {
 
         playButton = (Button) findViewById(R.id.playButton);
@@ -228,7 +355,6 @@ public class BassdrumActivity extends AbstractInstrumentActivity implements Sens
         });
     }
 
-
     private void barGUI() {
 
         barText = (EditText) findViewById(R.id.BarView);
@@ -252,84 +378,6 @@ public class BassdrumActivity extends AbstractInstrumentActivity implements Sens
                 }
             }
 
-        });
-    }
-
-    private void recordGUI() {
-
-        recordButton = (Button) findViewById(R.id.recordButton);
-        recordButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                if (!record) {
-
-                    index = 0;
-                    instrument.setChangedStatus(true);
-                    barButton.setBackgroundColor(Color.RED);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            barButton.setEnabled(true);
-                            barButton.setBackgroundColor(Color.GREEN);
-
-                        }
-                    }, (long) (loopTime * 1000));
-
-                    barButton.setEnabled(false);
-
-                    soundList = new ArrayList<Integer>();
-
-                    new Thread() {
-
-                        public void run() {
-
-                            record = true;
-                            instrument.setRecord(true);
-                            while (true) {
-
-                                try {
-
-                                    Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-
-                                    generateSoundInfo(index);
-                                    sleep(200);
-                                    v.vibrate(50);
-
-                                    index++;
-
-                                    if (index == bars) {
-
-                                        break;
-                                    }
-
-                                    Thread.sleep((long) (((double) loopTime / (double) bars) * 1000)-200);
-
-                                } catch (InterruptedException e) {
-
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            String s = "";
-                            for (int in : soundList) {
-                                s = s + in + " ";
-                            }
-                            Log.d("Recorded: ", s);
-
-                            instrument.setSoundList(soundList);
-                            record = false;
-                            instrument.setRecord(false);
-
-                        }
-
-                    }.start();
-                }
-
-            }
         });
     }
 

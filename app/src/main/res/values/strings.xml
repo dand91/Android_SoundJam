@@ -8,5 +8,8 @@
     <string name="title_activity_Snare">SnareActivity</string>
     <string name="title_activity_Sinus">SinusActivity</string>
     <string name="title_activity_Bass">BassActivity</string>
+    <string name="title_activity_HighHat">HighHatActivity</string>
+    <string name="title_activity_high_hat">HighHatActivity</string>
+    <string name="title_activity_snare">SnareActivity</string>
 
 </resources>

@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SeekBar;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.R;
@@ -138,4 +142,5 @@ public abstract class AbstractInstrumentActivity extends Activity {
         this.bars = bars;
 
     }
+
 }

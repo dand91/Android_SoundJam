@@ -27,6 +27,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
     private Button exampleButton2;
     private Button exampleButton3;
     private Button exampleButton4;
+    private Button exampleButton5;
     private Button groupNameButton;
     private SeekBar BPMBar;
     private EditText groupNameText;
@@ -92,14 +93,16 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             }
         });
 
-        exampleButton3 = (Button) findViewById(R.id.exampleButton3);
-        exampleButton3.setOnClickListener(new View.OnClickListener() {
+
+
+        exampleButton5 = (Button) findViewById(R.id.exampleButton5);
+        exampleButton5.setOnClickListener(new View.OnClickListener() {
 
             @Override
 
             public void onClick(View view) {
 
-                Intent myIntent = new Intent(MainActivity.this, SinusActivity.class);
+                Intent myIntent = new Intent(MainActivity.this, HighHatActivity.class);
                 SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);
@@ -107,6 +110,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
             }
         });
+
 
         groupNameText = (EditText) findViewById(R.id.groupNameText);
         groupNameButton = (Button) findViewById(R.id.groupNameButton);
@@ -127,15 +131,15 @@ public class MainActivity extends ActionBarActivity implements Serializable {
         }
 
         BPMBar = (SeekBar) findViewById(R.id.BPMBar);
-        BPMBar.setProgress(100);
+        BPMBar.setProgress(0);
         BPMBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
                 EditText text = (EditText) findViewById(R.id.BPMText);
-                text.setText("BPM: " + i);
+                text.setText("BPM: " + (120 + i));
 
-                loopTime = (16*60)/i;
+                loopTime = (8*60)/(120 + i);
 
             }
 

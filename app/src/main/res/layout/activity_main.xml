@@ -10,57 +10,59 @@
         android:layout_height="wrap_content"
         android:text="Bassdrum"
         android:id="@+id/exampleButton1"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/exampleButton5"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Snare"
         android:id="@+id/exampleButton2"
-        android:layout_below="@+id/exampleButton1"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/BPMText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/groupNameText"
-        android:layout_below="@+id/exampleButton2"
-        android:layout_centerHorizontal="true"
-        android:text="testGroup" />
+        android:hint="Input name"
+        android:layout_above="@+id/groupNameButton"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Done"
         android:id="@+id/groupNameButton"
-        android:layout_below="@+id/groupNameText"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/BPMText"
+        android:layout_alignEnd="@+id/BPMText" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sinus"
         android:id="@+id/exampleButton3"
-        android:layout_alignTop="@+id/exampleButton1"
-        android:layout_toRightOf="@+id/exampleButton1"
-        android:layout_toEndOf="@+id/exampleButton1" />
+        android:layout_below="@+id/exampleButton2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bass"
         android:id="@+id/exampleButton4"
-        android:layout_alignBaseline="@+id/exampleButton2"
-        android:layout_alignBottom="@+id/exampleButton2"
-        android:layout_toRightOf="@+id/exampleButton1"
-        android:layout_toEndOf="@+id/exampleButton1" />
+        android:layout_below="@+id/exampleButton3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <SeekBar
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/BPMBar"
-        android:max="130"
+        android:max="10"
         android:indeterminate="false"
         android:focusable="true"
         android:layout_alignParentTop="true"
@@ -72,6 +74,15 @@
         android:id="@+id/BPMText"
         android:layout_below="@+id/BPMBar"
         android:layout_centerHorizontal="true"
-        android:text="BPM: 100" />
+        android:text="BPM: 120" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HighHat"
+        android:id="@+id/exampleButton5"
+        android:layout_below="@+id/BPMText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

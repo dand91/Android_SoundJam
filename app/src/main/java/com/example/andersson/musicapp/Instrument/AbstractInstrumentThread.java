@@ -196,7 +196,6 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                         } else {
 
                             try {
-
                                 sleep((long) ((loopTime / bars) * 1000));
                             } catch (InterruptedException e) {
 

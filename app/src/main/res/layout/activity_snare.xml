@@ -29,9 +29,9 @@
         android:layout_height="wrap_content"
         android:text="Record"
         android:id="@+id/recordButton"
-        android:layout_below="@+id/BarButton"
+        android:layout_below="@+id/BarView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="82dp" />
+        android:layout_marginTop="35dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:text="Done"
         android:id="@+id/BarButton"
-        android:layout_below="@+id/BarText"
+        android:layout_alignBottom="@+id/BarView"
         android:layout_toRightOf="@+id/BarView"
         android:layout_toEndOf="@+id/BarView" />
 
@@ -50,6 +50,24 @@
         android:layout_below="@+id/recordButton"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PLAY"
+        android:id="@+id/playButton"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/BarText"
+        android:layout_toStartOf="@+id/BarText" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="STOP"
+        android:id="@+id/stopButton"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/dataView"
+        android:layout_toEndOf="@+id/dataView" />
+
     <SeekBar
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -58,6 +76,7 @@
         android:indeterminate="false"
         android:focusable="true"
         android:layout_below="@+id/dataView"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

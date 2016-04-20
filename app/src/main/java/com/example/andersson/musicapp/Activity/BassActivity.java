@@ -215,7 +215,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
         // end Sensor initiateSound
 
         playRealTime = false;
-        bars = 16;
+        bars = 8;
         loopTime = ((MainActivity)holder.getMainActivity()).getLoopTime();
         instrument.setLoopTime(loopTime);
         instrument.setBars(bars);
@@ -226,93 +226,16 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
     void initiateGUI() {
 
         // GUI/Instrument initiateSound
-        barGUI();
+
         recordGUI();
+        barGUI();
         stopPlayGUI();
         volumeGUI();
+
         // end GUI/Instrument initiateSound
 
     }
 
-    private void volumeGUI() {
-
-        volumeSeekBar = (SeekBar) findViewById(R.id.volumeSeekBar);
-        volumeSeekBar.setProgress(instrument.getVolume());
-        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
-                instrument.setVolume(((float) i) / 100);
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-
-        });
-
-    }
-
-    private void stopPlayGUI() {
-
-        playButton = (Button) findViewById(R.id.playButton);
-        playButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-                playRealTime = true;
-                instrument.setPlayRealTime(true);
-                Log.d("EA1", "playRealTime");
-            }
-        });
-        stopButton = (Button) findViewById(R.id.stopButton);
-        stopButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-                playRealTime = false;
-                instrument.setPlayRealTime(false);
-                Log.d("EA1", "stopRealTime");
-            }
-        });
-    }
-
-
-
-    private void barGUI() {
-
-        barText = (EditText) findViewById(R.id.BarView);
-        barButton = (Button) findViewById(R.id.BarButton);
-        barButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                try {
-                    instrument.setBars(Integer.valueOf(barText.getText().toString()));
-                    barText.setText("");
-                } catch (Exception e) {
-
-                    if (instrument != null) {
-                        barText.setText((int) instrument.getBars());
-                    } else {
-                        barText.setText("");
-                    }
-                }
-            }
-
-        });
-    }
 
     private void recordGUI() {
 
@@ -385,6 +308,82 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
                 }.start();
             }
+        });
+    }
+    private void volumeGUI() {
+
+        volumeSeekBar = (SeekBar) findViewById(R.id.volumeSeekBar);
+        volumeSeekBar.setProgress(instrument.getVolume());
+        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                instrument.setVolume(((float) i) / 100);
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+        });
+
+    }
+
+
+    private void stopPlayGUI() {
+
+        playButton = (Button) findViewById(R.id.playButton);
+        playButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+                playRealTime = true;
+                Log.d("EA1", "playRealTime");
+            }
+        });
+        stopButton = (Button) findViewById(R.id.stopButton);
+        stopButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+                playRealTime = false;
+                Log.d("EA1", "stopRealTime");
+            }
+        });
+    }
+
+    private void barGUI() {
+
+        barText = (EditText) findViewById(R.id.BarView);
+        barButton = (Button) findViewById(R.id.BarButton);
+        barButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                try {
+                    instrument.setBars(Integer.valueOf(barText.getText().toString()));
+                    barText.setText("");
+                } catch (Exception e) {
+
+                    if (instrument != null) {
+                        barText.setText((int) instrument.getBars());
+                    } else {
+                        barText.setText("");
+                    }
+                }
+            }
+
         });
     }
 

@@ -113,9 +113,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -129,5 +127,15 @@ public abstract class AbstractInstrumentActivity extends Activity {
     public Context getContext() {
 
         return this.getBaseContext();
+    }
+
+    public void setLoopTime(int loopTime){
+
+        this.loopTime = loopTime;
+    }
+    public void setBars(int bars){
+
+        this.bars = bars;
+
     }
 }

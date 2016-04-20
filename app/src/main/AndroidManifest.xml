@@ -22,19 +22,19 @@
         </activity>
         <activity
             android:name=".Activity.BassdrumActivity"
-            android:label="@string/title_activity_example" />
+            android:label="@string/title_activity_Bassdrum" />
         <activity
             android:name=".Activity.SnareActivity"
-            android:label="@string/title_activity_example2"
+            android:label="@string/title_activity_Snare"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Activity.SinusActivity"
-            android:label="@string/title_activity_example3"
+            android:label="@string/title_activity_Sinus"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
             android:name=".Activity.BassActivity"
-            android:label="@string/title_activity_example4"
+            android:label="@string/title_activity_Bass"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

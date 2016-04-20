@@ -41,39 +41,21 @@ public class BassdrumActivity extends AbstractInstrumentActivity implements Sens
     private boolean isActive;
     // end Sensor variables
 
+    private ShakeDetector mShakeDetector;
+
     // Sensor code
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
     }
 
     protected void onPause() {
         super.onPause();
-        mSensorManager.unregisterListener(this);
+        mSensorManager.unregisterListener(mShakeDetector);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
-        //Insert shake code
-
-
-        new Thread() {
-
-            public void run() {
-
-                isActive = true;
-                try {
-
-                    sleep((long) ((loopTime/bars)/2));
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                isActive = false;
-
-
-            }}.start();
 
     }
 
@@ -138,6 +120,49 @@ public class BassdrumActivity extends AbstractInstrumentActivity implements Sens
         loopTime = ((MainActivity)holder.getMainActivity()).getLoopTime();
         instrument.setLoopTime(loopTime);
         instrument.setBars(bars);
+
+
+        //Insert shake code
+
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+
+            @Override
+            public void onShake(int count) {
+
+                if (record) {
+
+                    instrument.playRealTime(1);
+
+                    new Thread() {
+
+                        public void run() {
+
+                            isActive = true;
+
+                            try {
+
+                                //sleep((long) ((loopTime / bars) / 2));
+                                sleep(400);
+
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            isActive = false;
+
+
+                        }
+                    }.start();
+
+                } else if (playRealTime) {
+
+                    instrument.playRealTime(1);
+
+                }
+
+            }
+        });
+
 
     }
 
@@ -239,63 +264,71 @@ public class BassdrumActivity extends AbstractInstrumentActivity implements Sens
 
             public void onClick(View view) {
 
-                index = 0;
-                barButton.setBackgroundColor(Color.RED);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+                if (!record) {
 
-                        barButton.setEnabled(true);
-                        barButton.setBackgroundColor(Color.GREEN);
+                    index = 0;
+                    instrument.setChangedStatus(true);
+                    barButton.setBackgroundColor(Color.RED);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
 
-                    }
-                }, (long) (loopTime * 1000));
+                            barButton.setEnabled(true);
+                            barButton.setBackgroundColor(Color.GREEN);
 
-                barButton.setEnabled(false);
+                        }
+                    }, (long) (loopTime * 1000));
 
-                soundList = new ArrayList<Integer>();
+                    barButton.setEnabled(false);
 
-                new Thread() {
+                    soundList = new ArrayList<Integer>();
 
-                    public void run() {
+                    new Thread() {
 
-                        record = true;
+                        public void run() {
 
-                        while (true) {
+                            record = true;
+                            instrument.setRecord(true);
+                            while (true) {
 
-                            try {
+                                try {
 
-                                Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                                v.vibrate(50);
+                                    Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
-                                index++;
+                                    generateSoundInfo(index);
+                                    sleep(200);
+                                    v.vibrate(50);
 
-                                generateSoundInfo(index);
+                                    index++;
 
-                                if (index == bars) {
+                                    if (index == bars) {
 
-                                    break;
+                                        break;
+                                    }
+
+                                    Thread.sleep((long) (((double) loopTime / (double) bars) * 1000)-200);
+
+                                } catch (InterruptedException e) {
+
+                                    e.printStackTrace();
                                 }
-
-                                Thread.sleep((long) (((double) loopTime / (double) bars) * 1000) - 50);
-
-                            } catch (InterruptedException e) {
-
-                                e.printStackTrace();
                             }
+
+                            String s = "";
+                            for (int in : soundList) {
+                                s = s + in + " ";
+                            }
+                            Log.d("Recorded: ", s);
+
+                            instrument.setSoundList(soundList);
+                            record = false;
+                            instrument.setRecord(false);
+
                         }
 
-                        String s = "";
-                        for (int in : soundList) {
-                            s = s + in + " ";
-                        }
-                        Log.d("Recorded: ", s);
+                    }.start();
+                }
 
-                        instrument.setSoundList(soundList);
-                        record = false;
-                    }
-
-                }.start();
             }
         });
     }

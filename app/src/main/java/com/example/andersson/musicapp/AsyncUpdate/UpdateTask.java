@@ -35,9 +35,19 @@ public class UpdateTask {
     public static String saveAndLoad(SharedInfoHolder holder, UpdateObservable ob) {
 
 
-        String tempGroupName = holder.getGroupName();
+        try {
 
-        Log.d("UpdateTask", "Collecting info from threads from group name: " + tempGroupName);
+            String tempGroupName = holder.getGroupName();
+
+            Log.d("UpdateTask", "Collecting info from threads from group name: " + tempGroupName);
+
+
+        }catch(NullPointerException e){
+
+            Log.d("UpdateTask","GroupName not set");
+            System.exit(0);
+        }
+
 
 
         if (holder == null) { // Check if SharedInfoHolder is active
@@ -103,9 +113,10 @@ public class UpdateTask {
                         ArrayList<Integer> soundList = tempThread.getSoundList();
                         String tempString = soundList.toString();
 
-                        if (tempString.length() > 2) {
+                        if (tempThread.getChangeStatus() && tempString.length() > 2 ) {
 
                             tempString = soundList.toString().substring(1, tempString.length() - 1).replace(" ", "");
+                            tempThread.setChangedStatus(false);
 
                         } else {
 

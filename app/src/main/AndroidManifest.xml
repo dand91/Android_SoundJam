@@ -27,10 +27,10 @@
             android:name=".Activity.SnareActivity"
             android:label="@string/title_activity_Snare"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activityBbiBug dsadsa
+        <activity
             android:name=".Activity.SinusActivity"
             android:label="@string/title_activity_Sinus"
-            android:theme="@style/AppTheme.NoActionBar"></activityBbiBug>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
             android:name=".Activity.BassActivity"

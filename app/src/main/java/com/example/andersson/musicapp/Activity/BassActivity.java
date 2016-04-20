@@ -62,27 +62,43 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
             X = (int) Reading[0];
             Y = (int) Reading[1];
-            Z = (int) Reading[2];
+            Z = (int) (Reading[2] - 9.82);
 
             mAccelData.setText(String.valueOf("x: " + X + " y: " + Y + " z: " + Z));
 
             int tol = 0;
 
-            if (X > tol && Y > tol) {
+            if (X > tol && Y > tol && Z > tol) {
 
                 instrument.playRealTime(0);
 
-            } else if (X > tol && Y < tol) {
+            } else if (X > tol && Y < tol && Z > tol) {
 
                 instrument.playRealTime(1);
 
-            } else if (X < tol && Y > tol) {
+            } else if (X < tol && Y > tol && Z > tol) {
 
                 instrument.playRealTime(2);
 
-            } else if (X < tol && Y < tol) {
+            } else if (X < tol && Y < tol && Z > tol) {
 
                 instrument.playRealTime(3);
+
+            }else if (X > tol && Y > tol && Z < tol) {
+
+                instrument.playRealTime(4);
+
+            } else if (X > tol && Y < tol && Z < tol) {
+
+                instrument.playRealTime(5);
+
+            } else if (X < tol && Y > tol && Z < tol) {
+
+                instrument.playRealTime(6);
+
+            } else if (X < tol && Y < tol && Z < tol) {
+
+                instrument.playRealTime(7);
 
             }
 
@@ -92,9 +108,11 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
             X = (int) Reading[0];
             Y = (int) Reading[1];
-            Z = (int) Reading[2];
+            Z = (int) (Reading[2] - 9.82);
 
         }
+
+        mAccelData.setText("x:" + X + " y: " + Y + " z: " + Z);
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -113,30 +131,50 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
         int tol = 0;
 
-        if (X > tol && Y > tol) {
+        if (X > tol && Y > tol && Z > 0) {
 
             instrument.playRealTime(0);
             soundList.add(0);
 
-        } else if (X > tol && Y < tol) {
+        } else if (X > tol && Y < tol && Z > 0) {
 
             instrument.playRealTime(1);
             soundList.add(1);
 
-        } else if (X < tol && Y > tol) {
+        } else if (X < tol && Y > tol && Z > 0) {
 
             instrument.playRealTime(2);
             soundList.add(2);
 
-        } else if (X < tol && Y < tol) {
+        } else if (X < tol && Y < tol && Z > 0) {
 
             instrument.playRealTime(3);
             soundList.add(3);
 
-        }else{
+        }else if (X > tol && Y > tol && Z < 0) {
 
             instrument.playRealTime(4);
             soundList.add(4);
+
+        } else if (X > tol && Y < tol && Z < 0) {
+
+            instrument.playRealTime(5);
+            soundList.add(5);
+
+        } else if (X < tol && Y > tol && Z < 0) {
+
+            instrument.playRealTime(6);
+            soundList.add(6);
+
+        } else if (X < tol && Y < tol && Z < 0) {
+
+            instrument.playRealTime(8);
+            soundList.add(7);
+
+        }else{
+
+            instrument.playRealTime(4);
+            soundList.add(8);
         }
     }
 
@@ -306,6 +344,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
                     public void run() {
 
                         record = true;
+                        instrument.setChangedStatus(true);
                         instrument.setRecord(true);
 
                         while (true) {

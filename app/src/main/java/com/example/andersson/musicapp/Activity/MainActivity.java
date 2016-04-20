@@ -39,7 +39,9 @@ public class MainActivity extends ActionBarActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        holder = new SharedInfoHolder(this);
+        if(holder == null) {
+            holder = new SharedInfoHolder(this);
+        }
 
         exampleButton1 = (Button) findViewById(R.id.exampleButton1);
         exampleButton1.setOnClickListener(new View.OnClickListener() {

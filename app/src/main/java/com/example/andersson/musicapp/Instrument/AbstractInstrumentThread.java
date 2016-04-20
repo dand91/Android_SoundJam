@@ -25,6 +25,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public SharedInfoHolder holder;
     public AbstractInstrumentActivity activity;
     public boolean set;
+    public boolean changed;
     public float volume = 0.5f;
 
     public boolean playRealTime;
@@ -116,6 +117,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public void setSoundList(ArrayList<Integer> soundList) {
 
         set = true;
+        setChangedStatus(true);
         this.soundList = soundList;
 
     }
@@ -153,6 +155,17 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
         this.playRealTime = playRealTime;
     }
+
+    public void setChangedStatus(boolean changed){
+
+        this.changed = changed;
+    }
+
+    public boolean getChangeStatus(){
+
+        return changed;
+    }
+
     @Override
     public void update(Observable o, Object arg) {
 

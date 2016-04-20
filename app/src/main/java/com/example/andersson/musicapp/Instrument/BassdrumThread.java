@@ -20,7 +20,7 @@ public class BassdrumThread extends AbstractInstrumentThread {
     @Override
     public void playLoop(int index) {
 
-        if (soundList != null && soundList.size() > index && soundList.get(index) == 1 && !record) {
+        if (soundList != null && soundList.size() > index && soundList.get(index) == 1 && !record && !playRealTime) {
 
             holder.getSoundPool().play(soundId, volume, volume, 1, 0, 1f);
 
@@ -29,8 +29,7 @@ public class BassdrumThread extends AbstractInstrumentThread {
 
     public void playRealTime(int value) {
 
-
-            soundId = holder.getSoundPool().load(activity.getContext(), R.raw.bd, 1);
+        holder.getSoundPool().play(soundId, volume, volume, 1, 0, 1f);
 
     }
 

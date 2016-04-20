@@ -57,14 +57,23 @@ public class BassdrumActivity extends AbstractInstrumentActivity implements Sens
 
         //Insert shake code
 
-        isActive = true;
-        try {
-            Thread.sleep((long) ((loopTime/bars)/2));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        isActive = false;
 
+        new Thread() {
+
+            public void run() {
+
+                isActive = true;
+                try {
+
+                    sleep((long) ((loopTime/bars)/2));
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                isActive = false;
+
+
+            }}.start();
 
     }
 

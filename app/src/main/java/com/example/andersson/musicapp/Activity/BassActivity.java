@@ -36,7 +36,6 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private TextView mAccelData;
-    private int CurrentVal = 0;
     // end Sensor variables
 
     int X;
@@ -232,6 +231,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
             public void onClick(View view) {
                 playRealTime = true;
+                instrument.setPlayRealTime(true);
                 Log.d("EA1", "playRealTime");
             }
         });
@@ -242,6 +242,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
             public void onClick(View view) {
                 playRealTime = false;
+                instrument.setPlayRealTime(false);
                 Log.d("EA1", "stopRealTime");
             }
         });
@@ -323,7 +324,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
                                     break;
                                 }
 
-                                Thread.sleep((long) (((double) loopTime / (double) bars) * 1000) - 50);
+                                Thread.sleep((long) (((double) loopTime / (double) bars) * 1000));
 
                             } catch (InterruptedException e) {
 

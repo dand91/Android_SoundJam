@@ -125,7 +125,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
         }
 
         BPMBar = (SeekBar) findViewById(R.id.BPMBar);
-        BPMBar.setProgress(120);
+        BPMBar.setProgress(100);
         BPMBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {

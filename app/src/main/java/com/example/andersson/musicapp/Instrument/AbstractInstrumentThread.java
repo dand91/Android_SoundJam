@@ -79,8 +79,6 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                 System.exit(0);
 
             }
-
-
         }
     }
 
@@ -92,18 +90,20 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public void setLoopTime(double loopTime) {
 
         this.loopTime = loopTime;
-
-    }
-
-    public void setBars(double bars) {
-
-        this.bars = bars;
+        ((AbstractInstrumentActivity)activity).setLoopTime((int)loopTime);
 
     }
 
     public double getLoopTime() {
 
         return loopTime;
+
+    }
+
+    public void setBars(double bars) {
+
+        this.bars = bars;
+        ((AbstractInstrumentActivity)activity).setBars((int)bars);
 
     }
 
@@ -147,6 +147,11 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public void setRecord(boolean record){
 
         this.record = record;
+    }
+
+    public void setPlayRealTime(boolean playRealTime){
+
+        this.playRealTime = playRealTime;
     }
     @Override
     public void update(Observable o, Object arg) {

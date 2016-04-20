@@ -3,10 +3,10 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_example">ExampleActivity</string>
+    <string name="title_activity_Bassdrum">BassdrumActivity</string>
     <string name="title_activity_sensor">SensorActivity</string>
-    <string name="title_activity_example2">ExampleActivity2</string>
-    <string name="title_activity_example3">ExampleActivity3</string>
-    <string name="title_activity_example4">ExampleActivity4</string>
+    <string name="title_activity_Snare">SnareActivity</string>
+    <string name="title_activity_Sinus">SinusActivity</string>
+    <string name="title_activity_Bass">BassActivity</string>
 
 </resources>

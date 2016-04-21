@@ -63,7 +63,7 @@ public class BassThread extends AbstractInstrumentThread {
 
         }else{
 
-            sampleTime = (long) (getLoopTime() / getBars());
+            sampleTime = (long) (((double)getLoopTime() / (double)getBars())*1000);
 
             if (System.currentTimeMillis() - startTime > sampleTime) {
 

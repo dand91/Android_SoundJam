@@ -40,6 +40,7 @@ public class ShakeDetector implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
 
         if (mListener != null) {
+
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
@@ -65,8 +66,8 @@ public class ShakeDetector implements SensorEventListener {
 
                 mShakeTimestamp = now;
                 mShakeCount++;
-
                 mListener.onShake(mShakeCount);
+
             }
         }
     }

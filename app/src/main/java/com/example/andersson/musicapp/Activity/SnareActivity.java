@@ -31,6 +31,8 @@ public class SnareActivity extends AbstractInstrumentActivity implements SensorE
     public Button stopButton;
     public Button barButton;
     public EditText barText;
+    public TextView progressText;
+    public int countDown;
     public SeekBar volumeSeekBar;
     //  Sensor variables
     private SensorManager mSensorManager;
@@ -88,7 +90,7 @@ public class SnareActivity extends AbstractInstrumentActivity implements SensorE
     @Override
     int getActivity() {
 
-        return R.layout.activity_snare;
+        return R.layout.activity_bassdrum;
     }
 
     @Override
@@ -182,6 +184,8 @@ public class SnareActivity extends AbstractInstrumentActivity implements SensorE
     private void recordGUI() {
 
         recordButton = (Button) findViewById(R.id.recordButton);
+        progressText = (TextView) findViewById(R.id.progressText);
+
         recordButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -207,35 +211,77 @@ public class SnareActivity extends AbstractInstrumentActivity implements SensorE
 
                     soundList = new ArrayList<Integer>();
 
+
+                    runOnUiThread(new Runnable(){
+                        @Override
+                        public void run(){
+                            // change UI elements here
+                        }
+                    });
+
                     new Thread() {
 
                         public void run() {
 
                             record = true;
                             instrument.setRecord(true);
-                            while (true) {
 
-                                try {
+                            try {
 
-                                    Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                                Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                                v.vibrate(2*1000);
+
+                                for(int i = 3; i >= 0 ; i--) {
+
+                                    countDown = i;
+                                    runOnUiThread(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+
+                                            progressText.setText("Record start in: " + countDown);
+
+                                        }
+                                    });
+
+                                    sleep(1000);
+
+                                }
+
+
+                                while (true) {
 
                                     generateSoundInfo(index);
-                                    sleep(200);
-                                    v.vibrate(50);
+
 
                                     index++;
+
+                                    runOnUiThread(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+
+                                            progressText.setText("Beat " + index + " of " + bars);
+
+                                        }
+                                    });
+
+                                    sleep(200);
+                                    v.vibrate(50);
 
                                     if (index == bars) {
 
                                         break;
                                     }
 
-                                    Thread.sleep((long) (((double) loopTime / (double) bars) * 1000)-200);
+                                    sleep((long) (((double) loopTime / (double) bars) * 1000) - 200);
 
-                                } catch (InterruptedException e) {
 
-                                    e.printStackTrace();
                                 }
+
+                            } catch (InterruptedException e) {
+
+                                e.printStackTrace();
                             }
 
                             String s = "";
@@ -252,7 +298,6 @@ public class SnareActivity extends AbstractInstrumentActivity implements SensorE
 
                     }.start();
                 }
-
             }
         });
 

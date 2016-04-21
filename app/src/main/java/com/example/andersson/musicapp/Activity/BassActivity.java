@@ -62,7 +62,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
             X = (int) Reading[0];
             Y = (int) Reading[1];
-            Z = (int) (Reading[2] - 9.82);
+            Z = (int) (Reading[2]);
 
             mAccelData.setText(String.valueOf("x: " + X + " y: " + Y + " z: " + Z));
 
@@ -108,7 +108,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
             X = (int) Reading[0];
             Y = (int) Reading[1];
-            Z = (int) (Reading[2] - 9.82);
+            Z = (int) (Reading[2]);
 
         }
 

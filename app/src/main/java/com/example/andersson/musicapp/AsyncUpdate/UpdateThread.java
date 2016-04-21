@@ -16,7 +16,16 @@ public class UpdateThread extends Thread {
     private UpdateObservable ob;
     private static final int timer = 10;
 
-    public UpdateThread(SharedInfoHolder holder) {
+    private static UpdateThread instance = null;
+
+    public static UpdateThread getInstance() {
+        if(instance == null) {
+            instance = new UpdateThread();
+        }
+        return instance;
+    }
+
+    private UpdateThread() {
 
         this.holder = holder;
         this.ob = new UpdateObservable();

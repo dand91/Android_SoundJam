@@ -29,9 +29,10 @@ public class SharedInfoHolder implements Parcelable {
         this.mainActivity = mainActivity;
         this.mySound = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
         this.threads = new HashMap<String, Thread>();
-        this.timer = new TimeThread();
+        this.timer = TimeThread.getInstance();
         this.timer.start();
-        this.updater = new UpdateThread(this);
+        this.updater = UpdateThread.getInstance();
+        this.updater.setHolder(this);
         this.updater.start();
 
         Log.d("ThreadHolder", "Initiating Timer and Updater");

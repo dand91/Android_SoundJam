@@ -41,7 +41,30 @@ public class MainActivity extends ActionBarActivity implements Serializable {
         setContentView(R.layout.activity_main);
 
         if(holder == null) {
+
             holder = new SharedInfoHolder(this);
+
+            Intent myIntent = new Intent(MainActivity.this, BassdrumActivity.class);
+            SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
+            myIntent.putExtra("holder", tempHolder);
+            myIntent.putExtra("backInfo","back");
+            MainActivity.this.startActivityForResult(myIntent, 10);
+
+            myIntent = new Intent(MainActivity.this, HighHatActivity.class);
+            myIntent.putExtra("holder", tempHolder);
+            myIntent.putExtra("backInfo","back");
+            MainActivity.this.startActivityForResult(myIntent, 10);
+
+            myIntent = new Intent(MainActivity.this, SnareActivity.class);
+            myIntent.putExtra("holder", tempHolder);
+            myIntent.putExtra("backInfo","back");
+            MainActivity.this.startActivityForResult(myIntent, 10);
+
+            myIntent = new Intent(MainActivity.this, BassActivity.class);
+            myIntent.putExtra("holder", tempHolder);
+            myIntent.putExtra("backInfo","back");
+            MainActivity.this.startActivityForResult(myIntent, 10);
+
         }
 
         exampleButton1 = (Button) findViewById(R.id.exampleButton1);
@@ -56,7 +79,9 @@ public class MainActivity extends ActionBarActivity implements Serializable {
                 SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);
+                myIntent.putExtra("backInfo", "notback");
                 MainActivity.this.startActivityForResult(myIntent, 10);
+
 
             }
         });
@@ -72,6 +97,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
                 SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);
+                myIntent.putExtra("backInfo", "notback");
                 MainActivity.this.startActivityForResult(myIntent, 10);
 
             }
@@ -88,6 +114,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
                 SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);
+                myIntent.putExtra("backInfo", "notback");
                 MainActivity.this.startActivityForResult(myIntent, 10);
 
             }
@@ -106,6 +133,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
                 SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
                 Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
                 myIntent.putExtra("holder", tempHolder);
+                myIntent.putExtra("backInfo", "notback");
                 MainActivity.this.startActivityForResult(myIntent, 10);
 
             }

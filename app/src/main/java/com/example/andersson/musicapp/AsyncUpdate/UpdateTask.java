@@ -39,12 +39,12 @@ public class UpdateTask {
 
             String tempGroupName = holder.getGroupName();
 
-            Log.d("UpdateTask", "Collecting info from threads from group name: " + tempGroupName);
+            Log.i("UpdateTask", "Collecting info from threads from group name: " + tempGroupName);
 
 
         }catch(NullPointerException e){
 
-            Log.d("UpdateTask","GroupName not set");
+            Log.e("UpdateTask","GroupName not set");
             System.exit(0);
         }
 
@@ -52,12 +52,12 @@ public class UpdateTask {
 
         if (holder == null) { // Check if SharedInfoHolder is active
 
-            Log.d("UpdateTask", "Holder is null");
+            Log.e("UpdateTask", "Holder is null");
             System.exit(0);
 
         } else if (!haveNetworkConnection(holder.getMainActivity())) { // Check internet connection
 
-            Log.d("UpdateTask", "No internet connection");
+            Log.e("UpdateTask", "No internet connection");
             ((MainActivity) holder.getMainActivity()).AlertNoInternet();
 
         } else { // Run HTTP POST
@@ -100,7 +100,6 @@ public class UpdateTask {
 
             SendClassList scl = new SendClassList();
 
-
             Log.d("UpdateTask", "Threads available");
 
             if (!threads.entrySet().isEmpty()) { // If there is data to send
@@ -135,6 +134,7 @@ public class UpdateTask {
                     }
 
                 } catch (Exception e) {
+
                     Log.e("UpdateTask", "Error while adding info from threads.");
                     Log.e("UpdateTask", "Message2.1: " + e.getMessage());
                     System.exit(0);
@@ -172,7 +172,7 @@ public class UpdateTask {
                 serializerWrite.write(scl, writer);
                 String temp = writer.toString();
 
-                Log.d("UpdateTask", "Sending: " + temp);
+                Log.i("UpdateTask", "Sending: " + temp);
 
                 wr = new OutputStreamWriter(conn
                         .getOutputStream());
@@ -213,7 +213,7 @@ public class UpdateTask {
 
                 response = responseOutput.toString();
 
-                Log.d("UpdateTask", "Receiving: " + response);
+                Log.i("UpdateTask", "Receiving: " + response);
 
             } catch (IOException e) {
 
@@ -264,7 +264,7 @@ public class UpdateTask {
 
                         }
 
-                        Log.d("UpdateTask", "Result fetch: " + instrumentNameTemp + " " + list.toString());
+                        Log.i("UpdateTask", "Result fetch: " + instrumentNameTemp + " " + list.toString());
                     }
 
                 } catch (Exception e) {
@@ -318,7 +318,7 @@ public class UpdateTask {
 
         } else {
 
-            Log.d("UpdateTask", "Main activity is null when checking network connection.");
+            Log.e("UpdateTask", "Main activity is null when checking network connection.");
             return false;
 
         }

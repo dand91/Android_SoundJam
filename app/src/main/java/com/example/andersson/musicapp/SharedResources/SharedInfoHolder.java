@@ -35,7 +35,7 @@ public class SharedInfoHolder implements Parcelable {
         this.updater.setHolder(this);
         this.updater.start();
 
-        Log.d("ThreadHolder", "Initiating Timer and Updater");
+        Log.i("ThreadHolder", "Initiating Timer and Updater");
 
     }
 
@@ -102,7 +102,7 @@ public class SharedInfoHolder implements Parcelable {
 
         } else {
 
-            Log.d("ThreadHolder", "No holders object");
+            Log.e("ThreadHolder", "No holders object");
             System.exit(0);
 
         }
@@ -127,7 +127,7 @@ public class SharedInfoHolder implements Parcelable {
 
         } else {
 
-            Log.d("ThreadHolder", "Timer is null");
+            Log.e("ThreadHolder", "Timer is null");
             System.exit(0);
         }
 
@@ -137,7 +137,7 @@ public class SharedInfoHolder implements Parcelable {
 
         } else {
 
-            Log.d("ThreadHolder", "Updater is null");
+            Log.e("ThreadHolder", "Updater is null");
             System.exit(0);
 
         }

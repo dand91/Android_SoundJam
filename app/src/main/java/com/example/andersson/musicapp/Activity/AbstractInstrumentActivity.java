@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.R;
@@ -23,6 +24,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
     public SharedInfoHolder holder;
     public AbstractInstrumentThread instrument;
     public ArrayList<Integer> soundList;
+    public EditText soundListText;
     public String name;
     int index = 0;
 
@@ -50,6 +52,8 @@ public abstract class AbstractInstrumentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getActivity());
+
+        soundListText = (EditText) findViewById(R.id.soundListText);
 
         name = getName();
 
@@ -80,12 +84,31 @@ public abstract class AbstractInstrumentActivity extends Activity {
         } else {
 
             instrument = getInstrumentClass();
-            Log.d("IA Intent", "holder is null");
+            Log.e("IA Intent", "holder is null");
 
         }
 
         initiate();
         initiateGUI();
+
+
+        if(i.getStringExtra("backInfo") != null) {
+
+            if (i.getStringExtra("backInfo").equals("back")) {
+
+                Intent myIntent = new Intent();
+                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
+                myIntent.putExtra("holder", tempHolder);
+                setResult(RESULT_OK, myIntent);
+                finish();
+
+            }
+
+        }else{
+
+            Log.e("AIA BackInfo", "BackInfo is null");
+
+        }
 
     }
 
@@ -97,14 +120,14 @@ public abstract class AbstractInstrumentActivity extends Activity {
         if (holder != null) {
 
             SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
-            Log.d("IA Backpress", "Holder status: " + tempHolder.hasHolder());
+            Log.d("IA Backpress", "Holder status:§ " + tempHolder.hasHolder());
             myIntent.putExtra("holder", tempHolder);
             setResult(RESULT_OK, myIntent);
             finish();
 
         } else {
 
-            Log.d("IA Backpress", "Holder == null");
+            Log.e("IA Backpress", "Holder is null");
         }
     }
 
@@ -143,4 +166,9 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
     }
 
+    public void setSoundList(ArrayList<Integer> soundList) {
+
+        this.soundList = soundList;
+
+    }
 }

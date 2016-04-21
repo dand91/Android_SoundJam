@@ -29,7 +29,6 @@ public class BassdrumThread extends AbstractInstrumentThread {
 
     public void playRealTime(int value) {
 
-        Log.d("BassDrum","playRealTime");
         holder.getSoundPool().play(soundId, volume, volume, 1, 0, 1f);
 
     }

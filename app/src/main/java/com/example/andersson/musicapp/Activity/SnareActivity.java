@@ -288,7 +288,7 @@ public class SnareActivity extends AbstractInstrumentActivity implements SensorE
                             for (int in : soundList) {
                                 s = s + in + " ";
                             }
-                            Log.d("Recorded: ", s);
+                            Log.i("Recorded: ", s);
 
                             instrument.setSoundList(soundList);
                             record = false;

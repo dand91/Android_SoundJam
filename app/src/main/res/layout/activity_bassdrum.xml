@@ -86,4 +86,11 @@
         android:layout_below="@+id/volumeSeekBar"
         android:layout_centerHorizontal="true" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/soundListText"
+        android:layout_below="@+id/progressText"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

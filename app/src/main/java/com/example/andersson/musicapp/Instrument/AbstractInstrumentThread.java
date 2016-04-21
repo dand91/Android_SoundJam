@@ -46,7 +46,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
         if (activity == null) {
 
-            Log.d("InstrumentThread", "Constructor activity is null");
+            Log.e("InstrumentThread", "Constructor activity is null");
             System.exit(0);
 
         } else {
@@ -62,21 +62,21 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
                     } else {
 
-                        Log.d("EIT2", "soundPool is null");
+                        Log.e("EIT2", "soundPool is null");
                         System.exit(0);
 
                     }
 
                 } else {
 
-                    Log.d("EIT2", "Context is null");
+                    Log.e("EIT2", "Context is null");
                     System.exit(0);
 
                 }
 
             } else {
 
-                Log.d("EIT2", "Activity is null");
+                Log.e("EIT2", "Activity is null");
                 System.exit(0);
 
             }
@@ -119,6 +119,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
         set = true;
         setChangedStatus(true);
         this.soundList = soundList;
+
 
     }
 
@@ -214,7 +215,9 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
             if (((String) map.get("instrumentName")).equals(activity.getName())) {
 
                 setVolume((float) map.get("volume"));
-                setSoundList((ArrayList<Integer>) map.get("soundList"));
+                ArrayList<Integer> tempList = (ArrayList<Integer>) map.get("soundList");
+                setSoundList(tempList);
+                activity.setSoundList(tempList);
 
             }
 

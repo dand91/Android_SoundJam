@@ -14,7 +14,7 @@ public class UpdateThread extends Thread {
 
     private SharedInfoHolder holder;
     private UpdateObservable ob;
-    private static final int timer = 10;
+    private static final int timer = 5;
 
     private static UpdateThread instance = null;
 
@@ -39,7 +39,7 @@ public class UpdateThread extends Thread {
 
         if (holder == null) {
 
-            Log.d("ThreadHolder", "Holder is null");
+            Log.e("ThreadHolder", "Holder is null");
 
         } else {
 
@@ -48,7 +48,7 @@ public class UpdateThread extends Thread {
 
             while (true) {
 
-                Log.d("UpdateThread", " Running UpdateTask.");
+                Log.i("UpdateThread", " Running UpdateTask.");
 
                 mAsyncTask.doInBackground();
 

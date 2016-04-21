@@ -42,7 +42,7 @@ public class TimeThread extends Thread {
 
             if (seconds % loopTime == 0 && run) {
 
-                Log.d("TimerThread", "Run: " + seconds);
+                Log.i("TimerThread", "Run: " + seconds);
 
                 run = false;
                 ob.setChange();

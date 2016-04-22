@@ -77,7 +77,7 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
     }
 
     @Override
-    protected int getActivity() {
+    protected int getLayout() {
 
         return R.layout.activity_drum;
     }
@@ -85,7 +85,7 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
     @Override
     protected int getMenu() {
 
-        return R.menu.menu_bassdrum;
+        return R.menu.menu_drum;
     }
 
     // end GUI/Instrument code

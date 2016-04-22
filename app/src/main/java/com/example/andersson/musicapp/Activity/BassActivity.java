@@ -67,8 +67,14 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
             Y = (int) Reading[1];
             Z = (int) (Reading[2]);
 
-            mAccelData.setText(String.valueOf("x: " + X + " y: " + Y + " z: " + Z));
+            if(mAccelData != null){
 
+                mAccelData.setText("x:" + X + " y: " + Y + " z: " + Z);
+
+            }else{
+
+                mAccelData = (TextView)findViewById(R.id.dataView);
+            }
             int tol = 0;
 
             if (X > tol && Y > tol && Z > tol) {
@@ -115,7 +121,14 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
         }
 
-        mAccelData.setText("x:" + X + " y: " + Y + " z: " + Z);
+        if(mAccelData != null){
+
+            mAccelData.setText("x:" + X + " y: " + Y + " z: " + Z);
+
+        }else{
+
+            mAccelData = (TextView)findViewById(R.id.dataView);
+        }
     }
     // end Sensor Code
 
@@ -183,7 +196,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
     }
 
     @Override
-    protected int getActivity() {
+    protected int getLayout() {
 
         return R.layout.activity_bass;
     }
@@ -206,7 +219,6 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
 
         // Sensor initiateSound
-        setContentView(R.layout.activity_drum);
         this.mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         this.mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         this.mAccelData = (TextView) findViewById(R.id.dataView);
@@ -223,10 +235,14 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
     @Override
     protected void initiateGUI() {
 
+        // GUI/Instrument initiateSound
+
         recordGUI();
         barGUI();
         stopPlayGUI();
         volumeGUI();
+
+        // end GUI/Instrument initiateSound
 
     }
 

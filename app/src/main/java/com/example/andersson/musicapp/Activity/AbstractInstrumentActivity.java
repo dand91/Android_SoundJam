@@ -33,13 +33,13 @@ public abstract class AbstractInstrumentActivity extends Activity {
     protected abstract void initiate();
     protected abstract void initiateGUI();
     protected abstract AbstractInstrumentThread getInstrumentClass();
-    protected abstract int getActivity();
+    protected abstract int getLayout();
     protected abstract int getMenu();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getActivity());
+        setContentView(getLayout());
 
         soundListText = (EditText) findViewById(R.id.soundListText);
 

@@ -1,7 +1,5 @@
 package com.example.andersson.musicapp.Instrument;
 
-import android.util.Log;
-
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
@@ -11,6 +9,8 @@ import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
  */
 public class BassThread extends AbstractInstrumentThread {
 
+    long startTime = 0;
+    long sampleTime = 0;
     private int soundId1;
     private int soundId2;
     private int soundId3;
@@ -19,9 +19,6 @@ public class BassThread extends AbstractInstrumentThread {
     private int soundId6;
     private int soundId7;
     private int soundId8;
-
-    long startTime = 0;
-    long sampleTime = 0;
 
     public BassThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
         super(activity, holder);
@@ -61,9 +58,9 @@ public class BassThread extends AbstractInstrumentThread {
 
             soundCase(value);
 
-        }else{
+        } else {
 
-            sampleTime = (long) (((double)getLoopTime() / (double)getBars())*1000);
+            sampleTime = (long) (((double) getLoopTime() / (double) getBars()) * 1000);
 
             if (System.currentTimeMillis() - startTime > sampleTime) {
 
@@ -86,7 +83,7 @@ public class BassThread extends AbstractInstrumentThread {
 
     }
 
-    private void soundCase(int value ){
+    private void soundCase(int value) {
 
         if (value == 0) {
 
@@ -120,7 +117,6 @@ public class BassThread extends AbstractInstrumentThread {
 
             holder.getSoundPool().play(soundId8, volume, volume, 1, 0, 1f);
         }
-
 
 
     }

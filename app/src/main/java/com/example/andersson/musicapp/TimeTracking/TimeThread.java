@@ -12,23 +12,22 @@ import java.util.Observer;
  */
 public class TimeThread extends Thread {
 
+    private static TimeThread instance = null;
+    int i;
     private Calendar calendar;
     private TimeObservable ob;
     private double loopTime = 8;
-    int i;
-
-    private static TimeThread instance = null;
-
-    public static TimeThread getInstance() {
-        if(instance == null) {
-            instance = new TimeThread();
-        }
-        return instance;
-    }
 
     private TimeThread() {
 
         ob = new TimeObservable();
+    }
+
+    public static TimeThread getInstance() {
+        if (instance == null) {
+            instance = new TimeThread();
+        }
+        return instance;
     }
 
     public void run() {

@@ -18,8 +18,6 @@ import java.util.Observer;
 
 public abstract class AbstractInstrumentThread extends Thread implements Observer {
 
-    private double loopTime;
-    private double bars;
     public int i;
     public ArrayList<Integer> soundList = new ArrayList<Integer>();
     public SharedInfoHolder holder;
@@ -27,16 +25,10 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public boolean set;
     public boolean changed;
     public float volume = 0.5f;
-
     public boolean playRealTime;
     public boolean record;
-
-    public abstract void playLoop(int index);
-
-    public abstract void playRealTime(int value);
-
-    protected abstract void initiateSound();
-
+    private double loopTime;
+    private double bars;
 
     public AbstractInstrumentThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
 
@@ -83,15 +75,13 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
         }
     }
 
+    public abstract void playLoop(int index);
+
+    public abstract void playRealTime(int value);
+
+    protected abstract void initiateSound();
+
     public void run() {
-
-    }
-
-
-    public void setLoopTime(double loopTime) {
-
-        this.loopTime = loopTime;
-        ((AbstractInstrumentActivity)activity).setLoopTime((int)loopTime);
 
     }
 
@@ -101,10 +91,10 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
     }
 
-    public void setBars(double bars) {
+    public void setLoopTime(double loopTime) {
 
-        this.bars = bars;
-        ((AbstractInstrumentActivity)activity).setBars((int)bars);
+        this.loopTime = loopTime;
+        ((AbstractInstrumentActivity) activity).setLoopTime((int) loopTime);
 
     }
 
@@ -114,12 +104,10 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
     }
 
-    public void setSoundList(ArrayList<Integer> soundList) {
+    public void setBars(double bars) {
 
-        set = true;
-        setChangedStatus(true);
-        this.soundList = soundList;
-
+        this.bars = bars;
+        ((AbstractInstrumentActivity) activity).setBars((int) bars);
 
     }
 
@@ -135,10 +123,13 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
         }
     }
 
+    public void setSoundList(ArrayList<Integer> soundList) {
 
-    public void setVolume(float volume) {
+        set = true;
+        setChangedStatus(true);
+        this.soundList = soundList;
 
-        this.volume = volume;
+
     }
 
     public int getVolume() {
@@ -147,22 +138,27 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
     }
 
-    public void setRecord(boolean record){
+    public void setVolume(float volume) {
+
+        this.volume = volume;
+    }
+
+    public void setRecord(boolean record) {
 
         this.record = record;
     }
 
-    public void setPlayRealTime(boolean playRealTime){
+    public void setPlayRealTime(boolean playRealTime) {
 
         this.playRealTime = playRealTime;
     }
 
-    public void setChangedStatus(boolean changed){
+    public void setChangedStatus(boolean changed) {
 
         this.changed = changed;
     }
 
-    public boolean getChangeStatus(){
+    public boolean getChangeStatus() {
 
         return changed;
     }

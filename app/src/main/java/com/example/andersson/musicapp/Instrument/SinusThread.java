@@ -17,15 +17,13 @@ public class SinusThread extends AbstractInstrumentThread {
 
     long startTime = 0;
     long sampleTime = 500;
-
-    private  int duration = 1; // seconds
-    private  int sampleRate = 8000;
-    private  int numSamples = duration * sampleRate;
-    private  double sample[] = new double[numSamples];
-    private  double freqOfTone = 440; // hz
     Handler handler = new Handler();
-
+    private int duration = 1; // seconds
+    private int sampleRate = 8000;
+    private int numSamples = duration * sampleRate;
     private final byte generatedSnd[] = new byte[2 * numSamples];
+    private double sample[] = new double[numSamples];
+    private double freqOfTone = 440; // hz
 
     public SinusThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
         super(activity, holder);
@@ -39,11 +37,11 @@ public class SinusThread extends AbstractInstrumentThread {
 
     public void playRealTime(int value) {
 
-        sampleTime = (long) (getLoopTime()/getBars());
+        sampleTime = (long) (getLoopTime() / getBars());
 
         if (System.currentTimeMillis() - startTime > sampleTime) {
 
-            Log.d("TEST","" + value);
+            Log.d("TEST", "" + value);
 
             freqOfTone = value;
             final Thread thread = new Thread(new Runnable() {
@@ -69,19 +67,19 @@ public class SinusThread extends AbstractInstrumentThread {
 
     }
 
-    public void setVolume(float volume) {
-
-    }
-
     public int getVolume() {
 
         return 1;
     }
 
-    void genTone(){
+    public void setVolume(float volume) {
+
+    }
+
+    void genTone() {
         // fill out the array
         for (int i = 0; i < numSamples; ++i) {
-            sample[i] = Math.sin(2 * Math.PI * i / (sampleRate/freqOfTone));
+            sample[i] = Math.sin(2 * Math.PI * i / (sampleRate / freqOfTone));
         }
 
         // convert to 16 bit pcm sound array
@@ -97,7 +95,7 @@ public class SinusThread extends AbstractInstrumentThread {
         }
     }
 
-    void playSound(){
+    void playSound() {
         final AudioTrack audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
                 sampleRate, AudioFormat.CHANNEL_OUT_MONO,
                 AudioFormat.ENCODING_PCM_16BIT, generatedSnd.length,

@@ -12,24 +12,25 @@ import java.util.Observer;
  */
 public class UpdateThread extends Thread {
 
+    private static final int timer = 5;
+    private static UpdateThread instance = null;
     private SharedInfoHolder holder;
     private UpdateObservable ob;
-    private static final int timer = 5;
-
-    private static UpdateThread instance = null;
-
-    public static UpdateThread getInstance() {
-        if(instance == null) {
-            instance = new UpdateThread();
-        }
-        return instance;
-    }
 
     private UpdateThread() {
 
-        this.holder = holder;
         this.ob = new UpdateObservable();
 
+    }
+
+    public static UpdateThread getInstance() {
+
+        if (instance == null) {
+
+            instance = new UpdateThread();
+        }
+
+        return instance;
     }
 
     public void run() {

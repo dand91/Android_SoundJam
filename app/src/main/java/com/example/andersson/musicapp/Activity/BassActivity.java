@@ -23,24 +23,27 @@ import java.util.ArrayList;
 
 public class BassActivity extends AbstractInstrumentActivity implements SensorEventListener {
 
+    int X;
+    int Y;
+    int Z;
     // GUI/Instrument variables
     private Button recordButton;
     private Button playButton;
     private Button stopButton;
+    // end GUI/Instrument variables
     private Button barButton;
     private EditText barText;
     private SeekBar volumeSeekBar;
-    // end GUI/Instrument variables
-
+    // end Sensor variables
     //  Sensor variables
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private TextView mAccelData;
-    // end Sensor variables
 
-    int X;
-    int Y;
-    int Z;
+    // GUI/Instrument code
+    public BassActivity() {
+        super();
+    }
 
     // Sensor code
     protected void onResume() {
@@ -84,7 +87,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
                 instrument.playRealTime(3);
 
-            }else if (X > tol && Y > tol && Z < tol) {
+            } else if (X > tol && Y > tol && Z < tol) {
 
                 instrument.playRealTime(4);
 
@@ -102,7 +105,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
             }
 
-        }else if(record){
+        } else if (record) {
 
             float[] Reading = event.values;
 
@@ -114,16 +117,11 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
         mAccelData.setText("x:" + X + " y: " + Y + " z: " + Z);
     }
+    // end Sensor Code
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
 
-    }
-    // end Sensor Code
-
-    // GUI/Instrument code
-    public BassActivity() {
-        super();
     }
 
     @Override
@@ -151,7 +149,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
             instrument.playRealTime(3);
             soundList.add(3);
 
-        }else if (X > tol && Y > tol && Z < 0) {
+        } else if (X > tol && Y > tol && Z < 0) {
 
             instrument.playRealTime(4);
             soundList.add(4);
@@ -171,7 +169,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
             instrument.playRealTime(8);
             soundList.add(7);
 
-        }else{
+        } else {
 
             instrument.playRealTime(4);
             soundList.add(8);
@@ -185,30 +183,30 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
     }
 
     @Override
-    int getActivity() {
+    protected int getActivity() {
 
         return R.layout.activity_bass;
     }
 
     @Override
-    int getMenu() {
+    protected int getMenu() {
 
         return R.menu.menu_bass;
     }
 
     @Override
-    AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
+    protected AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
         return new BassThread(this, holder);
     }
 
     // end GUI/Instrument code
 
     @Override
-    void initiate() { // Sets basic information regarding bars, looptime and possibly initial sound.
+    protected void initiate() { // Sets basic information regarding bars, looptime and possibly initial sound.
 
 
         // Sensor initiateSound
-        setContentView(R.layout.activity_bassdrum);
+        setContentView(R.layout.activity_drum);
         this.mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         this.mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         this.mAccelData = (TextView) findViewById(R.id.dataView);
@@ -216,23 +214,19 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
         playRealTime = false;
         bars = 8;
-        loopTime = ((MainActivity)holder.getMainActivity()).getLoopTime();
+        loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
         instrument.setLoopTime(loopTime);
         instrument.setBars(bars);
 
     }
 
     @Override
-    void initiateGUI() {
-
-        // GUI/Instrument initiateSound
+    protected void initiateGUI() {
 
         recordGUI();
         barGUI();
         stopPlayGUI();
         volumeGUI();
-
-        // end GUI/Instrument initiateSound
 
     }
 
@@ -310,6 +304,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
             }
         });
     }
+
     private void volumeGUI() {
 
         volumeSeekBar = (SeekBar) findViewById(R.id.volumeSeekBar);

@@ -7,11 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.R;
@@ -26,27 +22,19 @@ public abstract class AbstractInstrumentActivity extends Activity {
     public ArrayList<Integer> soundList;
     public EditText soundListText;
     public String name;
-    int index = 0;
-
     public boolean playRealTime;
     public boolean record;
-
+    int index = 0;
     double bars;
     double loopTime;
 
     abstract void generateSoundInfo(int index);
-
     public abstract String getName();
-
-    abstract void initiate();
-
-    abstract void initiateGUI();
-
-    abstract AbstractInstrumentThread getInstrumentClass();
-
-    abstract int getActivity();
-
-    abstract int getMenu();
+    protected abstract void initiate();
+    protected abstract void initiateGUI();
+    protected abstract AbstractInstrumentThread getInstrumentClass();
+    protected abstract int getActivity();
+    protected abstract int getMenu();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +76,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
         }
 
-        initiate();
-        initiateGUI();
-
-
-        if(i.getStringExtra("backInfo") != null) {
+        if (i.getStringExtra("backInfo") != null) {
 
             if (i.getStringExtra("backInfo").equals("back")) {
 
@@ -104,11 +88,14 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
             }
 
-        }else{
+        } else {
 
             Log.e("AIA BackInfo", "BackInfo is null");
 
         }
+
+        initiate();
+        initiateGUI();
 
     }
 
@@ -156,11 +143,12 @@ public abstract class AbstractInstrumentActivity extends Activity {
         return this.getBaseContext();
     }
 
-    public void setLoopTime(int loopTime){
+    public void setLoopTime(int loopTime) {
 
         this.loopTime = loopTime;
     }
-    public void setBars(int bars){
+
+    public void setBars(int bars) {
 
         this.bars = bars;
 

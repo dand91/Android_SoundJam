@@ -34,6 +34,10 @@
         <activity
             android:name=".Activity.SnareActivity"
             android:label="@string/title_activity_snare"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.AbstractDrumActivity"
+            android:label="@string/title_activity_abstract_drum"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

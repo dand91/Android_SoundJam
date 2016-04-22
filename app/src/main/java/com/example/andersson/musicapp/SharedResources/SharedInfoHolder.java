@@ -17,25 +17,41 @@ import java.util.Map;
 
 public class SharedInfoHolder implements Parcelable {
 
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<SharedInfoHolder> CREATOR = new Parcelable.Creator<SharedInfoHolder>() {
+        @Override
+        public SharedInfoHolder createFromParcel(Parcel in) {
+            return new SharedInfoHolder(in);
+        }
+
+        @Override
+        public SharedInfoHolder[] newArray(int size) {
+            return new SharedInfoHolder[size];
+        }
+    };
+    private static SharedInfoHolder holder;
     private HashMap<String, Thread> threads;
     private TimeThread timer;
     private UpdateThread updater;
     private SoundPool mySound;
     private Activity mainActivity;
-    private static SharedInfoHolder holder;
 
     public SharedInfoHolder(Activity mainActivity) {
 
         this.mainActivity = mainActivity;
+
         this.mySound = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
+
         this.threads = new HashMap<String, Thread>();
+
         this.timer = TimeThread.getInstance();
         this.timer.start();
+
         this.updater = UpdateThread.getInstance();
         this.updater.setHolder(this);
         this.updater.start();
 
-        Log.i("ThreadHolder", "Initiating Timer and Updater");
+        Log.d("ThreadHolder", "Initiating holder objects");
 
     }
 
@@ -43,6 +59,11 @@ public class SharedInfoHolder implements Parcelable {
 
         SharedInfoHolder.holder = holder;
 
+    }
+
+    protected SharedInfoHolder(Parcel in) {
+
+        threads = (HashMap) in.readValue(HashMap.class.getClassLoader());
     }
 
     public TimeThread getTimer() {
@@ -70,20 +91,17 @@ public class SharedInfoHolder implements Parcelable {
         return mySound;
     }
 
-    public void setLoopTime(int loopTime){
+    public void setLoopTime(int loopTime) {
 
         timer.setLoopTime(loopTime);
 
-        for(Map.Entry<String, Thread> thread : threads.entrySet()){
+        for (Map.Entry<String, Thread> thread : threads.entrySet()) {
 
-            ((AbstractInstrumentThread)thread.getValue()).setLoopTime(loopTime);
-
+            ((AbstractInstrumentThread) thread.getValue()).setLoopTime(loopTime);
         }
-
     }
 
     public Activity getMainActivity() {
-
         return mainActivity;
     }
 
@@ -148,11 +166,6 @@ public class SharedInfoHolder implements Parcelable {
 
     }
 
-    protected SharedInfoHolder(Parcel in) {
-
-        threads = (HashMap) in.readValue(HashMap.class.getClassLoader());
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -162,17 +175,4 @@ public class SharedInfoHolder implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeMap(threads);
     }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<SharedInfoHolder> CREATOR = new Parcelable.Creator<SharedInfoHolder>() {
-        @Override
-        public SharedInfoHolder createFromParcel(Parcel in) {
-            return new SharedInfoHolder(in);
-        }
-
-        @Override
-        public SharedInfoHolder[] newArray(int size) {
-            return new SharedInfoHolder[size];
-        }
-    };
 }

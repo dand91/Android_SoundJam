@@ -40,30 +40,31 @@ public class MainActivity extends ActionBarActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(holder == null) {
+        if (holder == null) {
 
             holder = new SharedInfoHolder(this);
 
             Intent myIntent = new Intent(MainActivity.this, BassdrumActivity.class);
             SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
             myIntent.putExtra("holder", tempHolder);
-            myIntent.putExtra("backInfo","back");
+            myIntent.putExtra("backInfo", "back");
             MainActivity.this.startActivityForResult(myIntent, 10);
 
             myIntent = new Intent(MainActivity.this, HighHatActivity.class);
             myIntent.putExtra("holder", tempHolder);
-            myIntent.putExtra("backInfo","back");
+            myIntent.putExtra("backInfo", "back");
             MainActivity.this.startActivityForResult(myIntent, 10);
 
             myIntent = new Intent(MainActivity.this, SnareActivity.class);
             myIntent.putExtra("holder", tempHolder);
-            myIntent.putExtra("backInfo","back");
+            myIntent.putExtra("backInfo", "back");
             MainActivity.this.startActivityForResult(myIntent, 10);
 
             myIntent = new Intent(MainActivity.this, BassActivity.class);
             myIntent.putExtra("holder", tempHolder);
-            myIntent.putExtra("backInfo","back");
+            myIntent.putExtra("backInfo", "back");
             MainActivity.this.startActivityForResult(myIntent, 10);
+
 
         }
 
@@ -121,7 +122,6 @@ public class MainActivity extends ActionBarActivity implements Serializable {
         });
 
 
-
         exampleButton5 = (Button) findViewById(R.id.exampleButton5);
         exampleButton5.setOnClickListener(new View.OnClickListener() {
 
@@ -167,7 +167,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
                 EditText text = (EditText) findViewById(R.id.BPMText);
                 text.setText("BPM: " + (120 + i));
 
-                loopTime = (8*60)/(120 + i);
+                loopTime = (8 * 60) / (120 + i);
 
             }
 
@@ -228,9 +228,11 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
         return groupName;
     }
-    public int getLoopTime(){
+
+    public int getLoopTime() {
         return loopTime;
     }
+
     public void AlertNoInternet() {
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);

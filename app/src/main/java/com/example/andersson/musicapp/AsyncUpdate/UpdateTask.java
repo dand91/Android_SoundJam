@@ -42,12 +42,11 @@ public class UpdateTask {
             Log.i("UpdateTask", "Collecting info from threads from group name: " + tempGroupName);
 
 
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
 
-            Log.e("UpdateTask","GroupName not set");
+            Log.e("UpdateTask", "GroupName not set");
             System.exit(0);
         }
-
 
 
         if (holder == null) { // Check if SharedInfoHolder is active
@@ -112,7 +111,7 @@ public class UpdateTask {
                         ArrayList<Integer> soundList = tempThread.getSoundList();
                         String tempString = soundList.toString();
 
-                        if (tempThread.getChangeStatus() && tempString.length() > 2 ) {
+                        if (tempThread.getChangeStatus() && tempString.length() > 2) {
 
                             tempString = soundList.toString().substring(1, tempString.length() - 1).replace(" ", "");
                             tempThread.setChangedStatus(false);

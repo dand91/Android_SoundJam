@@ -45,6 +45,7 @@ public class SharedInfoHolder implements Parcelable {
         this.threads = new HashMap<String, Thread>();
 
         this.timer = TimeThread.getInstance();
+        this.timer.setHolder(this);
         this.timer.start();
 
         this.updater = UpdateThread.getInstance();
@@ -115,6 +116,8 @@ public class SharedInfoHolder implements Parcelable {
             this.mySound = holder.getSoundPool();
             this.mainActivity = holder.getMainActivity();
             this.updater.setHolder(this);
+            this.timer.setHolder(this);
+
 
             Log.d("ThreadHolder", "Transfering objects. getThreads: " + threads.size());
 

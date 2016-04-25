@@ -2,6 +2,8 @@ package com.example.andersson.musicapp.TimeTracking;
 
 import android.util.Log;
 
+import com.example.andersson.musicapp.Activity.MainActivity;
+import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
 import com.example.andersson.musicapp.SharedResources.TimeObservable;
 
 import java.util.Calendar;
@@ -16,14 +18,16 @@ public class TimeThread extends Thread {
     int i;
     private Calendar calendar;
     private TimeObservable ob;
-    private double loopTime = 8;
+    private double loopTime;
+    private SharedInfoHolder holder;
 
     private TimeThread() {
 
-        ob = new TimeObservable();
+        this.ob = new TimeObservable();
     }
 
     public static TimeThread getInstance() {
+
         if (instance == null) {
             instance = new TimeThread();
         }
@@ -38,6 +42,8 @@ public class TimeThread extends Thread {
 
             calendar = Calendar.getInstance();
             int seconds = calendar.get(Calendar.SECOND);
+
+            loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
 
             if (seconds % loopTime == 0 && run) {
 
@@ -63,5 +69,9 @@ public class TimeThread extends Thread {
     public void add(Observer newOb) {
 
         ob.addObserver(newOb);
+    }
+    public void setHolder(SharedInfoHolder holder){
+
+        this.holder = holder;
     }
 }

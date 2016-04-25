@@ -10,6 +10,7 @@ public class AsyncTask extends android.os.AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
+
         String result = UpdateTask.saveAndLoad(holder, ob);
         return result;
     }

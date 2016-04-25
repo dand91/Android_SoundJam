@@ -19,6 +19,7 @@ import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public abstract class AbstractDrumActivity extends AbstractInstrumentActivity implements SensorEventListener {
 
@@ -41,6 +42,7 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
     }
 
     public abstract String getName();
+
     public abstract AbstractInstrumentThread getInstrumentClass();
 
     protected void onResume() {
@@ -102,9 +104,6 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
         loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
         instrument.setLoopTime(loopTime);
         instrument.setBars(bars);
-
-
-        //Insert shake code
 
         mShakeDetector = new ShakeDetector();
         mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
@@ -173,101 +172,114 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
 
                 if (!record) {
 
-                    index = 0;
-                    instrument.setChangedStatus(true);
-                    barButton.setBackgroundColor(Color.RED);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
+                    soundListText.setText("");
 
-                            barButton.setEnabled(true);
-                            barButton.setBackgroundColor(Color.GREEN);
+                    while (true) {
 
-                        }
-                    }, (long) (loopTime * 1000));
+                        Calendar calendar = Calendar.getInstance();
+                        int seconds = calendar.get(Calendar.SECOND);
 
-                    barButton.setEnabled(false);
+                        if (seconds % loopTime == 0) {
 
-                    soundList = new ArrayList<Integer>();
+                            index = 0;
+                            instrument.setChangedStatus(true);
+                            barButton.setBackgroundColor(Color.RED);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
 
-
-                    new Thread() {
-
-                        public void run() {
-
-                            record = true;
-                            instrument.setRecord(true);
-
-                            try {
-
-                                Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                                v.vibrate(2 * 1000);
-
-                                for (int i = 3; i >= 0; i--) {
-
-                                    countDown = i;
-
-                                    runOnUiThread(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-
-                                            progressText.setText("Record start in: " + countDown);
-
-                                        }
-                                    });
-
-                                    sleep(1000);
+                                    barButton.setEnabled(true);
+                                    barButton.setBackgroundColor(Color.GREEN);
 
                                 }
+                            }, (long) (loopTime * 1000));
+
+                            barButton.setEnabled(false);
+
+                            soundList = new ArrayList<Integer>();
 
 
-                                while (true) {
+                            new Thread() {
 
-                                    index++;
+                                public void run() {
 
-                                    runOnUiThread(new Runnable() {
+                                    record = true;
+                                    instrument.setRecord(true);
 
-                                        @Override
-                                        public void run() {
+                                    try {
 
-                                            progressText.setText("Beat " + index + " of " + bars);
-                                            generateSoundInfo(index);
+                                        Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                                        v.vibrate(3 * 1000);
+
+                                        for (int i = 4; i >= 0; i--) {
+
+                                            countDown = i;
+
+                                            runOnUiThread(new Runnable() {
+
+                                                @Override
+                                                public void run() {
+
+                                                    progressText.setText("Record start in: " + countDown);
+
+                                                }
+                                            });
+
+                                            sleep(1000);
 
                                         }
-                                    });
 
-                                    sleep(200);
-                                    v.vibrate(50);
 
-                                    if (index == bars) {
+                                        while (true) {
 
-                                        break;
+                                            index++;
+
+                                            runOnUiThread(new Runnable() {
+
+                                                @Override
+                                                public void run() {
+
+                                                    progressText.setText("Beat " + index + " of " + bars);
+                                                    generateSoundInfo(index);
+
+                                                }
+                                            });
+
+                                            sleep(200);
+                                            v.vibrate(50);
+
+                                            if (index == bars) {
+
+                                                break;
+                                            }
+
+                                            sleep((long) (((double) loopTime / (double) bars) * 1000) - 200);
+
+
+                                        }
+
+                                    } catch (InterruptedException e) {
+
+                                        e.printStackTrace();
                                     }
 
-                                    sleep((long) (((double) loopTime / (double) bars) * 1000) - 200);
+                                    String s = "";
+                                    for (int in : soundList) {
+                                        s = s + in + " ";
+                                    }
+                                    Log.i("Recorded: ", s);
 
+                                    instrument.setSoundList(soundList);
+                                    record = false;
+                                    instrument.setRecord(false);
 
                                 }
 
-                            } catch (InterruptedException e) {
+                            }.start();
 
-                                e.printStackTrace();
-                            }
-
-                            String s = "";
-                            for (int in : soundList) {
-                                s = s + in + " ";
-                            }
-                            Log.i("Recorded: ", s);
-
-                            instrument.setSoundList(soundList);
-                            record = false;
-                            instrument.setRecord(false);
-
+                            break;
                         }
-
-                    }.start();
+                    }
                 }
             }
         });

@@ -23,22 +23,28 @@ import java.io.Serializable;
 
 public class MainActivity extends ActionBarActivity implements Serializable {
 
-    private Button exampleButton1;
-    private Button exampleButton2;
-    private Button exampleButton3;
-    private Button exampleButton4;
-    private Button exampleButton5;
+    private Button BassDrumButton;
+    private Button snareButton;
+    private Button BassButton;
+    private Button HighHatButton;
     private Button groupNameButton;
     private SeekBar BPMBar;
     private EditText groupNameText;
     private SharedInfoHolder holder;
     private String groupName = "noName";
-    private int loopTime = 8;
+    private int loopTime = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        if (!haveNetworkConnection()) {
+
+            AlertNoInternet();
+        }
+
 
         if (holder == null) {
 
@@ -68,77 +74,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
         }
 
-        exampleButton1 = (Button) findViewById(R.id.exampleButton1);
-        exampleButton1.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                Intent myIntent = new Intent(MainActivity.this, BassdrumActivity.class);
-
-                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
-                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
-                myIntent.putExtra("holder", tempHolder);
-                myIntent.putExtra("backInfo", "notback");
-                MainActivity.this.startActivityForResult(myIntent, 10);
-
-
-            }
-        });
-
-        exampleButton2 = (Button) findViewById(R.id.exampleButton2);
-        exampleButton2.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                Intent myIntent = new Intent(MainActivity.this, SnareActivity.class);
-                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
-                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
-                myIntent.putExtra("holder", tempHolder);
-                myIntent.putExtra("backInfo", "notback");
-                MainActivity.this.startActivityForResult(myIntent, 10);
-
-            }
-        });
-
-        exampleButton4 = (Button) findViewById(R.id.exampleButton4);
-        exampleButton4.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                Intent myIntent = new Intent(MainActivity.this, BassActivity.class);
-                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
-                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
-                myIntent.putExtra("holder", tempHolder);
-                myIntent.putExtra("backInfo", "notback");
-                MainActivity.this.startActivityForResult(myIntent, 10);
-
-            }
-        });
-
-
-        exampleButton5 = (Button) findViewById(R.id.exampleButton5);
-        exampleButton5.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                Intent myIntent = new Intent(MainActivity.this, HighHatActivity.class);
-                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
-                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
-                myIntent.putExtra("holder", tempHolder);
-                myIntent.putExtra("backInfo", "notback");
-                MainActivity.this.startActivityForResult(myIntent, 10);
-
-            }
-        });
-
+        InitiateButtons();
 
         groupNameText = (EditText) findViewById(R.id.groupNameText);
         groupNameButton = (Button) findViewById(R.id.groupNameButton);
@@ -152,11 +88,6 @@ public class MainActivity extends ActionBarActivity implements Serializable {
                 Log.d("Main", "New group name: " + groupNameText.getText().toString());
             }
         });
-
-        if (!haveNetworkConnection()) {
-
-            AlertNoInternet();
-        }
 
         BPMBar = (SeekBar) findViewById(R.id.BPMBar);
         BPMBar.setProgress(0);
@@ -187,9 +118,89 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
     }
 
+
+    private void InitiateButtons(){
+
+        BassDrumButton = (Button) findViewById(R.id.BassDrumButton);
+        BassDrumButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(MainActivity.this, BassdrumActivity.class);
+
+                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
+                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
+                myIntent.putExtra("holder", tempHolder);
+                myIntent.putExtra("backInfo", "notback");
+                MainActivity.this.startActivityForResult(myIntent, 10);
+
+
+            }
+        });
+
+        snareButton = (Button) findViewById(R.id.snareButton);
+        snareButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(MainActivity.this, SnareActivity.class);
+                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
+                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
+                myIntent.putExtra("holder", tempHolder);
+                myIntent.putExtra("backInfo", "notback");
+                MainActivity.this.startActivityForResult(myIntent, 10);
+
+            }
+        });
+
+        BassButton = (Button) findViewById(R.id.BassButton);
+        BassButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(MainActivity.this, BassActivity.class);
+                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
+                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
+                myIntent.putExtra("holder", tempHolder);
+                myIntent.putExtra("backInfo", "notback");
+                MainActivity.this.startActivityForResult(myIntent, 10);
+
+            }
+        });
+
+
+        HighHatButton = (Button) findViewById(R.id.HighHatButton);
+        HighHatButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(MainActivity.this, HighHatActivity.class);
+                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
+                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
+                myIntent.putExtra("holder", tempHolder);
+                myIntent.putExtra("backInfo", "notback");
+                MainActivity.this.startActivityForResult(myIntent, 10);
+
+            }
+        });
+
+
+
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == 10) {
+
             if (resultCode == RESULT_OK) {
 
                 SharedInfoHolder tempHolder = data.getParcelableExtra("holder");
@@ -247,8 +258,8 @@ public class MainActivity extends ActionBarActivity implements Serializable {
                     }
                 });
 
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
+        AlertDialog alert = builder1.create();
+        alert.show();
     }
 
     private boolean haveNetworkConnection() {

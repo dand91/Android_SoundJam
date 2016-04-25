@@ -29,8 +29,12 @@ import java.util.Map;
 
 public class UpdateTask {
 
-
-
+    /**
+     * Class for sending and retrieving data from HTTP server.
+     * @param holder,ob - SharedInfoHolder to get information from threads. UpdateObservable to
+     * notify threads.
+     * @return String - Dummy string
+     */
     public static String saveAndLoad(SharedInfoHolder holder, UpdateObservable ob) {
 
         try {
@@ -71,6 +75,11 @@ public class UpdateTask {
             return "";
     }
 
+    /**
+     * Initiates a URL connection through the class HttpURLConnection, sets variables to make it a
+     * POST request.
+     * @return conn - The connection object
+     */
     private static HttpURLConnection initiateConnection(){
 
         InputStream is = null;
@@ -109,6 +118,12 @@ public class UpdateTask {
         return conn;
     }
 
+    /**
+     * Collects data from the active threads. Creates a list of SendClass objects to be converted to
+     * XML string.
+     * @param holder - Object containing the threads.
+     * @return scl - The list of SendClass objects.
+     */
     private static SendClassList collectDataFromThreads(SharedInfoHolder holder){
 
         HashMap<String, Thread> threads = holder.getThreads();
@@ -174,6 +189,11 @@ public class UpdateTask {
         return scl;
     }
 
+    /**
+     * Uses the created conn object to fill the data field of the POST request with the data
+     * given in scl (SendClassList) which is marshalled to XML.
+     * @param conn,scl
+     */
     private static void sendXMLData(HttpURLConnection conn, SendClassList scl){
 
         StringWriter writer = new StringWriter();
@@ -210,7 +230,11 @@ public class UpdateTask {
         }
 
     }
-
+    /**
+     * Uses the created conn object to retrieve data from the HTTP server. The XML data is
+     * demarshalled and sent to the corresponding thread through Observer pattern.
+     * @param conn,ob
+     */
     private static void receiveXMLData(HttpURLConnection conn, UpdateObservable ob) {
 
         String response = "";
@@ -270,7 +294,7 @@ public class UpdateTask {
 
                         HashMap<String, Object> map = new HashMap<String, Object>();
                         map.put("soundList", list);
-                        map.put("volume", (Float.valueOf(volumeTemp)) / 100);
+                    map.put("volume", (Float.valueOf(volumeTemp)) / 100);
                         map.put("instrumentName", instrumentNameTemp);
                         ob.setChange(map);
 
@@ -300,6 +324,10 @@ public class UpdateTask {
         }
     }
 
+    /**
+     * Method for checking if WIFI or other network connection is established.
+     * @return true - if network connection exists, otherwise false.
+     */
     private static boolean haveNetworkConnection(Activity mainActivity) {
 
         if (mainActivity != null) {

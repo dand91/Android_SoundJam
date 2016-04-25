@@ -29,11 +29,9 @@ import java.util.Map;
 
 public class UpdateTask {
 
-    private static UpdateObservable ob;
 
 
     public static String saveAndLoad(SharedInfoHolder holder, UpdateObservable ob) {
-
 
         try {
 
@@ -48,7 +46,6 @@ public class UpdateTask {
             System.exit(0);
         }
 
-
         if (holder == null) { // Check if SharedInfoHolder is active
 
             Log.e("UpdateTask", "Holder is null");
@@ -61,238 +58,246 @@ public class UpdateTask {
 
         } else { // Run HTTP POST
 
-            InputStream is = null;
 
-            URL url = null;
-            HttpURLConnection conn = null;
+            HttpURLConnection conn = initiateConnection();
+            SendClassList scl = collectDataFromThreads(holder);
+            sendXMLData(conn, scl);
+            receiveXMLData(conn,ob);
+
+            conn.disconnect();
+
+        }
+
+            return "";
+    }
+
+    private static HttpURLConnection initiateConnection(){
+
+        InputStream is = null;
+
+        URL url = null;
+        HttpURLConnection conn = null;
+
+        try {
+
+            url = new URL("http://213.21.69.152:1234/test"); // URL to HTTP server
+
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setRequestMethod("POST");
+
+        } catch (MalformedURLException e1) {
+
+            Log.e("UpdateTask", "Error while connecting to server.");
+            Log.e("UpdateTask", "Message1: " + e1.getMessage());
+            System.exit(0);
+
+        } catch (ProtocolException e2) {
+
+            Log.e("UpdateTask", "Error while connecting to server.");
+            Log.e("UpdateTask", "Message1: " + e2.getMessage());
+            System.exit(0);
+
+        } catch (IOException e3) {
+
+            Log.e("UpdateTask", "Error while connecting to server.");
+            Log.e("UpdateTask", "Message1: " + e3.getMessage());
+            System.exit(0);
+        }
+
+        return conn;
+    }
+
+    private static SendClassList collectDataFromThreads(SharedInfoHolder holder){
+
+        HashMap<String, Thread> threads = holder.getThreads();
+        SendClassList scl = new SendClassList();
+
+        if (!threads.entrySet().isEmpty()) {
 
             try {
 
-                url = new URL("http://213.21.69.152:1234/test"); // URL to HTTP server
+                for (Map.Entry<String, Thread> entry : threads.entrySet()) {
 
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setDoOutput(true);
-                conn.setDoInput(true);
-                conn.setRequestMethod("POST");
+                    AbstractInstrumentThread tempThread = (AbstractInstrumentThread) entry.getValue();
+                    ArrayList<Integer> soundList = tempThread.getSoundList();
+                    String tempString = soundList.toString();
 
-            } catch (MalformedURLException e1) {
+                    if (tempThread.getChangeStatus() && tempString.length() > 2) {
 
-                Log.e("UpdateTask", "Error while connecting to server.");
-                Log.e("UpdateTask", "Message1: " + e1.getMessage());
-                System.exit(0);
+                        tempString = soundList.toString().substring(1, tempString.length() - 1).replace(" ", "");
+                        tempThread.setChangedStatus(false);
 
-            } catch (ProtocolException e2) {
+                    } else {
 
-                Log.e("UpdateTask", "Error while connecting to server.");
-                Log.e("UpdateTask", "Message1: " + e2.getMessage());
-                System.exit(0);
+                        tempString = "N/I";
 
-            } catch (IOException e3) {
-
-                Log.e("UpdateTask", "Error while connecting to server.");
-                Log.e("UpdateTask", "Message1: " + e3.getMessage());
-                System.exit(0);
-            }
-
-            HashMap<String, Thread> threads = holder.getThreads();
-            threads = holder.getThreads();
-
-            SendClassList scl = new SendClassList();
-
-            Log.d("UpdateTask", "Threads available");
-
-            if (!threads.entrySet().isEmpty()) { // If there is data to send
-
-                try {
-
-                    for (Map.Entry<String, Thread> entry : threads.entrySet()) {
-
-                        AbstractInstrumentThread tempThread = (AbstractInstrumentThread) entry.getValue();
-                        ArrayList<Integer> soundList = tempThread.getSoundList();
-                        String tempString = soundList.toString();
-
-                        if (tempThread.getChangeStatus() && tempString.length() > 2) {
-
-                            tempString = soundList.toString().substring(1, tempString.length() - 1).replace(" ", "");
-                            tempThread.setChangedStatus(false);
-
-                        } else {
-
-                            tempString = "N/I";
-
-                        }
-
-                        SendClass temp = new SendClass();
-                        temp.setGroupName(holder.getGroupName());
-                        temp.setInstrumentName(entry.getKey());
-                        temp.setData(tempString);
-
-                        temp.setVolume(String.valueOf(tempThread.getVolume()));
-
-                        scl.getSendClassList().add(temp);
                     }
-
-                } catch (Exception e) {
-
-                    Log.e("UpdateTask", "Error while adding info from threads.");
-                    Log.e("UpdateTask", "Message2.1: " + e.getMessage());
-                    System.exit(0);
-
-                }
-
-            } else { // Send for information from server
-
-                try {
 
                     SendClass temp = new SendClass();
                     temp.setGroupName(holder.getGroupName());
-                    temp.setInstrumentName("N/I");
-                    temp.setData("N/I");
-                    temp.setVolume("N/I");
+                    temp.setInstrumentName(entry.getKey());
+                    temp.setData(tempString);
+
+                    temp.setVolume(String.valueOf(tempThread.getVolume()));
 
                     scl.getSendClassList().add(temp);
-
-                } catch (Exception e) {
-                    Log.e("UpdateTask", "Error while adding group info.");
-                    Log.e("UpdateTask", "Message2.2: " + e.getMessage());
-                    System.exit(0);
                 }
+
+            } catch (Exception e) {
+
+                Log.e("UpdateTask", "Error while adding info from threads.");
+                Log.e("UpdateTask", "Message2.1: " + e.getMessage());
+                System.exit(0);
+
             }
 
-            StringWriter writer = new StringWriter();
-
-            Serializer serializerWrite =
-                    new Persister(); // XML converter
-
-            OutputStreamWriter wr = null;
+        } else {
 
             try {
 
-                serializerWrite.write(scl, writer);
-                String temp = writer.toString();
+                SendClass temp = new SendClass();
+                temp.setGroupName(holder.getGroupName());
+                temp.setInstrumentName("N/I");
+                temp.setData("N/I");
+                temp.setVolume("N/I");
 
-                Log.i("UpdateTask", "Sending: " + temp);
+                scl.getSendClassList().add(temp);
 
-                wr = new OutputStreamWriter(conn
-                        .getOutputStream());
-                wr.write(temp);
-                wr.flush();
-                wr.close();
-
-            } catch (IOException e1) {
-
-                Log.e("UpdateTask", "Error while sending info.");
-                Log.e("UpdateTask", "Message2.3: " + e1.getMessage());
-                System.exit(0);
-
-            } catch (Exception e2) {
-
-                Log.e("UpdateTask", "Error while converting to XML.");
-                Log.e("UpdateTask", "Message2.3: " + e2.getMessage());
+            } catch (Exception e) {
+                Log.e("UpdateTask", "Error while adding group info.");
+                Log.e("UpdateTask", "Message2.2: " + e.getMessage());
                 System.exit(0);
             }
+        }
+        return scl;
+    }
 
+    private static void sendXMLData(HttpURLConnection conn, SendClassList scl){
 
-            String response = "";
-            BufferedReader br = null;
+        StringWriter writer = new StringWriter();
 
-            try {
+        Serializer serializerWrite =
+                new Persister(); // XML converter
 
+        OutputStreamWriter wr = null;
 
-                br = new BufferedReader(new InputStreamReader(conn
-                        .getInputStream()));
-                String line = "";
-                StringBuilder responseOutput = new StringBuilder();
+        try {
 
-                while ((line = br.readLine()) != null) {
-                    responseOutput.append(line);
-                }
+            serializerWrite.write(scl, writer);
+            String temp = writer.toString();
 
-                br.close();
+            Log.i("UpdateTask", "Sending: " + temp);
 
-                response = responseOutput.toString();
+            wr = new OutputStreamWriter(conn
+                    .getOutputStream());
+            wr.write(temp);
+            wr.flush();
+            wr.close();
 
-                Log.i("UpdateTask", "Receiving: " + response);
+        } catch (IOException e1) {
 
-            } catch (IOException e) {
+            Log.e("UpdateTask", "Error while sending info.");
+            Log.e("UpdateTask", "Message2.3: " + e1.getMessage());
+            System.exit(0);
 
-                Log.e("UpdateTask", "Error while fetching info.");
-                Log.e("UpdateTask", "Message4: " + e.getMessage());
-                System.exit(0);
+        } catch (Exception e2) {
 
-            }
-
-            if (response.length() > 0) {
-
-                Serializer serializerOut = new Persister();
-                SendClassList sc = null;
-
-                try {
-
-                    sc = serializerOut.read(SendClassList.class, response);
-
-                    int k = 0;
-
-                    for (SendClass scTemp : sc.getSendClassList()) {
-
-                        String instrumentNameTemp = scTemp.getInstrumentName();
-                        String dataTemp = scTemp.getData();
-                        String volumeTemp = scTemp.getVolume();
-
-                        ArrayList<Integer> list = new ArrayList<Integer>();
-
-                        for (String s : dataTemp.split(",")) {
-
-                            list.add(Integer.valueOf(s));
-
-                        }
-
-                        AbstractInstrumentThread tempThreads = ((AbstractInstrumentThread) holder.getThread(instrumentNameTemp));
-
-                        if (tempThreads != null) {
-
-                            HashMap<String, Object> map = new HashMap<String, Object>();
-                            map.put("soundList", list);
-                            map.put("volume", (Float.valueOf(volumeTemp)) / 100);
-                            map.put("instrumentName", instrumentNameTemp);
-                            ob.setChange(map);
-
-                        } else {
-
-                            Log.d("UpdateTask", "Thread not found for name: " + instrumentNameTemp);
-
-                        }
-
-                        Log.i("UpdateTask", "Result fetch: " + instrumentNameTemp + " " + list.toString());
-                    }
-
-                } catch (Exception e) {
-                    Log.e("UpdateTask", "Error while parsing fetched info.");
-                    Log.e("UpdateTask", "Message4: " + e.getMessage());
-                    System.exit(0);
-                }
-
-            } else {
-
-                try {
-
-                    Log.d("UpdateTask", "Error in received header: ");
-                    Log.d("UpdateTask", "Error code: " + conn.getResponseCode());
-
-                } catch (Exception e) {
-
-                    Log.e("UpdateTask", "Error while fetching header info.");
-                    Log.e("UpdateTask", "Message5: " + e.getMessage());
-                    System.exit(0);
-                }
-
-            }
-
-            conn.disconnect();
+            Log.e("UpdateTask", "Error while converting to XML.");
+            Log.e("UpdateTask", "Message2.3: " + e2.getMessage());
+            System.exit(0);
         }
 
+    }
 
-        return "";
+    private static void receiveXMLData(HttpURLConnection conn, UpdateObservable ob) {
+
+        String response = "";
+        BufferedReader br = null;
+
+        try {
+
+
+            br = new BufferedReader(new InputStreamReader(conn
+                    .getInputStream()));
+            String line = "";
+            StringBuilder responseOutput = new StringBuilder();
+
+            while ((line = br.readLine()) != null) {
+                responseOutput.append(line);
+            }
+
+            br.close();
+
+            response = responseOutput.toString();
+
+            Log.i("UpdateTask", "Receiving: " + response);
+
+        } catch (IOException e) {
+
+            Log.e("UpdateTask", "Error while fetching info.");
+            Log.e("UpdateTask", "Message4: " + e.getMessage());
+            System.exit(0);
+
+        }
+
+        if (response.length() > 0) {
+
+            Serializer serializerOut = new Persister();
+            SendClassList sc = null;
+
+            try {
+
+                sc = serializerOut.read(SendClassList.class, response);
+
+                int k = 0;
+
+                for (SendClass scTemp : sc.getSendClassList()) {
+
+                    String instrumentNameTemp = scTemp.getInstrumentName();
+                    String dataTemp = scTemp.getData();
+                    String volumeTemp = scTemp.getVolume();
+
+                    ArrayList<Integer> list = new ArrayList<Integer>();
+
+                    for (String s : dataTemp.split(",")) {
+
+                        list.add(Integer.valueOf(s));
+
+                    }
+
+
+                        HashMap<String, Object> map = new HashMap<String, Object>();
+                        map.put("soundList", list);
+                        map.put("volume", (Float.valueOf(volumeTemp)) / 100);
+                        map.put("instrumentName", instrumentNameTemp);
+                        ob.setChange(map);
+
+                    Log.i("UpdateTask", "Result fetch: " + instrumentNameTemp + " " + list.toString());
+                }
+
+            } catch (Exception e) {
+                Log.e("UpdateTask", "Error while parsing fetched info.");
+                Log.e("UpdateTask", "Message4: " + e.getMessage());
+                System.exit(0);
+            }
+
+        } else {
+
+            try {
+
+                Log.d("UpdateTask", "Error in received header: ");
+                Log.d("UpdateTask", "Error code: " + conn.getResponseCode());
+
+            } catch (Exception e) {
+
+                Log.e("UpdateTask", "Error while fetching header info.");
+                Log.e("UpdateTask", "Message5: " + e.getMessage());
+                System.exit(0);
+            }
+
+        }
     }
 
     private static boolean haveNetworkConnection(Activity mainActivity) {

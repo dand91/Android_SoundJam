@@ -31,8 +31,6 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
     public TextView progressText;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
-    private TextView mAccelData;
-
     private int countDown;
     private boolean isActive;
 
@@ -97,7 +95,6 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
         // Sensor initiateSound
         this.mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         this.mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        this.mAccelData = (TextView) findViewById(R.id.dataView);
         // end Sensor initiateSound
 
         playRealTime = false;
@@ -226,6 +223,7 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
 
 
                                 while (true) {
+
                                     index++;
 
                                     runOnUiThread(new Runnable() {

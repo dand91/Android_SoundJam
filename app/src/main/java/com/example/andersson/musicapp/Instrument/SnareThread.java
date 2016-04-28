@@ -16,7 +16,7 @@ public class SnareThread extends AbstractDrumThread {
 
     protected void initiateSound() {
 
-        soundId = holder.getSoundPool().load(activity.getContext(), R.raw.sd01, 1);
+        soundId = sph.getSoundPool().load(activity.getBaseContext(), R.raw.sd01, 1);
 
     }
 

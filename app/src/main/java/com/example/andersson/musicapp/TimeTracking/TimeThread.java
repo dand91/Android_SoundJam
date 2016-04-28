@@ -36,6 +36,15 @@ public class TimeThread extends Thread {
 
     public void run() {
 
+        holder = SharedInfoHolder.getInstance();
+
+        if (holder == null) {
+
+            Log.e("ThreadHolder", "Holder is null");
+            System.exit(0);
+
+        } else {
+
         boolean run = true;
 
         while (true) {
@@ -59,6 +68,7 @@ public class TimeThread extends Thread {
             }
         }
     }
+    }
 
     public void setLoopTime(double loopTime) {
 
@@ -70,8 +80,5 @@ public class TimeThread extends Thread {
 
         ob.addObserver(newOb);
     }
-    public void setHolder(SharedInfoHolder holder){
 
-        this.holder = holder;
-    }
 }

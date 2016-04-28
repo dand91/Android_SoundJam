@@ -11,11 +11,12 @@ public class BassdrumThread extends AbstractDrumThread {
 
     public BassdrumThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
         super(activity, holder);
+
     }
 
     protected void initiateSound() {
 
-        soundId = holder.getSoundPool().load(activity.getContext(), R.raw.bd, 1);
+        soundId = sph.getSoundPool().load(activity.getBaseContext(), R.raw.bd, 1);
 
     }
 }

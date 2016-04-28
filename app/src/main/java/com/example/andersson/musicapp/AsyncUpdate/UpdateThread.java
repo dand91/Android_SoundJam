@@ -35,14 +35,17 @@ public class UpdateThread extends Thread {
 
     public void run() {
 
-        AsyncTask mAsyncTask = new AsyncTask();
-        mAsyncTask.execute();
+        holder = SharedInfoHolder.getInstance();
 
         if (holder == null) {
 
             Log.e("ThreadHolder", "Holder is null");
+            System.exit(0);
 
         } else {
+
+            AsyncTask mAsyncTask = new AsyncTask();
+            mAsyncTask.execute();
 
             mAsyncTask.addHolder(holder);
             mAsyncTask.addObserver(ob);
@@ -62,15 +65,9 @@ public class UpdateThread extends Thread {
         }
     }
 
-    public void setHolder(SharedInfoHolder holder) {
-
-        this.holder = holder;
-    }
-
     public void add(Observer newOb) {
 
         ob.addObserver(newOb);
     }
-
 }
 

@@ -16,7 +16,7 @@ public class HighHatThread extends AbstractDrumThread {
 
     protected void initiateSound() {
 
-        soundId = holder.getSoundPool().load(activity.getContext(), R.raw.hh02, 1);
+        soundId = sph.getSoundPool().load(activity.getBaseContext(), R.raw.hh02, 1);
 
     }
 

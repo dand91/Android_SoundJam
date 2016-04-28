@@ -86,4 +86,12 @@
         android:layout_below="@+id/progressText"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="remove"
+        android:id="@+id/removeButton"
+        android:layout_below="@+id/soundListText"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

@@ -15,60 +15,29 @@ import com.example.andersson.musicapp.TimeTracking.TimeThread;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SharedInfoHolder implements Parcelable {
+public class SharedInfoHolder{
 
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<SharedInfoHolder> CREATOR = new Parcelable.Creator<SharedInfoHolder>() {
-        @Override
-        public SharedInfoHolder createFromParcel(Parcel in) {
-            return new SharedInfoHolder(in);
-        }
+    private static SharedInfoHolder instance = null;
 
-        @Override
-        public SharedInfoHolder[] newArray(int size) {
-            return new SharedInfoHolder[size];
-        }
-    };
-    private static SharedInfoHolder holder;
     private HashMap<String, Thread> threads;
     private TimeThread timer;
     private UpdateThread updater;
-    private SoundPool mySound;
     private Activity mainActivity;
 
-    public SharedInfoHolder(Activity mainActivity) {
-
-        this.mainActivity = mainActivity;
-
-        this.mySound = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
+    public SharedInfoHolder() {
 
         this.threads = new HashMap<String, Thread>();
-
         this.timer = TimeThread.getInstance();
-        this.timer.setHolder(this);
-        this.timer.start();
-
         this.updater = UpdateThread.getInstance();
-        this.updater.setHolder(this);
-        this.updater.start();
-
-        Log.d("ThreadHolder", "Initiating holder objects");
 
     }
 
-    public SharedInfoHolder(SharedInfoHolder holder) {
+    public static SharedInfoHolder getInstance() {
 
-        SharedInfoHolder.holder = holder;
-
-    }
-
-    protected SharedInfoHolder(Parcel in) {
-
-        threads = (HashMap) in.readValue(HashMap.class.getClassLoader());
-    }
-
-    public TimeThread getTimer() {
-        return timer;
+        if (instance == null) {
+            instance = new SharedInfoHolder();
+        }
+        return instance;
     }
 
     public String getGroupName() {
@@ -84,13 +53,6 @@ public class SharedInfoHolder implements Parcelable {
         return threads.get(key);
     }
 
-    public UpdateThread getUpdater() {
-        return updater;
-    }
-
-    public SoundPool getSoundPool() {
-        return mySound;
-    }
 
     public void setLoopTime(int loopTime) {
 
@@ -100,38 +62,6 @@ public class SharedInfoHolder implements Parcelable {
 
             ((AbstractInstrumentThread) thread.getValue()).setLoopTime(loopTime);
         }
-    }
-
-    public Activity getMainActivity() {
-        return mainActivity;
-    }
-
-    public void transfer() {
-
-        if (holder != null) {
-
-            this.threads = holder.getThreads();
-            this.timer = holder.getTimer();
-            this.updater = holder.getUpdater();
-            this.mySound = holder.getSoundPool();
-            this.mainActivity = holder.getMainActivity();
-            this.updater.setHolder(this);
-            this.timer.setHolder(this);
-
-
-            Log.d("ThreadHolder", "Transfering objects. getThreads: " + threads.size());
-
-        } else {
-
-            Log.e("ThreadHolder", "No holders object");
-            System.exit(0);
-
-        }
-    }
-
-    public boolean hasHolder() {
-
-        return (holder != null) ? true : false;
     }
 
     public boolean containsKey(String key) {
@@ -169,13 +99,11 @@ public class SharedInfoHolder implements Parcelable {
 
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setMainActivity(MainActivity mainActivity){
+        this.mainActivity = mainActivity;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeMap(threads);
+    public Activity getMainActivity() {
+        return mainActivity;
     }
 }

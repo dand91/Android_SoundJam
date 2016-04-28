@@ -31,56 +31,58 @@ public class UpdateTask {
 
     /**
      * Class for sending and retrieving data from HTTP server.
+     *
      * @param holder,ob - SharedInfoHolder to get information from threads. UpdateObservable to
-     * notify threads.
+     *                  notify threads.
      * @return String - Dummy string
      */
     public static String saveAndLoad(SharedInfoHolder holder, UpdateObservable ob) {
 
+        MainActivity tempMain = null;
+        String tempGroupName = null;
+
         try {
 
-            String tempGroupName = holder.getGroupName();
+            tempGroupName = holder.getGroupName();
+            tempMain = (MainActivity) holder.getMainActivity();
 
             Log.i("UpdateTask", "Collecting info from threads from group name: " + tempGroupName);
 
 
         } catch (NullPointerException e) {
 
-            Log.e("UpdateTask", "GroupName not set");
+            Log.e("UpdateTask", "Holder is null");
             System.exit(0);
         }
 
-        if (holder == null) { // Check if SharedInfoHolder is active
-
-            Log.e("UpdateTask", "Holder is null");
-            System.exit(0);
-
-        } else if (!haveNetworkConnection(holder.getMainActivity())) { // Check internet connection
+        if (!haveNetworkConnection(tempMain)) { // Check internet connection
 
             Log.e("UpdateTask", "No internet connection");
-            ((MainActivity) holder.getMainActivity()).AlertNoInternet();
+            tempMain.AlertNoInternet();
 
         } else { // Run HTTP POST
 
 
-            HttpURLConnection conn = initiateConnection();
+            HttpURLConnection conn = initiateConnection("http://213.21.69.152:1234/test");
             SendClassList scl = collectDataFromThreads(holder);
             sendXMLData(conn, scl);
-            receiveXMLData(conn,ob);
+            receiveXMLData(conn, ob);
 
             conn.disconnect();
 
         }
 
-            return "";
+        return "";
     }
 
     /**
      * Initiates a URL connection through the class HttpURLConnection, sets variables to make it a
      * POST request.
+     *
+     * @param address - String address to server
      * @return conn - The connection object
      */
-    private static HttpURLConnection initiateConnection(){
+    private static HttpURLConnection initiateConnection(String address) {
 
         InputStream is = null;
 
@@ -89,7 +91,7 @@ public class UpdateTask {
 
         try {
 
-            url = new URL("http://213.21.69.152:1234/test"); // URL to HTTP server
+            url = new URL(address); // URL to HTTP server
 
             conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
@@ -121,10 +123,11 @@ public class UpdateTask {
     /**
      * Collects data from the active threads. Creates a list of SendClass objects to be converted to
      * XML string.
+     *
      * @param holder - Object containing the threads.
      * @return scl - The list of SendClass objects.
      */
-    private static SendClassList collectDataFromThreads(SharedInfoHolder holder){
+    private static SendClassList collectDataFromThreads(SharedInfoHolder holder) {
 
         HashMap<String, Thread> threads = holder.getThreads();
         SendClassList scl = new SendClassList();
@@ -192,9 +195,10 @@ public class UpdateTask {
     /**
      * Uses the created conn object to fill the data field of the POST request with the data
      * given in scl (SendClassList) which is marshalled to XML.
+     *
      * @param conn,scl
      */
-    private static void sendXMLData(HttpURLConnection conn, SendClassList scl){
+    private static void sendXMLData(HttpURLConnection conn, SendClassList scl) {
 
         StringWriter writer = new StringWriter();
 
@@ -230,9 +234,11 @@ public class UpdateTask {
         }
 
     }
+
     /**
      * Uses the created conn object to retrieve data from the HTTP server. The XML data is
      * demarshalled and sent to the corresponding thread through Observer pattern.
+     *
      * @param conn,ob
      */
     private static void receiveXMLData(HttpURLConnection conn, UpdateObservable ob) {
@@ -292,11 +298,11 @@ public class UpdateTask {
                     }
 
 
-                        HashMap<String, Object> map = new HashMap<String, Object>();
-                        map.put("soundList", list);
+                    HashMap<String, Object> map = new HashMap<String, Object>();
+                    map.put("soundList", list);
                     map.put("volume", (Float.valueOf(volumeTemp)) / 100);
-                        map.put("instrumentName", instrumentNameTemp);
-                        ob.setChange(map);
+                    map.put("instrumentName", instrumentNameTemp);
+                    ob.setChange(map);
 
                     Log.i("UpdateTask", "Result fetch: " + instrumentNameTemp + " " + list.toString());
                 }
@@ -326,6 +332,7 @@ public class UpdateTask {
 
     /**
      * Method for checking if WIFI or other network connection is established.
+     *
      * @return true - if network connection exists, otherwise false.
      */
     private static boolean haveNetworkConnection(Activity mainActivity) {

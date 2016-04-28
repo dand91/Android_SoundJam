@@ -15,13 +15,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 
+import com.example.andersson.musicapp.AsyncUpdate.UpdateThread;
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
+import com.example.andersson.musicapp.TimeTracking.TimeThread;
 
-import java.io.Serializable;
+import java.sql.Time;
 
 
-public class MainActivity extends ActionBarActivity implements Serializable {
+public class MainActivity extends ActionBarActivity{
 
     private Button BassDrumButton;
     private Button snareButton;
@@ -48,29 +50,34 @@ public class MainActivity extends ActionBarActivity implements Serializable {
 
         if (holder == null) {
 
-            holder = new SharedInfoHolder(this);
+            holder = SharedInfoHolder.getInstance();
+            holder.setMainActivity(this);
+
+            TimeThread timer = TimeThread.getInstance();
+            if(!timer.isAlive()) {
+                timer.start();
+            }
+
+            UpdateThread updater = UpdateThread.getInstance();
+            if(!updater.isAlive()) {
+                updater.start();
+            }
 
             Intent myIntent = new Intent(MainActivity.this, BassdrumActivity.class);
-            SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
-            myIntent.putExtra("holder", tempHolder);
             myIntent.putExtra("backInfo", "back");
             MainActivity.this.startActivityForResult(myIntent, 10);
 
             myIntent = new Intent(MainActivity.this, HighHatActivity.class);
-            myIntent.putExtra("holder", tempHolder);
             myIntent.putExtra("backInfo", "back");
             MainActivity.this.startActivityForResult(myIntent, 10);
 
             myIntent = new Intent(MainActivity.this, SnareActivity.class);
-            myIntent.putExtra("holder", tempHolder);
             myIntent.putExtra("backInfo", "back");
             MainActivity.this.startActivityForResult(myIntent, 10);
 
             myIntent = new Intent(MainActivity.this, BassActivity.class);
-            myIntent.putExtra("holder", tempHolder);
             myIntent.putExtra("backInfo", "back");
             MainActivity.this.startActivityForResult(myIntent, 10);
-
 
         }
 
@@ -119,7 +126,7 @@ public class MainActivity extends ActionBarActivity implements Serializable {
     }
 
 
-    private void InitiateButtons(){
+    private void InitiateButtons() {
 
         BassDrumButton = (Button) findViewById(R.id.BassDrumButton);
         BassDrumButton.setOnClickListener(new View.OnClickListener() {
@@ -129,10 +136,6 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(MainActivity.this, BassdrumActivity.class);
-
-                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
-                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
-                myIntent.putExtra("holder", tempHolder);
                 myIntent.putExtra("backInfo", "notback");
                 MainActivity.this.startActivityForResult(myIntent, 10);
 
@@ -148,9 +151,6 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(MainActivity.this, SnareActivity.class);
-                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
-                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
-                myIntent.putExtra("holder", tempHolder);
                 myIntent.putExtra("backInfo", "notback");
                 MainActivity.this.startActivityForResult(myIntent, 10);
 
@@ -165,9 +165,6 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(MainActivity.this, BassActivity.class);
-                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
-                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
-                myIntent.putExtra("holder", tempHolder);
                 myIntent.putExtra("backInfo", "notback");
                 MainActivity.this.startActivityForResult(myIntent, 10);
 
@@ -183,9 +180,6 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(MainActivity.this, HighHatActivity.class);
-                SharedInfoHolder tempHolder = new SharedInfoHolder(holder);
-                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
-                myIntent.putExtra("holder", tempHolder);
                 myIntent.putExtra("backInfo", "notback");
                 MainActivity.this.startActivityForResult(myIntent, 10);
 
@@ -193,24 +187,6 @@ public class MainActivity extends ActionBarActivity implements Serializable {
         });
 
 
-
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 10) {
-
-            if (resultCode == RESULT_OK) {
-
-                SharedInfoHolder tempHolder = data.getParcelableExtra("holder");
-                Log.d("Main", "Holder status: " + tempHolder.hasHolder() + " " + tempHolder.toString());
-
-                this.holder = tempHolder;
-                this.holder.transfer();
-
-            }
-        }
     }
 
     @Override

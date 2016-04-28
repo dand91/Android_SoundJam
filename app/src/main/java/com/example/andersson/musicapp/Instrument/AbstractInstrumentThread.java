@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
+import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
 import com.example.andersson.musicapp.SharedResources.TimeObservable;
 import com.example.andersson.musicapp.SharedResources.UpdateObservable;
 
@@ -29,9 +30,12 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public boolean record;
     private double loopTime;
     private double bars;
+    protected int soundId;
+    protected SoundPoolHolder sph;
 
     public AbstractInstrumentThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
 
+        this.sph = SoundPoolHolder.getInstance();
         this.holder = holder;
         this.activity = activity;
         this.i = 0;
@@ -46,9 +50,9 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
             if (activity != null) {
 
-                if (activity.getContext() != null) {
+                if (activity.getBaseContext() != null) {
 
-                    if (holder.getSoundPool() != null) {
+                    if (sph.getSoundPool() != null) {
 
                         initiateSound();
 
@@ -147,11 +151,11 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
         this.record = record;
     }
-
     public void setPlayRealTime(boolean playRealTime) {
 
         this.playRealTime = playRealTime;
     }
+
 
     public void setChangedStatus(boolean changed) {
 

@@ -34,19 +34,19 @@ public class BassThread extends AbstractInstrumentThread {
 
             if (value == 0) {
 
-                holder.getSoundPool().play(soundId1, volume, volume, 1, 0, 1f);
+                sph.getSoundPool().play(soundId1, volume, volume, 1, 0, 1f);
 
             } else if (value == 1) {
 
-                holder.getSoundPool().play(soundId2, volume, volume, 1, 0, 1f);
+                sph.getSoundPool().play(soundId2, volume, volume, 1, 0, 1f);
 
             } else if (value == 2) {
 
-                holder.getSoundPool().play(soundId3, volume, volume, 1, 0, 1f);
+                sph.getSoundPool().play(soundId3, volume, volume, 1, 0, 1f);
 
             } else if (value == 3) {
 
-                holder.getSoundPool().play(soundId4, volume, volume, 1, 0, 1f);
+                sph.getSoundPool().play(soundId4, volume, volume, 1, 0, 1f);
 
             }
         }
@@ -72,14 +72,14 @@ public class BassThread extends AbstractInstrumentThread {
 
     protected void initiateSound() {
 
-        soundId1 = holder.getSoundPool().load(activity.getContext(), R.raw.piano1, 1);
-        soundId2 = holder.getSoundPool().load(activity.getContext(), R.raw.piano2, 1);
-        soundId3 = holder.getSoundPool().load(activity.getContext(), R.raw.piano3, 1);
-        soundId4 = holder.getSoundPool().load(activity.getContext(), R.raw.piano4, 1);
-        soundId5 = holder.getSoundPool().load(activity.getContext(), R.raw.piano1, 1);
-        soundId6 = holder.getSoundPool().load(activity.getContext(), R.raw.piano2, 1);
-        soundId7 = holder.getSoundPool().load(activity.getContext(), R.raw.piano3, 1);
-        soundId8 = holder.getSoundPool().load(activity.getContext(), R.raw.piano4, 1);
+        soundId1 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano1, 1);
+        soundId2 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano2, 1);
+        soundId3 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano3, 1);
+        soundId4 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano4, 1);
+        soundId5 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano1, 1);
+        soundId6 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano2, 1);
+        soundId7 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano3, 1);
+        soundId8 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano4, 1);
 
     }
 
@@ -87,35 +87,35 @@ public class BassThread extends AbstractInstrumentThread {
 
         if (value == 0) {
 
-            holder.getSoundPool().play(soundId1, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId1, volume, volume, 1, 0, 1f);
 
         } else if (value == 1) {
 
-            holder.getSoundPool().play(soundId2, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId2, volume, volume, 1, 0, 1f);
 
         } else if (value == 2) {
 
-            holder.getSoundPool().play(soundId3, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId3, volume, volume, 1, 0, 1f);
 
         } else if (value == 3) {
 
-            holder.getSoundPool().play(soundId4, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId4, volume, volume, 1, 0, 1f);
 
         } else if (value == 4) {
 
-            holder.getSoundPool().play(soundId5, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId5, volume, volume, 1, 0, 1f);
 
         } else if (value == 5) {
 
-            holder.getSoundPool().play(soundId6, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId6, volume, volume, 1, 0, 1f);
 
         } else if (value == 6) {
 
-            holder.getSoundPool().play(soundId7, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId7, volume, volume, 1, 0, 1f);
 
         } else if (value == 7) {
 
-            holder.getSoundPool().play(soundId8, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId8, volume, volume, 1, 0, 1f);
         }
 
 

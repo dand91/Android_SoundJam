@@ -2,7 +2,7 @@ package com.example.andersson.musicapp.Instrument;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.R;
-import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
+import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 /**
  * Created by Andersson on 07/04/16.
@@ -20,7 +20,7 @@ public class BassThread extends AbstractInstrumentThread {
     private int soundId7;
     private int soundId8;
 
-    public BassThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
+    public BassThread(AbstractInstrumentActivity activity, ThreadHolder holder) {
         super(activity, holder);
 
     }

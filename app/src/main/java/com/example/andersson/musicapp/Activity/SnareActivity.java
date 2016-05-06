@@ -15,7 +15,7 @@ public class SnareActivity extends AbstractDrumActivity {
     @Override
     public String getName() { // Set the name, mostly for thread separation
 
-        return "SnareActivity";
+        return "sn";
     }
 
     @Override

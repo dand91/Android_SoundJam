@@ -15,7 +15,7 @@ public class UpdateObservable extends AbstractObservable {
 
     public void setChange(Object arg) {
 
-        Log.d("AbstractObservable", "Number of observers" + this.countObservers() + " - " + this.getClass());
+        Log.d("UpdateObservable", "Number of observers - " + this.countObservers() + " - " + this.getClass());
         notifyObservers(arg);
         setChanged();
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.Menu;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.R;
-import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
+import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ import java.util.Calendar;
 
 public abstract class AbstractInstrumentActivity extends Activity {
 
-    public SharedInfoHolder holder;
+    public ThreadHolder holder;
     public AbstractInstrumentThread instrument;
     public ArrayList<Integer> soundList;
     public EditText soundListText;
@@ -68,7 +67,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
         setContentView(getLayout());
 
         info = null;
-        holder = SharedInfoHolder.getInstance();
+        holder = ThreadHolder.getInstance();
         sph = SoundPoolHolder.getInstance();
 
         try {

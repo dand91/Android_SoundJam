@@ -12,5 +12,6 @@
     <string name="title_activity_high_hat">HighHatActivity</string>
     <string name="title_activity_snare">SnareActivity</string>
     <string name="title_activity_abstract_drum">AbstractDrumActivity</string>
+    <string name="title_activity_beat">BeatActivity</string>
 
 </resources>

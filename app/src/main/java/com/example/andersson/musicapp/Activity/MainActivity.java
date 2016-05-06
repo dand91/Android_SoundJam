@@ -17,10 +17,8 @@ import android.widget.SeekBar;
 
 import com.example.andersson.musicapp.AsyncUpdate.UpdateThread;
 import com.example.andersson.musicapp.R;
-import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
+import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.TimeTracking.TimeThread;
-
-import java.sql.Time;
 
 
 public class MainActivity extends ActionBarActivity{
@@ -30,9 +28,10 @@ public class MainActivity extends ActionBarActivity{
     private Button BassButton;
     private Button HighHatButton;
     private Button groupNameButton;
+    private Button BeatButton;
     private SeekBar BPMBar;
     private EditText groupNameText;
-    private SharedInfoHolder holder;
+    private ThreadHolder holder;
     private String groupName = "noName";
     private int loopTime = 4;
 
@@ -50,20 +49,28 @@ public class MainActivity extends ActionBarActivity{
 
         if (holder == null) {
 
-            holder = SharedInfoHolder.getInstance();
+            holder = ThreadHolder.getInstance();
             holder.setMainActivity(this);
 
             TimeThread timer = TimeThread.getInstance();
+
             if(!timer.isAlive()) {
+
                 timer.start();
             }
 
             UpdateThread updater = UpdateThread.getInstance();
+
             if(!updater.isAlive()) {
+
                 updater.start();
             }
 
-            Intent myIntent = new Intent(MainActivity.this, BassdrumActivity.class);
+            Intent myIntent = new Intent(MainActivity.this, BeatActivity.class);
+            myIntent.putExtra("backInfo", "back");
+            MainActivity.this.startActivityForResult(myIntent, 10);
+
+            myIntent = new Intent(MainActivity.this, BassdrumActivity.class);
             myIntent.putExtra("backInfo", "back");
             MainActivity.this.startActivityForResult(myIntent, 10);
 
@@ -180,6 +187,20 @@ public class MainActivity extends ActionBarActivity{
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(MainActivity.this, HighHatActivity.class);
+                myIntent.putExtra("backInfo", "notback");
+                MainActivity.this.startActivityForResult(myIntent, 10);
+
+            }
+        });
+
+        BeatButton = (Button) findViewById(R.id.beatButton);
+        BeatButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(MainActivity.this, BeatActivity.class);
                 myIntent.putExtra("backInfo", "notback");
                 MainActivity.this.startActivityForResult(myIntent, 10);
 

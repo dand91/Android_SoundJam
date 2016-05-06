@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.MainActivity;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
-import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
+import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.UpdateObservable;
 
 import org.simpleframework.xml.Serializer;
@@ -36,7 +36,7 @@ public class UpdateTask {
      *                  notify threads.
      * @return String - Dummy string
      */
-    public static String saveAndLoad(SharedInfoHolder holder, UpdateObservable ob) {
+    public static String saveAndLoad(ThreadHolder holder, UpdateObservable ob) {
 
         MainActivity tempMain = null;
         String tempGroupName = null;
@@ -45,6 +45,12 @@ public class UpdateTask {
 
             tempGroupName = holder.getGroupName();
             tempMain = (MainActivity) holder.getMainActivity();
+
+            if(tempGroupName.equals("noName")){
+
+                return "";
+
+            }
 
             Log.i("UpdateTask", "Collecting info from threads from group name: " + tempGroupName);
 
@@ -60,7 +66,7 @@ public class UpdateTask {
             Log.e("UpdateTask", "No internet connection");
             tempMain.AlertNoInternet();
 
-        } else { // Run HTTP POST
+        } else {
 
 
             HttpURLConnection conn = initiateConnection("http://213.21.69.152:1234/test");
@@ -127,7 +133,7 @@ public class UpdateTask {
      * @param holder - Object containing the threads.
      * @return scl - The list of SendClass objects.
      */
-    private static SendClassList collectDataFromThreads(SharedInfoHolder holder) {
+    private static SendClassList collectDataFromThreads(ThreadHolder holder) {
 
         HashMap<String, Thread> threads = holder.getThreads();
         SendClassList scl = new SendClassList();

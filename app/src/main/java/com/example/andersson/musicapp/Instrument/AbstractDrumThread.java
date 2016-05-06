@@ -1,15 +1,14 @@
 package com.example.andersson.musicapp.Instrument;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
-import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
-import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
+import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 /**
  * Created by Andersson on 07/04/16.
  */
 public abstract class AbstractDrumThread extends AbstractInstrumentThread {
 
-    public AbstractDrumThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
+    public AbstractDrumThread(AbstractInstrumentActivity activity, ThreadHolder holder) {
         super(activity, holder);
     }
 

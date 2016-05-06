@@ -11,7 +11,7 @@ public class AbstractObservable extends Observable {
 
     public void setChange() {
 
-        Log.d("AbstractObservable", "Number of observers " + this.countObservers() + " - " + this.getClass());
+        Log.d("AbstractObservable", "Number of observers - " + this.countObservers() + " - " + this.getClass());
         notifyObservers();
         setChanged();
 
@@ -19,7 +19,7 @@ public class AbstractObservable extends Observable {
 
     public void setChange(Object arg) {
 
-        Log.d("AbstractObservable", "Number of observers " + this.countObservers() + " - " + this.getClass());
+        Log.d("AbstractObservable", "Number of observers - " + this.countObservers() + " - " + this.getClass());
         notifyObservers(arg);
         setChanged();
 

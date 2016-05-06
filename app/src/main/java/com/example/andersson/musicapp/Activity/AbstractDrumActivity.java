@@ -49,9 +49,11 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
         if (isActive) {
             soundList.add(1);
             soundListText.setText(soundListText.getText() + " 1 ");
+            holder.setBeatArray(this.getName(),index,true);
         } else {
             soundList.add(0);
             soundListText.setText(soundListText.getText() + " 0 ");
+            holder.setBeatArray(this.getName(),index,false);
         }
     }
 

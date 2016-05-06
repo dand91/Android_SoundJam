@@ -1,11 +1,11 @@
 package com.example.andersson.musicapp.AsyncUpdate;
 
-import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
+import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.UpdateObservable;
 
 public class AsyncTask extends android.os.AsyncTask<Void, Void, String> {
 
-    private SharedInfoHolder holder;
+    private ThreadHolder holder;
     private UpdateObservable ob;
 
     @Override
@@ -21,7 +21,7 @@ public class AsyncTask extends android.os.AsyncTask<Void, Void, String> {
 
     }
 
-    public void addHolder(SharedInfoHolder holder) {
+    public void addHolder(ThreadHolder holder) {
         this.holder = holder;
     }
 

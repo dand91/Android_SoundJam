@@ -3,7 +3,7 @@ package com.example.andersson.musicapp.Instrument;
 import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
-import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
+import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
 import com.example.andersson.musicapp.SharedResources.TimeObservable;
 import com.example.andersson.musicapp.SharedResources.UpdateObservable;
@@ -21,7 +21,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
     public int i;
     public ArrayList<Integer> soundList = new ArrayList<Integer>();
-    public SharedInfoHolder holder;
+    public ThreadHolder holder;
     public AbstractInstrumentActivity activity;
     public boolean set;
     public boolean changed;
@@ -33,7 +33,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     protected int soundId;
     protected SoundPoolHolder sph;
 
-    public AbstractInstrumentThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
+    public AbstractInstrumentThread(AbstractInstrumentActivity activity, ThreadHolder holder) {
 
         this.sph = SoundPoolHolder.getInstance();
         this.holder = holder;

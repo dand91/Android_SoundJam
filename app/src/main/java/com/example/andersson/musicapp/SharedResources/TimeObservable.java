@@ -15,7 +15,7 @@ public class TimeObservable extends AbstractObservable {
 
     public void setChange() {
 
-        Log.d("AbstractObservable", "Number of observers" + this.countObservers() + " - " + this.getClass());
+        Log.d("TimeObservable", "Number of observers - " + this.countObservers() + " - " + this.getClass());
         notifyObservers();
         setChanged();
 

@@ -2,7 +2,7 @@ package com.example.andersson.musicapp.AsyncUpdate;
 
 import android.util.Log;
 
-import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
+import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.UpdateObservable;
 
 import java.util.Observer;
@@ -14,7 +14,7 @@ public class UpdateThread extends Thread {
 
     private static final int timer = 5;
     private static UpdateThread instance = null;
-    private SharedInfoHolder holder;
+    private ThreadHolder holder;
     private UpdateObservable ob;
 
     private UpdateThread() {
@@ -35,7 +35,7 @@ public class UpdateThread extends Thread {
 
     public void run() {
 
-        holder = SharedInfoHolder.getInstance();
+        holder = ThreadHolder.getInstance();
 
         if (holder == null) {
 

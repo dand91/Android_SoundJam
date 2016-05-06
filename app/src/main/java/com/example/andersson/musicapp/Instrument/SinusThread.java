@@ -7,7 +7,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
-import com.example.andersson.musicapp.SharedResources.SharedInfoHolder;
+import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 /**
  * Created by Andersson on 05/04/16.
@@ -25,7 +25,7 @@ public class SinusThread extends AbstractInstrumentThread {
     private double sample[] = new double[numSamples];
     private double freqOfTone = 440; // hz
 
-    public SinusThread(AbstractInstrumentActivity activity, SharedInfoHolder holder) {
+    public SinusThread(AbstractInstrumentActivity activity, ThreadHolder holder) {
         super(activity, holder);
     }
 

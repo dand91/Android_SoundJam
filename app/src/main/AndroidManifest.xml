@@ -38,6 +38,10 @@
         <activity
             android:name=".Activity.AbstractDrumActivity"
             android:label="@string/title_activity_abstract_drum"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.BeatActivity"
+            android:label="@string/title_activity_beat"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

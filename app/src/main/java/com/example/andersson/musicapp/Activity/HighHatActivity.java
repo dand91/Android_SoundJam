@@ -14,7 +14,7 @@ public class HighHatActivity extends AbstractDrumActivity {
     @Override
     public String getName() { // Set the name, mostly for thread separation
 
-        return "HighHatActivity";
+        return "hh";
     }
 
     @Override

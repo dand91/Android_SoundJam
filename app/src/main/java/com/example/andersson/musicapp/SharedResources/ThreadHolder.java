@@ -1,12 +1,10 @@
 package com.example.andersson.musicapp.SharedResources;
 
 import android.app.Activity;
-import android.media.AudioManager;
-import android.media.SoundPool;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
+import android.widget.ImageView;
 
+import com.example.andersson.musicapp.Activity.BeatActivity;
 import com.example.andersson.musicapp.Activity.MainActivity;
 import com.example.andersson.musicapp.AsyncUpdate.UpdateThread;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
@@ -15,27 +13,31 @@ import com.example.andersson.musicapp.TimeTracking.TimeThread;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SharedInfoHolder{
+public class ThreadHolder {
 
-    private static SharedInfoHolder instance = null;
+    private static ThreadHolder instance = null;
 
     private HashMap<String, Thread> threads;
     private TimeThread timer;
     private UpdateThread updater;
+
     private Activity mainActivity;
 
-    public SharedInfoHolder() {
+    private HashMap<String, Boolean> beat;
+
+    public ThreadHolder() {
 
         this.threads = new HashMap<String, Thread>();
         this.timer = TimeThread.getInstance();
         this.updater = UpdateThread.getInstance();
+        beat = new HashMap<String, Boolean>();
 
     }
 
-    public static SharedInfoHolder getInstance() {
+    public static ThreadHolder getInstance() {
 
         if (instance == null) {
-            instance = new SharedInfoHolder();
+            instance = new ThreadHolder();
         }
         return instance;
     }
@@ -106,4 +108,15 @@ public class SharedInfoHolder{
     public Activity getMainActivity() {
         return mainActivity;
     }
+
+    public HashMap<String, Boolean> getBeatArray(){
+
+        return beat;
+    }
+    public void setBeatArray(String instrument, int index, boolean on){
+
+        beat.put(instrument + index, on);
+
+    }
+
 }

@@ -120,4 +120,9 @@ public class BassThread extends AbstractInstrumentThread {
 
 
     }
+
+    @Override
+    protected void setBeat() {
+
+    }
 }

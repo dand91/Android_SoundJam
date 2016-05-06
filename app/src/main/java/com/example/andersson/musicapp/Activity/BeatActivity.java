@@ -1,24 +1,14 @@
 package com.example.andersson.musicapp.Activity;
 
 import android.content.Intent;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.andersson.musicapp.R;
-import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 import java.util.HashMap;
@@ -122,7 +112,8 @@ public class BeatActivity extends AppCompatActivity {
 
             }else{
 
-                for(Map.Entry<String,Boolean> entry : holder.getBeatArray().entrySet()){
+                Log.e("TEST","" +  holder.getBeatMap().size());
+                for(Map.Entry<String,Boolean> entry : holder.getBeatMap().entrySet()){
 
                     String key = entry.getKey();
                     Boolean value = entry.getValue();

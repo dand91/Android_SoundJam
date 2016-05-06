@@ -109,13 +109,18 @@ public class ThreadHolder {
         return mainActivity;
     }
 
-    public HashMap<String, Boolean> getBeatArray(){
+    public HashMap<String, Boolean> getBeatMap(){
 
         return beat;
     }
     public void setBeatArray(String instrument, int index, boolean on){
 
-        beat.put(instrument + index, on);
+        if(!beat.containsKey(instrument + index)) {
+            beat.put(instrument + index, on);
+        }else{
+            beat.remove(instrument + index);
+            beat.put(instrument + index, on);
+        }
 
     }
 

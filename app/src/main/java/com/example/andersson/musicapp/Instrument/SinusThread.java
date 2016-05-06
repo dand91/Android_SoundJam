@@ -104,5 +104,8 @@ public class SinusThread extends AbstractInstrumentThread {
         audioTrack.play();
     }
 
-
+    @Override
+    protected void setBeat() {
+        
+    }
 }

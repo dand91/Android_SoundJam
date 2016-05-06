@@ -85,6 +85,8 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
     protected abstract void initiateSound();
 
+    protected abstract void setBeat();
+
     public void run() {
 
     }
@@ -218,6 +220,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                 ArrayList<Integer> tempList = (ArrayList<Integer>) map.get("soundList");
                 setSoundList(tempList);
                 activity.setSoundList(tempList);
+                setBeat();
 
             }
 

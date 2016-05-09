@@ -21,14 +21,11 @@ import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.TimeTracking.TimeThread;
 
 
-public class MainActivity extends ActionBarActivity{
+public class MainActivity extends ActionBarActivity {
 
-    private Button BassDrumButton;
-    private Button snareButton;
     private Button BassButton;
-    private Button HighHatButton;
     private Button groupNameButton;
-    private Button BeatButton;
+    private Button DrumsButton;
     private SeekBar BPMBar;
     private EditText groupNameText;
     private ThreadHolder holder;
@@ -54,14 +51,14 @@ public class MainActivity extends ActionBarActivity{
 
             TimeThread timer = TimeThread.getInstance();
 
-            if(!timer.isAlive()) {
+            if (!timer.isAlive()) {
 
                 timer.start();
             }
 
             UpdateThread updater = UpdateThread.getInstance();
 
-            if(!updater.isAlive()) {
+            if (!updater.isAlive()) {
 
                 updater.start();
             }
@@ -88,7 +85,33 @@ public class MainActivity extends ActionBarActivity{
 
         }
 
-        InitiateButtons();
+        BassButton = (Button) findViewById(R.id.BassButton);
+        BassButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(MainActivity.this, BassActivity.class);
+                myIntent.putExtra("backInfo", "notback");
+                MainActivity.this.startActivityForResult(myIntent, 10);
+
+            }
+        });
+
+        DrumsButton = (Button) findViewById(R.id.drumsButton);
+        DrumsButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(MainActivity.this, BeatActivity.class);
+                myIntent.putExtra("backInfo", "notback");
+                MainActivity.this.startActivityForResult(myIntent, 10);
+
+            }
+        });
 
         groupNameText = (EditText) findViewById(R.id.groupNameText);
         groupNameButton = (Button) findViewById(R.id.groupNameButton);
@@ -132,83 +155,6 @@ public class MainActivity extends ActionBarActivity{
 
     }
 
-
-    private void InitiateButtons() {
-
-        BassDrumButton = (Button) findViewById(R.id.BassDrumButton);
-        BassDrumButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                Intent myIntent = new Intent(MainActivity.this, BassdrumActivity.class);
-                myIntent.putExtra("backInfo", "notback");
-                MainActivity.this.startActivityForResult(myIntent, 10);
-
-
-            }
-        });
-
-        snareButton = (Button) findViewById(R.id.snareButton);
-        snareButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                Intent myIntent = new Intent(MainActivity.this, SnareActivity.class);
-                myIntent.putExtra("backInfo", "notback");
-                MainActivity.this.startActivityForResult(myIntent, 10);
-
-            }
-        });
-
-        BassButton = (Button) findViewById(R.id.BassButton);
-        BassButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                Intent myIntent = new Intent(MainActivity.this, BassActivity.class);
-                myIntent.putExtra("backInfo", "notback");
-                MainActivity.this.startActivityForResult(myIntent, 10);
-
-            }
-        });
-
-
-        HighHatButton = (Button) findViewById(R.id.HighHatButton);
-        HighHatButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                Intent myIntent = new Intent(MainActivity.this, HighHatActivity.class);
-                myIntent.putExtra("backInfo", "notback");
-                MainActivity.this.startActivityForResult(myIntent, 10);
-
-            }
-        });
-
-        BeatButton = (Button) findViewById(R.id.beatButton);
-        BeatButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                Intent myIntent = new Intent(MainActivity.this, BeatActivity.class);
-                myIntent.putExtra("backInfo", "notback");
-                MainActivity.this.startActivityForResult(myIntent, 10);
-
-            }
-        });
-
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

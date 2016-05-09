@@ -166,7 +166,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
     }
 
     @Override
-    public String getName() { // Set the name, mostly for thread separation
+    public String getName() {
 
         return "BassActivity";
     }

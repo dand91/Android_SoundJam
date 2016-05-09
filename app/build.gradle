@@ -25,4 +25,4 @@ dependencies {
     compile 'com.android.support:design:22.2.1'
     compile files('libs/simple-xml-2.7.1.jar')
 
-    }
+}

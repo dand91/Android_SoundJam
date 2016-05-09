@@ -45,29 +45,29 @@ public class TimeThread extends Thread {
 
         } else {
 
-        boolean run = true;
+            boolean run = true;
 
-        while (true) {
+            while (true) {
 
-            calendar = Calendar.getInstance();
-            int seconds = calendar.get(Calendar.SECOND);
+                calendar = Calendar.getInstance();
+                int seconds = calendar.get(Calendar.SECOND);
 
-            loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
+                loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
 
-            if (seconds % loopTime == 0 && run) {
+                if (seconds % loopTime == 0 && run) {
 
-                Log.i("TimerThread", "Run: " + seconds);
+                    Log.i("TimerThread", "Run: " + seconds);
 
-                run = false;
-                ob.setChange();
+                    run = false;
+                    ob.setChange();
 
-            } else if (seconds % loopTime != 0) {
+                } else if (seconds % loopTime != 0) {
 
-                run = true;
+                    run = true;
 
+                }
             }
         }
-    }
     }
 
     public void setLoopTime(double loopTime) {

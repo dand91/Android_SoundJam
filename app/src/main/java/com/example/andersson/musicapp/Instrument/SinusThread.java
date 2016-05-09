@@ -106,6 +106,6 @@ public class SinusThread extends AbstractInstrumentThread {
 
     @Override
     protected void setBeat() {
-        
+
     }
 }

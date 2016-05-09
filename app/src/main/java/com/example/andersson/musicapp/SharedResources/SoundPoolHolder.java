@@ -8,8 +8,14 @@ import android.media.SoundPool;
  */
 public class SoundPoolHolder {
 
-    private SoundPool mySound;
     private static SoundPoolHolder instance = null;
+    private SoundPool mySound;
+
+    public SoundPoolHolder() {
+
+        this.mySound = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
+
+    }
 
     public static SoundPoolHolder getInstance() {
 
@@ -18,13 +24,6 @@ public class SoundPoolHolder {
             instance = new SoundPoolHolder();
         }
         return instance;
-    }
-
-
-    public SoundPoolHolder(){
-
-        this.mySound = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
-
     }
 
     public SoundPool getSoundPool() {

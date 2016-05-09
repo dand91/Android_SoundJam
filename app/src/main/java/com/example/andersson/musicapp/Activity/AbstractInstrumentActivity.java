@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.R;
-import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
+import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,8 +40,8 @@ public abstract class AbstractInstrumentActivity extends Activity {
     public EditText barText;
     public SeekBar volumeSeekBar;
     public TextView progressText;
-    int index = 0;
     protected SoundPoolHolder sph;
+    int index = 0;
     double bars;
     double loopTime;
     private int countDown;
@@ -116,16 +116,16 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
             }
 
-        }else if (holder == null) {
+        } else if (holder == null) {
 
-                Log.d("AbstractInstrument", "Holder is null - " + name);
-                System.exit(0);
+            Log.d("AbstractInstrument", "Holder is null - " + name);
+            System.exit(0);
 
-            }
+        }
 
 
-            initiate();
-            initiateGUI();
+        initiate();
+        initiateGUI();
 
     }
 
@@ -190,7 +190,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
                         if (seconds % loopTime == 0) {
 
                             index = 0;
-                           // instrument.setChangedStatus(true);
+                            // instrument.setChangedStatus(true);
                             barButton.setBackgroundColor(Color.RED);
                             barButton.setEnabled(false);
 
@@ -389,7 +389,8 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
         });
     }
-    protected void soundListGUI(){
+
+    protected void soundListGUI() {
 
         soundListText = (EditText) findViewById(R.id.soundListText);
 

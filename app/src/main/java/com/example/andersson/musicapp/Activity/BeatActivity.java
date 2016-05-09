@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.andersson.musicapp.R;
@@ -17,18 +19,69 @@ import java.util.Map;
 public class BeatActivity extends AppCompatActivity {
 
 
-
-    public ImageView bd1,bd2,bd3,bd4,bd5,bd6,bd7,bd8;
-    public ImageView hh1,hh2,hh3,hh4,hh5,hh6,hh7,hh8;
-    public ImageView sn1,sn2,sn3,sn4,sn5,sn6,sn7,sn8;
-    private String info;
+    public ImageView bd1, bd2, bd3, bd4, bd5, bd6, bd7, bd8;
+    public ImageView hh1, hh2, hh3, hh4, hh5, hh6, hh7, hh8;
+    public ImageView sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8;
     public ThreadHolder holder;
-    public Map<String, ImageView> m;
+    public Map<String, ImageView> beatMap;
+    private String info;
+
+    private Button BassDrumButton;
+    private Button snareButton;
+    private Button HighHatButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beat);
+
+
+        HighHatButton = (Button) findViewById(R.id.HighHatButton);
+        HighHatButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(BeatActivity.this, HighHatActivity.class);
+                myIntent.putExtra("backInfo", "notback");
+                BeatActivity.this.startActivityForResult(myIntent, 10);
+
+            }
+        });
+
+        BassDrumButton = (Button) findViewById(R.id.BassDrumButton);
+        BassDrumButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(BeatActivity.this, BassdrumActivity.class);
+                myIntent.putExtra("backInfo", "notback");
+                BeatActivity.this.startActivityForResult(myIntent, 10);
+
+
+            }
+        });
+
+        snareButton = (Button) findViewById(R.id.snareButton);
+        snareButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(BeatActivity.this, SnareActivity.class);
+                myIntent.putExtra("backInfo", "notback");
+                BeatActivity.this.startActivityForResult(myIntent, 10);
+
+            }
+        });
+
+
+
+
 
         bd1 = (ImageView) findViewById(R.id.bd1);
         bd2 = (ImageView) findViewById(R.id.bd2);
@@ -57,7 +110,7 @@ public class BeatActivity extends AppCompatActivity {
         sn7 = (ImageView) findViewById(R.id.sn7);
         sn8 = (ImageView) findViewById(R.id.sn8);
 
-        m = new HashMap<String, ImageView>() {{
+        beatMap = new HashMap<String, ImageView>() {{
 
             put("bd1", bd1);
             put("bd2", bd2);
@@ -86,70 +139,36 @@ public class BeatActivity extends AppCompatActivity {
 
         }};
 
-        Log.e("TESTTEST","Not null");
-        info = null;
         holder = ThreadHolder.getInstance();
 
-        try {
+        for (Map.Entry<String, Boolean> entry : holder.getBeatMap().entrySet()) {
 
-            Intent i = getIntent();
+            String key = entry.getKey();
+            Boolean value = entry.getValue();
 
-            info = i.getStringExtra("backInfo");
+            ImageView temp = null;
 
-        } catch (NullPointerException e) {
+            try {
 
-            Log.d("BeatActivity", "Error loading intent");
-            System.exit(0);
-        }
+                temp = beatMap.get(key);
 
-        if (info != null) {
+            } catch (NullPointerException e) {
 
-            if (info.equals("back")) {
-
-                Intent myIntent = new Intent();
-                setResult(RESULT_OK, myIntent);
-                finish();
-
-            }else{
-
-                Log.e("TEST","" +  holder.getBeatMap().size());
-                for(Map.Entry<String,Boolean> entry : holder.getBeatMap().entrySet()){
-
-                    String key = entry.getKey();
-                    Boolean value = entry.getValue();
-
-                    ImageView temp = null;
-
-                    try {
-
-                        temp = m.get(key);
-
-                    }catch(NullPointerException e){
-
-                        Log.e("BeatActivity", "Error while fetching: " + key);
-                    }
-
-                    if(value){
-
-                        Drawable bg = ContextCompat.getDrawable(this.getApplicationContext(), R.drawable.cell_shape_red);
-                        temp.setBackground(bg);
-                        Log.e("SetBackground","True");
-
-                    }else{
-
-                        Drawable bg = ContextCompat.getDrawable(this.getApplicationContext(), R.drawable.cell_shape);
-                        temp.setBackground(bg);
-                    }
-
-                }
-
+                Log.e("BeatActivity", "Error while fetching: " + key);
             }
 
+            Drawable bg = null;
 
+            if (value) {
 
-        } else {
+                bg = ContextCompat.getDrawable(this.getApplicationContext(), R.drawable.cell_shape_red);
 
-            Log.e("BeatActivity", "BackInfo is null");
+            } else {
+
+                bg = ContextCompat.getDrawable(this.getApplicationContext(), R.drawable.cell_shape);
+            }
+
+            temp.setBackground(bg);
 
         }
 

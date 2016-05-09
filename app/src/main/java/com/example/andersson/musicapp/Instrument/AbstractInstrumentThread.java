@@ -3,8 +3,8 @@ package com.example.andersson.musicapp.Instrument;
 import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
-import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
+import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.TimeObservable;
 import com.example.andersson.musicapp.SharedResources.UpdateObservable;
 
@@ -28,10 +28,10 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public float volume = 0.5f;
     public boolean playRealTime;
     public boolean record;
-    private double loopTime;
-    private double bars;
     protected int soundId;
     protected SoundPoolHolder sph;
+    private double loopTime;
+    private double bars;
 
     public AbstractInstrumentThread(AbstractInstrumentActivity activity, ThreadHolder holder) {
 
@@ -153,6 +153,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
         this.record = record;
     }
+
     public void setPlayRealTime(boolean playRealTime) {
 
         this.playRealTime = playRealTime;

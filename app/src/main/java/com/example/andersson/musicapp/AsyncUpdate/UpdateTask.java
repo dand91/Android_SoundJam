@@ -46,7 +46,7 @@ public class UpdateTask {
             tempGroupName = holder.getGroupName();
             tempMain = (MainActivity) holder.getMainActivity();
 
-            if(tempGroupName.equals("noName")){
+            if (tempGroupName.equals("noName")) {
 
                 return "";
 

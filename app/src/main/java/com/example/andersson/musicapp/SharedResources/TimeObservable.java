@@ -2,14 +2,12 @@ package com.example.andersson.musicapp.SharedResources;
 
 import android.util.Log;
 
-import java.util.Observable;
-
 /**
  * Created by Andersson on 07/04/16.
  */
 public class TimeObservable extends AbstractObservable {
 
-    public TimeObservable(){
+    public TimeObservable() {
         super();
     }
 

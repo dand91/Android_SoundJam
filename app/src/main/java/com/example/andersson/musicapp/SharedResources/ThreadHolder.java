@@ -2,9 +2,7 @@ package com.example.andersson.musicapp.SharedResources;
 
 import android.app.Activity;
 import android.util.Log;
-import android.widget.ImageView;
 
-import com.example.andersson.musicapp.Activity.BeatActivity;
 import com.example.andersson.musicapp.Activity.MainActivity;
 import com.example.andersson.musicapp.AsyncUpdate.UpdateThread;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
@@ -101,23 +99,24 @@ public class ThreadHolder {
 
     }
 
-    public void setMainActivity(MainActivity mainActivity){
-        this.mainActivity = mainActivity;
-    }
-
     public Activity getMainActivity() {
         return mainActivity;
     }
 
-    public HashMap<String, Boolean> getBeatMap(){
+    public void setMainActivity(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+    }
+
+    public HashMap<String, Boolean> getBeatMap() {
 
         return beat;
     }
-    public void setBeatArray(String instrument, int index, boolean on){
 
-        if(!beat.containsKey(instrument + index)) {
+    public void setBeatArray(String instrument, int index, boolean on) {
+
+        if (!beat.containsKey(instrument + index)) {
             beat.put(instrument + index, on);
-        }else{
+        } else {
             beat.remove(instrument + index);
             beat.put(instrument + index, on);
         }

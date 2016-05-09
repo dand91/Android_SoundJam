@@ -20,6 +20,7 @@ import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -150,7 +151,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
     }
 
 
-    public void setLoopTime(int loopTime) {
+    public void setLoopTime(double loopTime) {
 
         this.loopTime = loopTime;
     }
@@ -184,10 +185,15 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
                     while (true) {
 
+                        DecimalFormat df = new DecimalFormat("#.");
                         Calendar calendar = Calendar.getInstance();
-                        int seconds = calendar.get(Calendar.SECOND);
+                        double second = calendar.get(Calendar.SECOND);
+                        double millisecond = calendar.get(Calendar.MILLISECOND);
 
-                        if (seconds % loopTime == 0) {
+                        double time = Double.valueOf(df.format(second * 1000 + millisecond));
+                        loopTime = Double.valueOf(df.format(((MainActivity) holder.getMainActivity()).getLoopTime()*1000.0));
+
+                        if (time % loopTime == 0) {
 
                             index = 0;
                             // instrument.setChangedStatus(true);
@@ -358,6 +364,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
                 ArrayList<Integer> tempList = new ArrayList<Integer>();
                 tempList.add(-1);
+                holder.clearBeatArray();
                 instrument.setSoundList(tempList);
                 progressText.setText("Instrument removed.");
             }

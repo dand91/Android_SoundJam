@@ -54,7 +54,7 @@ public class ThreadHolder {
     }
 
 
-    public void setLoopTime(int loopTime) {
+    public void setLoopTime(double loopTime) {
 
         timer.setLoopTime(loopTime);
 
@@ -100,6 +100,7 @@ public class ThreadHolder {
     }
 
     public Activity getMainActivity() {
+
         return mainActivity;
     }
 
@@ -122,5 +123,9 @@ public class ThreadHolder {
         }
 
     }
+    public void clearBeatArray(){
 
+        beat.clear();
+
+    }
 }

@@ -7,21 +7,14 @@ import org.simpleframework.xml.Root;
 public class SendClass {
 
     @Element
-    private String groupName;
-    @Element
     private String instrumentName;
     @Element
     private String data;
     @Element
     private String volume;
 
-    public String getGroupName() {
-        return groupName;
-    }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
+
 
     public String getInstrumentName() {
         return instrumentName;

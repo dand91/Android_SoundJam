@@ -100,7 +100,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public void setLoopTime(double loopTime) {
 
         this.loopTime = loopTime;
-        ((AbstractInstrumentActivity) activity).setLoopTime((int) loopTime);
+        ((AbstractInstrumentActivity) activity).setLoopTime((double) loopTime);
 
     }
 

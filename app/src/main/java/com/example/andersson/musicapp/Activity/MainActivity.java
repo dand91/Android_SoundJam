@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.andersson.musicapp.AsyncUpdate.UpdateThread;
 import com.example.andersson.musicapp.R;
@@ -27,10 +28,13 @@ public class MainActivity extends ActionBarActivity {
     private Button groupNameButton;
     private Button DrumsButton;
     private SeekBar BPMBar;
+    private EditText BPMText;
     private EditText groupNameText;
+    private TextView InfoView;
     private ThreadHolder holder;
     private String groupName = "noName";
-    private int loopTime = 4;
+    private double loopTime = 4;
+    private int BPM = 120;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +67,8 @@ public class MainActivity extends ActionBarActivity {
                 updater.start();
             }
 
-            Intent myIntent = new Intent(MainActivity.this, BeatActivity.class);
-            myIntent.putExtra("backInfo", "back");
-            MainActivity.this.startActivityForResult(myIntent, 10);
 
-            myIntent = new Intent(MainActivity.this, BassdrumActivity.class);
+            Intent myIntent = new Intent(MainActivity.this, BassdrumActivity.class);
             myIntent.putExtra("backInfo", "back");
             MainActivity.this.startActivityForResult(myIntent, 10);
 
@@ -126,16 +127,17 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        BPMText = (EditText) findViewById(R.id.BPMText);
+
         BPMBar = (SeekBar) findViewById(R.id.BPMBar);
         BPMBar.setProgress(0);
         BPMBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-                EditText text = (EditText) findViewById(R.id.BPMText);
-                text.setText("BPM: " + (120 + i));
-
-                loopTime = (8 * 60) / (120 + i);
+                BPM = (120 + i);
+                BPMText.setText("BPM: " + BPM);
+                loopTime = (double)(8 * 60) / BPM;
 
             }
 
@@ -151,6 +153,30 @@ public class MainActivity extends ActionBarActivity {
 
             }
 
+        });
+
+        InfoView = (TextView) findViewById(R.id.InfoView);
+    }
+
+    public int getBPM(){
+        return BPM;
+    }
+
+    public void setBPM(int newBPM){
+
+        this.BPM = newBPM;
+        loopTime = (double)(8 * 60) / BPM;
+        holder.setLoopTime(loopTime);
+
+        runOnUiThread(new Runnable(){
+
+            @Override
+            public void run() {
+
+                BPMText.setText("BPM: " + BPM);
+                BPMBar.setProgress(BPM - 120);
+
+            }
         });
 
     }
@@ -183,9 +209,16 @@ public class MainActivity extends ActionBarActivity {
         return groupName;
     }
 
-    public int getLoopTime() {
+    public void setInfoText(String text){
+
+        runOnUiThread(new Runnablewt(text));
+
+    }
+
+    public double getLoopTime() {
         return loopTime;
     }
+
 
     public void AlertNoInternet() {
 
@@ -221,5 +254,22 @@ public class MainActivity extends ActionBarActivity {
                     haveConnectedMobile = true;
         }
         return haveConnectedWifi || haveConnectedMobile;
+    }
+
+    private class Runnablewt implements Runnable {
+
+        private String text;
+
+        public Runnablewt(String text){
+
+            this.text = text;
+
+        }
+        @Override
+        public void run() {
+
+            InfoView.setText(text);
+
+        }
     }
 }

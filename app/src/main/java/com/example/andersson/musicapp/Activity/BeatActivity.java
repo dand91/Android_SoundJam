@@ -65,7 +65,7 @@ public class BeatActivity extends AppCompatActivity {
             }
         });
 
-        snareButton = (Button) findViewById(R.id.snareButton);
+        snareButton = (Button) findViewById(R.id.SnareButton);
         snareButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -78,11 +78,7 @@ public class BeatActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
+        
         bd1 = (ImageView) findViewById(R.id.bd1);
         bd2 = (ImageView) findViewById(R.id.bd2);
         bd3 = (ImageView) findViewById(R.id.bd3);

@@ -1,8 +1,11 @@
 package com.example.andersson.musicapp.AsyncUpdate;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Vibrator;
 import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.MainActivity;
@@ -72,7 +75,7 @@ public class UpdateTask {
             HttpURLConnection conn = initiateConnection("http://213.21.69.152:1234/test");
             SendClassList scl = collectDataFromThreads(holder);
             sendXMLData(conn, scl);
-            receiveXMLData(conn, ob);
+            receiveXMLData(conn, ob, holder);
 
             conn.disconnect();
 
@@ -138,6 +141,10 @@ public class UpdateTask {
         HashMap<String, Thread> threads = holder.getThreads();
         SendClassList scl = new SendClassList();
 
+        String groupName = holder.getGroupName();
+        int BPM = ((MainActivity)holder.getMainActivity()).getBPM();
+
+
         if (!threads.entrySet().isEmpty()) {
 
             try {
@@ -160,12 +167,12 @@ public class UpdateTask {
                     }
 
                     SendClass temp = new SendClass();
-                    temp.setGroupName(holder.getGroupName());
                     temp.setInstrumentName(entry.getKey());
                     temp.setData(tempString);
-
                     temp.setVolume(String.valueOf(tempThread.getVolume()));
 
+                    scl.setGroupName(groupName);
+                    scl.setBPM(BPM);
                     scl.getSendClassList().add(temp);
                 }
 
@@ -182,11 +189,11 @@ public class UpdateTask {
             try {
 
                 SendClass temp = new SendClass();
-                temp.setGroupName(holder.getGroupName());
                 temp.setInstrumentName("N/I");
                 temp.setData("N/I");
                 temp.setVolume("N/I");
 
+                scl.setGroupName(holder.getGroupName());
                 scl.getSendClassList().add(temp);
 
             } catch (Exception e) {
@@ -245,9 +252,9 @@ public class UpdateTask {
      * Uses the created conn object to retrieve data from the HTTP server. The XML data is
      * demarshalled and sent to the corresponding thread through Observer pattern.
      *
-     * @param conn,ob
+     * @param conn,ob,holder
      */
-    private static void receiveXMLData(HttpURLConnection conn, UpdateObservable ob) {
+    private static void receiveXMLData(HttpURLConnection conn, UpdateObservable ob, ThreadHolder holder) {
 
         String response = "";
         BufferedReader br = null;
@@ -273,7 +280,7 @@ public class UpdateTask {
         } catch (IOException e) {
 
             Log.e("UpdateTask", "Error while fetching info.");
-            Log.e("UpdateTask", "Message4: " + e.getMessage());
+            Log.e("UpdateTask", "Message4.1: " + e.getMessage());
             System.exit(0);
 
         }
@@ -289,8 +296,12 @@ public class UpdateTask {
 
                 int k = 0;
 
+                int BPMTemp = sc.getBPM();
+                ((MainActivity)holder.getMainActivity()).setBPM(BPMTemp);
+
                 for (SendClass scTemp : sc.getSendClassList()) {
 
+                    k++;
                     String instrumentNameTemp = scTemp.getInstrumentName();
                     String dataTemp = scTemp.getData();
                     String volumeTemp = scTemp.getVolume();
@@ -303,7 +314,6 @@ public class UpdateTask {
 
                     }
 
-
                     HashMap<String, Object> map = new HashMap<String, Object>();
                     map.put("soundList", list);
                     map.put("volume", (Float.valueOf(volumeTemp)) / 100);
@@ -313,9 +323,14 @@ public class UpdateTask {
                     Log.i("UpdateTask", "Result fetch: " + instrumentNameTemp + " " + list.toString());
                 }
 
+                if(k > 0){
+
+                    ((MainActivity)holder.getMainActivity()).setInfoText("Info fetched from database!");
+                }
+
             } catch (Exception e) {
                 Log.e("UpdateTask", "Error while parsing fetched info.");
-                Log.e("UpdateTask", "Message4: " + e.getMessage());
+                Log.e("UpdateTask", "Message4.2: " + e.getMessage());
                 System.exit(0);
             }
 

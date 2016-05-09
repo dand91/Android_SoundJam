@@ -6,6 +6,7 @@ import com.example.andersson.musicapp.Activity.MainActivity;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.TimeObservable;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Observer;
 
@@ -47,21 +48,25 @@ public class TimeThread extends Thread {
 
             boolean run = true;
 
+            DecimalFormat df = new DecimalFormat("#.");
+
             while (true) {
 
                 calendar = Calendar.getInstance();
-                int seconds = calendar.get(Calendar.SECOND);
+                double second = calendar.get(Calendar.SECOND);
+                double millisecond = calendar.get(Calendar.MILLISECOND);
 
-                loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
+                double time = Double.valueOf(df.format(second * 1000 + millisecond));
+                loopTime = Double.valueOf(df.format(((MainActivity) holder.getMainActivity()).getLoopTime()*1000.0));
 
-                if (seconds % loopTime == 0 && run) {
+                if (time % (loopTime) == 0 && run) {
 
-                    Log.i("TimerThread", "Run: " + seconds);
+                    Log.i("TimerThread", "Run: " + time);
 
                     run = false;
                     ob.setChange();
 
-                } else if (seconds % loopTime != 0) {
+                } else if (time % loopTime != 0) {
 
                     run = true;
 

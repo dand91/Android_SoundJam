@@ -151,6 +151,7 @@ public class BeatActivity extends AppCompatActivity {
             } catch (NullPointerException e) {
 
                 Log.e("BeatActivity", "Error while fetching: " + key);
+                System.exit(0);
             }
 
             Drawable bg = null;

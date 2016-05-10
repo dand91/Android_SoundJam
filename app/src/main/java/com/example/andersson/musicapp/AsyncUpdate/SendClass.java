@@ -12,9 +12,8 @@ public class SendClass {
     private String data;
     @Element
     private String volume;
-
-
-
+    @Element
+    private Integer bars;
 
     public String getInstrumentName() {
         return instrumentName;
@@ -38,6 +37,14 @@ public class SendClass {
 
     public void setVolume(String volume) {
         this.volume = volume;
+    }
+
+    public Integer getBars() {
+        return bars;
+    }
+
+    public void setBars(Integer bars) {
+        this.bars = bars;
     }
 
 

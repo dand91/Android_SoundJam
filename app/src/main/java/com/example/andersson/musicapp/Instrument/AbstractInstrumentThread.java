@@ -3,6 +3,7 @@ package com.example.andersson.musicapp.Instrument;
 import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
+import com.example.andersson.musicapp.Activity.MainActivity;
 import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.TimeObservable;
@@ -100,20 +101,26 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public void setLoopTime(double loopTime) {
 
         this.loopTime = loopTime;
-        ((AbstractInstrumentActivity) activity).setLoopTime((double) loopTime);
 
     }
 
     public double getBars() {
 
-        return bars;
+        if(soundList.size() == 0){
+
+            return 8;
+
+        }else{
+
+            return bars;
+
+        }
 
     }
 
     public void setBars(double bars) {
 
         this.bars = bars;
-        ((AbstractInstrumentActivity) activity).setBars((int) bars);
 
     }
 
@@ -175,6 +182,13 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
         if (o instanceof TimeObservable) {
 
+            loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
+
+            final double loopBars = getBars();
+
+            if(!soundList.isEmpty() && soundList.get(0) != -1){
+                
+
             new Thread() {
                 @Override
                 public void run() {
@@ -192,7 +206,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
                         i++;
 
-                        if (i == bars) {
+                        if (i == loopBars) {
 
                             i = 0;
                             break;
@@ -200,7 +214,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                         } else {
 
                             try {
-                                sleep((long) ((loopTime / bars) * 1000));
+                                sleep((long) (((loopTime * 1000) / loopBars)));
                             } catch (InterruptedException e) {
 
                                 e.printStackTrace();
@@ -211,20 +225,28 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                 }
             }.start();
 
+        }
+
         } else if (o instanceof UpdateObservable) {
 
-            HashMap<String, Object> map = (HashMap<String, Object>) arg;
+            final HashMap<String, Object> map = (HashMap<String, Object>) arg;
 
-            if (((String) map.get("instrumentName")).equals(activity.getName())) {
+            new Thread() {
+                @Override
+                public void run() {
 
-                setVolume((float) map.get("volume"));
-                ArrayList<Integer> tempList = (ArrayList<Integer>) map.get("soundList");
-                setSoundList(tempList);
-                activity.setSoundList(tempList);
-                setBeat();
+                    if (((String) map.get("instrumentName")).equals(activity.getName())) {
 
-            }
+                        setVolume((float) map.get("volume"));
+                        ArrayList<Integer> tempList = (ArrayList<Integer>) map.get("soundList");
+                        setSoundList(tempList);
+                        setBars(Double.valueOf((int) map.get("bars")));
+                        setBeat();
 
+                    }
+
+                }
+            }.start();
         }
     }
 

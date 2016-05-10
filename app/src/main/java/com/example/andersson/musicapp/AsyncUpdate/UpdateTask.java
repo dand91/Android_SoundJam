@@ -170,6 +170,7 @@ public class UpdateTask {
                     temp.setInstrumentName(entry.getKey());
                     temp.setData(tempString);
                     temp.setVolume(String.valueOf(tempThread.getVolume()));
+                    temp.setBars((int)tempThread.getBars());
 
                     scl.setGroupName(groupName);
                     scl.setBPM(BPM);
@@ -192,7 +193,7 @@ public class UpdateTask {
                 temp.setInstrumentName("N/I");
                 temp.setData("N/I");
                 temp.setVolume("N/I");
-
+                temp.setBars(0);
                 scl.setGroupName(holder.getGroupName());
                 scl.getSendClassList().add(temp);
 
@@ -305,6 +306,7 @@ public class UpdateTask {
                     String instrumentNameTemp = scTemp.getInstrumentName();
                     String dataTemp = scTemp.getData();
                     String volumeTemp = scTemp.getVolume();
+                    Integer barsTemp = scTemp.getBars();
 
                     ArrayList<Integer> list = new ArrayList<Integer>();
 
@@ -318,6 +320,8 @@ public class UpdateTask {
                     map.put("soundList", list);
                     map.put("volume", (Float.valueOf(volumeTemp)) / 100);
                     map.put("instrumentName", instrumentNameTemp);
+                    map.put("bars", barsTemp);
+
                     ob.setChange(map);
 
                     Log.i("UpdateTask", "Result fetch: " + instrumentNameTemp + " " + list.toString());

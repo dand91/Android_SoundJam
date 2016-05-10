@@ -10,6 +10,8 @@ import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.Instrument.BassThread;
 import com.example.andersson.musicapp.R;
 
+import java.util.ArrayList;
+
 public class BassActivity extends AbstractInstrumentActivity implements SensorEventListener {
 
     int X;
@@ -104,62 +106,62 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
     }
 
     @Override
-    void generateSoundInfo(int index) {
+    void generateSoundInfo(ArrayList<Integer> list , int index) {
 
         int tol = 0;
 
         if (X > tol && Y > tol && Z > 0) {
 
             instrument.playRealTime(0);
-            soundList.add(0);
+            list.add(0);
             soundListText.setText(soundListText.getText() + " 0 ");
 
         } else if (X > tol && Y < tol && Z > 0) {
 
             instrument.playRealTime(1);
-            soundList.add(1);
+            list.add(1);
             soundListText.setText(soundListText.getText() + " 1 ");
 
         } else if (X < tol && Y > tol && Z > 0) {
 
             instrument.playRealTime(2);
-            soundList.add(2);
+            list.add(2);
             soundListText.setText(soundListText.getText() + " 2 ");
 
         } else if (X < tol && Y < tol && Z > 0) {
 
             instrument.playRealTime(3);
-            soundList.add(3);
+            list.add(3);
             soundListText.setText(soundListText.getText() + " 3 ");
 
         } else if (X > tol && Y > tol && Z < 0) {
 
             instrument.playRealTime(4);
-            soundList.add(4);
+            list.add(4);
             soundListText.setText(soundListText.getText() + " 4 ");
 
         } else if (X > tol && Y < tol && Z < 0) {
 
             instrument.playRealTime(5);
-            soundList.add(5);
+            list.add(5);
             soundListText.setText(soundListText.getText() + " 5 ");
 
         } else if (X < tol && Y > tol && Z < 0) {
 
             instrument.playRealTime(6);
-            soundList.add(6);
+            list.add(6);
             soundListText.setText(soundListText.getText() + " 6 ");
 
         } else if (X < tol && Y < tol && Z < 0) {
 
             instrument.playRealTime(8);
-            soundList.add(7);
+            list.add(7);
             soundListText.setText(soundListText.getText() + " 7 ");
 
         } else {
 
             instrument.playRealTime(4);
-            soundList.add(8);
+            list.add(8);
             soundListText.setText(soundListText.getText() + " 8 ");
 
         }
@@ -198,8 +200,8 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
         this.mAccelData = (TextView) findViewById(R.id.dataView);
 
         playRealTime = false;
-        bars = 8;
-        loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
+        double bars = instrument.getBars();
+        double loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
         instrument.setLoopTime(loopTime);
         instrument.setBars(bars);
 

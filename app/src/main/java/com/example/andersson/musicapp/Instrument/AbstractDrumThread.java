@@ -35,14 +35,18 @@ public abstract class AbstractDrumThread extends AbstractInstrumentThread {
 
         int k = 1;
 
-        for (Integer i : soundList) {
+        for (int i = 0; i < 8 ; i++) {
 
-            if (i == 1) {
+            if (soundList.get(i) == 1) {
 
                 holder.setBeatArray(activity.getName(), k, true);
+
             } else {
+
                 holder.setBeatArray(activity.getName(), k, false);
+
             }
+
             k++;
         }
 

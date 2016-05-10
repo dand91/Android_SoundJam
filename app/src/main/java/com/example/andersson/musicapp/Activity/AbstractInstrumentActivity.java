@@ -28,27 +28,25 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
     public ThreadHolder holder;
     public AbstractInstrumentThread instrument;
-    public ArrayList<Integer> soundList;
     public EditText soundListText;
-    public String name;
     public boolean playRealTime;
     public boolean record;
     public Button recordButton;
     public Button playButton;
     public Button stopButton;
     public Button removeButton;
+    public Button speedButton;
     public Button barButton;
     public EditText barText;
+    public TextView speedText;
     public SeekBar volumeSeekBar;
     public TextView progressText;
     protected SoundPoolHolder sph;
     int index = 0;
-    double bars;
-    double loopTime;
     private int countDown;
     private String info;
 
-    abstract void generateSoundInfo(int index);
+    abstract void generateSoundInfo(ArrayList<Integer> list , int index);
 
     public abstract String getName();
 
@@ -99,7 +97,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
         }
 
-        name = getName();
+        String name = getName();
 
         if (holder != null) {
 
@@ -150,24 +148,6 @@ public abstract class AbstractInstrumentActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    public void setLoopTime(double loopTime) {
-
-        this.loopTime = loopTime;
-    }
-
-    public void setBars(int bars) {
-
-        this.bars = bars;
-
-    }
-
-    public void setSoundList(ArrayList<Integer> soundList) {
-
-        this.soundList = soundList;
-
-    }
-
     protected void recordGUI() {
 
         recordButton = (Button) findViewById(R.id.recordButton);
@@ -181,26 +161,27 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
                 if (!record) {
 
+                    instrument.setBars(8);
+                    speedText.setText("Speed: 8 bars");
                     soundListText.setText("");
 
                     while (true) {
 
-                        DecimalFormat df = new DecimalFormat("#.");
                         Calendar calendar = Calendar.getInstance();
-                        double second = calendar.get(Calendar.SECOND);
-                        double millisecond = calendar.get(Calendar.MILLISECOND);
+                        int second = calendar.get(Calendar.SECOND);
+                        int millisecond = calendar.get(Calendar.MILLISECOND);
+                        int time = (second * 1000 + millisecond);
+                        final double loopTime = (((MainActivity) holder.getMainActivity()).getLoopTime() * 1000);
+                        final double bars = instrument.getBars();
 
-                        double time = Double.valueOf(df.format(second * 1000 + millisecond));
-                        loopTime = Double.valueOf(df.format(((MainActivity) holder.getMainActivity()).getLoopTime()*1000.0));
-
-                        if (time % loopTime == 0) {
+                        if (time % (int) loopTime == 0) {
 
                             index = 0;
                             // instrument.setChangedStatus(true);
                             barButton.setBackgroundColor(Color.RED);
                             barButton.setEnabled(false);
 
-                            soundList = new ArrayList<Integer>();
+                            final ArrayList<Integer> tempSoundList = new ArrayList<Integer>();
 
 
                             new Thread() {
@@ -244,7 +225,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
                                                 public void run() {
 
                                                     progressText.setText("Beat " + index + " of " + bars);
-                                                    generateSoundInfo(index);
+                                                    generateSoundInfo(tempSoundList,index);
 
                                                 }
                                             });
@@ -257,7 +238,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
                                                 break;
                                             }
 
-                                            sleep((long) (((double) loopTime / (double) bars) * 1000) - 200);
+                                            sleep((long) (((double) loopTime / bars ) * 1000) - 200);
 
 
                                         }
@@ -268,12 +249,12 @@ public abstract class AbstractInstrumentActivity extends Activity {
                                     }
 
                                     String s = "";
-                                    for (int in : soundList) {
+                                    for (int in : tempSoundList) {
                                         s = s + in + " ";
                                     }
                                     Log.i("Recorded: ", s);
 
-                                    instrument.setSoundList(soundList);
+                                    instrument.setSoundList(tempSoundList);
                                     record = false;
                                     instrument.setRecord(false);
 
@@ -367,6 +348,51 @@ public abstract class AbstractInstrumentActivity extends Activity {
                 holder.clearBeatArray();
                 instrument.setSoundList(tempList);
                 progressText.setText("Instrument removed.");
+            }
+        });
+    }
+
+    protected void speedGUI() {
+
+        speedText = (TextView) findViewById(R.id.speedText);
+        if(instrument.getBars() == 8) {
+            speedText.setText("Speed: 8 bars");
+        }else if(instrument.getBars() == 16) {
+            speedText.setText("Speed: 16 bars");
+        }
+
+        speedButton = (Button) findViewById(R.id.speedButton);
+        speedButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                if(instrument.getBars() == 8){
+
+                    instrument.setBars(16);
+                    speedText.setText("Speed: 16 bars");
+                    ArrayList<Integer> tempList = instrument.getSoundList();
+
+                    if(tempList.size() == 8) {
+                        ArrayList<Integer> newList = new ArrayList<Integer>();
+                        newList.addAll(tempList);
+                        newList.addAll(tempList);
+                        instrument.setSoundList(newList);
+                    }
+
+                }else if(instrument.getBars() == 16) {
+
+                    instrument.setBars(8);
+                    speedText.setText("Speed: 8 bars");
+                    ArrayList<Integer> tempList = instrument.getSoundList();
+
+                    if(tempList.size() == 16) {
+                        instrument.setSoundList(
+                                new ArrayList<Integer>(
+                                        tempList.subList(0, 8)));
+                    }
+                }
             }
         });
     }

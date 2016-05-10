@@ -8,6 +8,8 @@ import android.hardware.SensorManager;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.R;
 
+import java.util.ArrayList;
+
 public abstract class AbstractDrumActivity extends AbstractInstrumentActivity implements SensorEventListener {
 
 
@@ -44,17 +46,17 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
     }
 
     @Override
-    protected void generateSoundInfo(int index) { // should be connected to a sensor, it's called at new beatTime
+    protected void generateSoundInfo(ArrayList<Integer> list , int index) { // should be connected to a sensor, it's called at new beatTime
 
         if (isActive) {
 
-            soundList.add(1);
+            list.add(1);
             soundListText.setText(soundListText.getText() + " 1 ");
             holder.setBeatArray(this.getName(), index, true);
 
         } else {
 
-            soundList.add(0);
+            list.add(0);
             soundListText.setText(soundListText.getText() + " 0 ");
             holder.setBeatArray(this.getName(), index, false);
 
@@ -82,8 +84,8 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
         this.mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         playRealTime = false;
-        bars = 8;
-        loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
+        double bars = instrument.getBars();
+        double loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
         instrument.setLoopTime(loopTime);
         instrument.setBars(bars);
 
@@ -136,7 +138,6 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
         stopPlayGUI();
         volumeGUI();
         removeGUI();
-
+        speedGUI();
     }
-
 }

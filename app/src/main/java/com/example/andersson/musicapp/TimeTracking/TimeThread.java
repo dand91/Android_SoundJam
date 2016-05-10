@@ -24,6 +24,7 @@ public class TimeThread extends Thread {
 
     private TimeThread() {
 
+        this.setPriority(Thread.MAX_PRIORITY);
         this.ob = new TimeObservable();
     }
 
@@ -48,27 +49,27 @@ public class TimeThread extends Thread {
 
             boolean run = true;
 
-            DecimalFormat df = new DecimalFormat("#.");
 
             while (true) {
 
                 calendar = Calendar.getInstance();
-                double second = calendar.get(Calendar.SECOND);
-                double millisecond = calendar.get(Calendar.MILLISECOND);
+                int second = calendar.get(Calendar.SECOND);
+                int millisecond = calendar.get(Calendar.MILLISECOND);
+                int time = (int)(Math.round( (second * 1000 + millisecond) / 10.0) * 10);
+                int tempLoopTime = (int)(Math.round( (((MainActivity) holder.getMainActivity()).getLoopTime()*1000) / 10.0) * 10);
 
-                double time = Double.valueOf(df.format(second * 1000 + millisecond));
-                loopTime = Double.valueOf(df.format(((MainActivity) holder.getMainActivity()).getLoopTime()*1000.0));
 
-                if (time % (loopTime) == 0 && run) {
+                if (time % tempLoopTime == 0 && run) {
 
                     Log.i("TimerThread", "Run: " + time);
 
                     run = false;
+
                     ob.setChange();
 
-                } else if (time % loopTime != 0) {
+                }else if (time % tempLoopTime != 0) {
 
-                    run = true;
+                   run = true;
 
                 }
             }

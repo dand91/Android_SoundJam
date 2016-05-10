@@ -28,25 +28,27 @@ public class BassThread extends AbstractInstrumentThread {
     @Override
     public void playLoop(int index) {
 
+        float tempvolume = volume / 20f;
+
         if (soundList != null && soundList.size() > index && !record && !playRealTime) {
 
             int value = soundList.get(index);
 
             if (value == 0) {
 
-                sph.getSoundPool().play(soundId1, volume, volume, 1, 0, 1f);
+                sph.getSoundPool().play(soundId1, tempvolume, tempvolume, 1, 0, 1f);
 
             } else if (value == 1) {
 
-                sph.getSoundPool().play(soundId2, volume, volume, 1, 0, 1f);
+                sph.getSoundPool().play(soundId2, tempvolume, tempvolume, 1, 0, 1f);
 
             } else if (value == 2) {
 
-                sph.getSoundPool().play(soundId3, volume, volume, 1, 0, 1f);
+                sph.getSoundPool().play(soundId3, tempvolume, tempvolume, 1, 0, 1f);
 
             } else if (value == 3) {
 
-                sph.getSoundPool().play(soundId4, volume, volume, 1, 0, 1f);
+                sph.getSoundPool().play(soundId4, tempvolume, tempvolume, 1, 0, 1f);
 
             }
         }
@@ -85,37 +87,39 @@ public class BassThread extends AbstractInstrumentThread {
 
     private void soundCase(int value) {
 
+        float tempvolume = volume / 20f;
+
         if (value == 0) {
 
-            sph.getSoundPool().play(soundId1, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId1, tempvolume, tempvolume, 1, 0, 1f);
 
         } else if (value == 1) {
 
-            sph.getSoundPool().play(soundId2, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId2, tempvolume, tempvolume, 1, 0, 1f);
 
         } else if (value == 2) {
 
-            sph.getSoundPool().play(soundId3, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId3, tempvolume, tempvolume, 1, 0, 1f);
 
         } else if (value == 3) {
 
-            sph.getSoundPool().play(soundId4, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId4, tempvolume, tempvolume, 1, 0, 1f);
 
         } else if (value == 4) {
 
-            sph.getSoundPool().play(soundId5, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId5, tempvolume, tempvolume, 1, 0, 1f);
 
         } else if (value == 5) {
 
-            sph.getSoundPool().play(soundId6, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId6, tempvolume, tempvolume, 1, 0, 1f);
 
         } else if (value == 6) {
 
-            sph.getSoundPool().play(soundId7, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId7, tempvolume, tempvolume, 1, 0, 1f);
 
         } else if (value == 7) {
 
-            sph.getSoundPool().play(soundId8, volume, volume, 1, 0, 1f);
+            sph.getSoundPool().play(soundId8, tempvolume, tempvolume, 1, 0, 1f);
         }
 
 

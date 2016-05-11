@@ -28,7 +28,7 @@ public class BassThread extends AbstractInstrumentThread {
     @Override
     public void playLoop(int index) {
 
-        float tempvolume = volume / 20f;
+        float tempvolume = volume / 10f;
 
         if (soundList != null && soundList.size() > index && !record && !playRealTime) {
 
@@ -87,7 +87,7 @@ public class BassThread extends AbstractInstrumentThread {
 
     private void soundCase(int value) {
 
-        float tempvolume = volume / 20f;
+        float tempvolume = volume / 15f;
 
         if (value == 0) {
 

@@ -16,7 +16,7 @@ import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BeatActivity extends AppCompatActivity {
+public class BeatActivity extends BaseActivity {
 
 
     public ImageView bd1, bd2, bd3, bd4, bd5, bd6, bd7, bd8;
@@ -78,7 +78,7 @@ public class BeatActivity extends AppCompatActivity {
 
             }
         });
-        
+
         bd1 = (ImageView) findViewById(R.id.bd1);
         bd2 = (ImageView) findViewById(R.id.bd2);
         bd3 = (ImageView) findViewById(R.id.bd3);
@@ -136,6 +136,21 @@ public class BeatActivity extends AppCompatActivity {
         }};
 
         holder = ThreadHolder.getInstance();
+        updateBeat();
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        updateBeat();
+
+        finish();
+    }
+
+    private void updateBeat() {
 
         for (Map.Entry<String, Boolean> entry : holder.getBeatMap().entrySet()) {
 
@@ -170,5 +185,4 @@ public class BeatActivity extends AppCompatActivity {
         }
 
     }
-
 }

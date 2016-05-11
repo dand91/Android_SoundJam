@@ -1,11 +1,8 @@
 package com.example.andersson.musicapp.AsyncUpdate;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Vibrator;
 import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.MainActivity;
@@ -142,7 +139,7 @@ public class UpdateTask {
         SendClassList scl = new SendClassList();
 
         String groupName = holder.getGroupName();
-        int BPM = ((MainActivity)holder.getMainActivity()).getBPM();
+        int BPM = ((MainActivity) holder.getMainActivity()).getBPM();
 
 
         if (!threads.entrySet().isEmpty()) {
@@ -170,7 +167,7 @@ public class UpdateTask {
                     temp.setInstrumentName(entry.getKey());
                     temp.setData(tempString);
                     temp.setVolume(String.valueOf(tempThread.getVolume()));
-                    temp.setBars((int)tempThread.getBars());
+                    temp.setBars((int) tempThread.getBars());
 
                     scl.setGroupName(groupName);
                     scl.setBPM(BPM);
@@ -226,7 +223,7 @@ public class UpdateTask {
             serializerWrite.write(scl, writer);
             String temp = writer.toString();
 
-            Log.i("UpdateTask", "Sending: " + temp);
+            Log.v("UpdateTask", "Sending: " + temp);
 
             wr = new OutputStreamWriter(conn
                     .getOutputStream());
@@ -276,7 +273,7 @@ public class UpdateTask {
 
             response = responseOutput.toString();
 
-            Log.i("UpdateTask", "Receiving: " + response);
+            Log.v("UpdateTask", "Receiving: " + response);
 
         } catch (IOException e) {
 
@@ -298,7 +295,7 @@ public class UpdateTask {
                 int k = 0;
 
                 int BPMTemp = sc.getBPM();
-                ((MainActivity)holder.getMainActivity()).setBPM(BPMTemp);
+                ((MainActivity) holder.getMainActivity()).setBPM(BPMTemp);
 
                 for (SendClass scTemp : sc.getSendClassList()) {
 
@@ -327,9 +324,9 @@ public class UpdateTask {
                     Log.i("UpdateTask", "Result fetch: " + instrumentNameTemp + " " + list.toString());
                 }
 
-                if(k > 0){
+                if (k > 0) {
 
-                    ((MainActivity)holder.getMainActivity()).setInfoText("Info fetched from database!");
+                    ((MainActivity) holder.getMainActivity()).setInfoText("Info fetched from database!");
                 }
 
             } catch (Exception e) {

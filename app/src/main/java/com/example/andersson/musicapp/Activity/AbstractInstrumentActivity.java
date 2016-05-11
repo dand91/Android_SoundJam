@@ -16,15 +16,15 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
+import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public abstract class AbstractInstrumentActivity extends Activity {
+public abstract class AbstractInstrumentActivity extends BaseActivity {
 
     public ThreadHolder holder;
     public AbstractInstrumentThread instrument;
@@ -42,11 +42,12 @@ public abstract class AbstractInstrumentActivity extends Activity {
     public SeekBar volumeSeekBar;
     public TextView progressText;
     protected SoundPoolHolder sph;
+    protected ArrayList<Integer> tempSoundList;
     int index = 0;
     private int countDown;
     private String info;
 
-    abstract void generateSoundInfo(ArrayList<Integer> list , int index);
+    abstract void generateSoundInfo(ArrayList<Integer> list, int index);
 
     public abstract String getName();
 
@@ -58,12 +59,11 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
     protected abstract int getLayout();
 
-    protected abstract int getMenu();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
+
 
         info = null;
         holder = ThreadHolder.getInstance();
@@ -128,30 +128,12 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(getMenu(), menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     protected void recordGUI() {
 
         recordButton = (Button) findViewById(R.id.recordButton);
         progressText = (TextView) findViewById(R.id.progressText);
+
+        final ThreadPool threadPool = ThreadPool.getInstance();
 
         recordButton.setOnClickListener(new View.OnClickListener() {
 
@@ -168,23 +150,24 @@ public abstract class AbstractInstrumentActivity extends Activity {
                     while (true) {
 
                         Calendar calendar = Calendar.getInstance();
-                        int second = calendar.get(Calendar.SECOND);
-                        int millisecond = calendar.get(Calendar.MILLISECOND);
-                        int time = (second * 1000 + millisecond);
-                        final double loopTime = (((MainActivity) holder.getMainActivity()).getLoopTime() * 1000);
+                        int second = calendar.get(Calendar.SECOND) + 1;
+                        int millisecond = calendar.get(Calendar.MILLISECOND) + 1;
+                        int time = (int) (Math.round((second * 1000 + millisecond) / 10.0) * 10);
+                        final int tempLoopTime = (int) (Math.round((((MainActivity) holder.getMainActivity()).getLoopTime() * 1000) / 10.0) * 10);
                         final double bars = instrument.getBars();
 
-                        if (time % (int) loopTime == 0) {
+
+                        if (time % tempLoopTime == 0) {
 
                             index = 0;
                             // instrument.setChangedStatus(true);
                             barButton.setBackgroundColor(Color.RED);
                             barButton.setEnabled(false);
 
-                            final ArrayList<Integer> tempSoundList = new ArrayList<Integer>();
+                            tempSoundList = new ArrayList<Integer>();
 
 
-                            new Thread() {
+                            Thread tempThread = new Thread() {
 
                                 public void run() {
 
@@ -225,7 +208,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
                                                 public void run() {
 
                                                     progressText.setText("Beat " + index + " of " + bars);
-                                                    generateSoundInfo(tempSoundList,index);
+                                                    generateSoundInfo(tempSoundList, index);
 
                                                 }
                                             });
@@ -238,7 +221,7 @@ public abstract class AbstractInstrumentActivity extends Activity {
                                                 break;
                                             }
 
-                                            sleep((long) (((double) loopTime / bars ) * 1000) - 200);
+                                            sleep((long) ((tempLoopTime / bars)) - 200);
 
 
                                         }
@@ -271,8 +254,9 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
                                 }
 
-                            }.start();
+                            };
 
+                            threadPool.add(tempThread,"record");
                             break;
                         }
                     }
@@ -355,9 +339,9 @@ public abstract class AbstractInstrumentActivity extends Activity {
     protected void speedGUI() {
 
         speedText = (TextView) findViewById(R.id.speedText);
-        if(instrument.getBars() == 8) {
+        if (instrument.getBars() == 8 && instrument.getSoundList().size() == 8) {
             speedText.setText("Speed: 8 bars");
-        }else if(instrument.getBars() == 16) {
+        } else if (instrument.getBars() == 16 && instrument.getSoundList().size() == 16) {
             speedText.setText("Speed: 16 bars");
         }
 
@@ -368,26 +352,26 @@ public abstract class AbstractInstrumentActivity extends Activity {
 
             public void onClick(View view) {
 
-                if(instrument.getBars() == 8){
+                if (instrument.getBars() == 8 && instrument.getSoundList().size() == 8) {
 
                     instrument.setBars(16);
                     speedText.setText("Speed: 16 bars");
                     ArrayList<Integer> tempList = instrument.getSoundList();
 
-                    if(tempList.size() == 8) {
+                    if (tempList.size() == 8) {
                         ArrayList<Integer> newList = new ArrayList<Integer>();
                         newList.addAll(tempList);
                         newList.addAll(tempList);
                         instrument.setSoundList(newList);
                     }
 
-                }else if(instrument.getBars() == 16) {
+                } else if (instrument.getBars() == 16 && instrument.getSoundList().size() == 16) {
 
                     instrument.setBars(8);
                     speedText.setText("Speed: 8 bars");
                     ArrayList<Integer> tempList = instrument.getSoundList();
 
-                    if(tempList.size() == 16) {
+                    if (tempList.size() == 16) {
                         instrument.setSoundList(
                                 new ArrayList<Integer>(
                                         tempList.subList(0, 8)));

@@ -18,9 +18,7 @@ public class ThreadHolder {
     private HashMap<String, Thread> threads;
     private TimeThread timer;
     private UpdateThread updater;
-
     private Activity mainActivity;
-
     private HashMap<String, Boolean> beat;
 
     public ThreadHolder() {
@@ -55,8 +53,6 @@ public class ThreadHolder {
 
 
     public void setLoopTime(double loopTime) {
-
-        timer.setLoopTime(loopTime);
 
         for (Map.Entry<String, Thread> thread : threads.entrySet()) {
 
@@ -123,7 +119,8 @@ public class ThreadHolder {
         }
 
     }
-    public void clearBeatArray(){
+
+    public void clearBeatArray() {
 
         beat.clear();
 

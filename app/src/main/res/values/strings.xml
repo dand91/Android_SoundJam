@@ -1,17 +1,13 @@
 <resources>
     <string name="app_name">MusicApp</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_Bassdrum">BassdrumActivity</string>
-    <string name="title_activity_sensor">SensorActivity</string>
-    <string name="title_activity_Snare">SnareActivity</string>
-    <string name="title_activity_Sinus">SinusActivity</string>
-    <string name="title_activity_Bass">BassActivity</string>
-    <string name="title_activity_HighHat">HighHatActivity</string>
-    <string name="title_activity_high_hat">HighHatActivity</string>
-    <string name="title_activity_snare">SnareActivity</string>
-    <string name="title_activity_abstract_drum">AbstractDrumActivity</string>
-    <string name="title_activity_beat">BeatActivity</string>
+    <string name="title_activity_Bassdrum">Bassdrum</string>
+    <string name="title_activity_Snare">Snare</string>
+    <string name="title_activity_Sinus">Sinus</string>
+    <string name="title_activity_Bass">Bass</string>
+    <string name="title_activity_High_Hat">HighHat</string>
+    <string name="title_activity_Abstract_Drum">AbstractDrum</string>
+    <string name="title_activity_Beat">Beat</string>
 
 </resources>

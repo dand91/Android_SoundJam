@@ -6,6 +6,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
+import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.R;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
     }
 
     @Override
-    protected void generateSoundInfo(ArrayList<Integer> list , int index) { // should be connected to a sensor, it's called at new beatTime
+    protected void generateSoundInfo(ArrayList<Integer> list, int index) { // should be connected to a sensor, it's called at new beatTime
 
         if (isActive) {
 
@@ -70,14 +71,6 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
     }
 
     @Override
-    protected int getMenu() {
-
-        return R.menu.menu_drum;
-    }
-
-    // end GUI/Instrument code
-
-    @Override
     protected void initiate() {
 
         this.mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -89,6 +82,8 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
         instrument.setLoopTime(loopTime);
         instrument.setBars(bars);
 
+        final ThreadPool threadPool = ThreadPool.getInstance();
+
         mShakeDetector = new ShakeDetector();
         mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
 
@@ -99,7 +94,7 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
 
                     instrument.playRealTime(1);
 
-                    new Thread() {
+                    Thread tempThread = new Thread() {
 
                         public void run() {
 
@@ -117,7 +112,9 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
 
 
                         }
-                    }.start();
+                    };
+
+                    threadPool.add(tempThread,"Active");
 
                 } else if (playRealTime) {
 

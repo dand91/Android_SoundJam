@@ -106,7 +106,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
     }
 
     @Override
-    void generateSoundInfo(ArrayList<Integer> list , int index) {
+    void generateSoundInfo(ArrayList<Integer> list, int index) {
 
         int tol = 0;
 
@@ -177,12 +177,6 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
     protected int getLayout() {
 
         return R.layout.activity_bass;
-    }
-
-    @Override
-    protected int getMenu() {
-
-        return R.menu.menu_bass;
     }
 
     @Override

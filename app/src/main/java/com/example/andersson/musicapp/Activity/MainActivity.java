@@ -17,12 +17,13 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.andersson.musicapp.AsyncUpdate.UpdateThread;
+import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.TimeTracking.TimeThread;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends BaseActivity {
 
     private Button BassButton;
     private Button groupNameButton;
@@ -53,18 +54,23 @@ public class MainActivity extends ActionBarActivity {
             holder = ThreadHolder.getInstance();
             holder.setMainActivity(this);
 
+            ThreadPool threadPool = ThreadPool.getInstance();
+
             TimeThread timer = TimeThread.getInstance();
 
             if (!timer.isAlive()) {
 
-                timer.start();
+
+               threadPool.add(timer,"timer");
+
             }
 
             UpdateThread updater = UpdateThread.getInstance();
 
             if (!updater.isAlive()) {
 
-                updater.start();
+                threadPool.add(updater,"updater");
+
             }
 
 
@@ -137,7 +143,6 @@ public class MainActivity extends ActionBarActivity {
 
                 BPM = (120 + i);
                 BPMText.setText("BPM: " + BPM);
-                loopTime = (double)(8 * 60) / BPM;
 
             }
 
@@ -149,6 +154,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+                loopTime = (double) (8 * 60) / BPM;
                 holder.setLoopTime(loopTime);
 
             }
@@ -158,17 +164,17 @@ public class MainActivity extends ActionBarActivity {
         InfoView = (TextView) findViewById(R.id.InfoView);
     }
 
-    public int getBPM(){
+    public int getBPM() {
         return BPM;
     }
 
-    public void setBPM(int newBPM){
+    public void setBPM(int newBPM) {
 
         this.BPM = newBPM;
-        loopTime = (double)(8 * 60) / BPM;
+        loopTime = (double) (8 * 60) / BPM;
         holder.setLoopTime(loopTime);
 
-        runOnUiThread(new Runnable(){
+        runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
@@ -185,7 +191,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_base, menu);
         return true;
     }
 
@@ -209,7 +215,7 @@ public class MainActivity extends ActionBarActivity {
         return groupName;
     }
 
-    public void setInfoText(String text){
+    public void setInfoText(String text) {
 
         runOnUiThread(new Runnablewt(text));
 
@@ -260,11 +266,12 @@ public class MainActivity extends ActionBarActivity {
 
         private String text;
 
-        public Runnablewt(String text){
+        public Runnablewt(String text) {
 
             this.text = text;
 
         }
+
         @Override
         public void run() {
 

@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     android:orientation="vertical"
-    android:background="@drawable/background">
+    tools:context=".Activity.BeatActivity">
 
 
     <ImageView
         android:id="@+id/bd1"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="36dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="154dp"
-        android:background="@drawable/cell_shape"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:background="@drawable/cell_shape" />
 
     <ImageView
         android:id="@+id/bd2"
@@ -85,10 +87,10 @@
         android:id="@+id/hh1"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/cell_shape"
         android:layout_below="@+id/HighHatButton"
         android:layout_toLeftOf="@+id/hh2"
-        android:layout_toStartOf="@+id/hh2" />
+        android:layout_toStartOf="@+id/hh2"
+        android:background="@drawable/cell_shape" />
 
     <ImageView
         android:id="@+id/hh2"
@@ -157,10 +159,10 @@
         android:id="@+id/sn1"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/cell_shape"
         android:layout_below="@+id/SnareButton"
         android:layout_toLeftOf="@+id/sn2"
-        android:layout_toStartOf="@+id/sn2" />
+        android:layout_toStartOf="@+id/sn2"
+        android:background="@drawable/cell_shape" />
 
     <ImageView
         android:id="@+id/sn2"
@@ -229,29 +231,29 @@
         android:id="@+id/BassDrumButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bassdrum"
         android:layout_above="@+id/bd2"
         android:layout_alignLeft="@+id/bd1"
         android:layout_alignStart="@+id/bd1"
-        android:backgroundTint="#842525" />
+        android:backgroundTint="#842525"
+        android:text="Bassdrum" />
 
     <Button
         android:id="@+id/HighHatButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="HighHat"
-        android:layout_below="@+id/bd1"
         android:layout_alignLeft="@+id/bd1"
-        android:layout_alignStart="@+id/bd1" />
+        android:layout_alignStart="@+id/bd1"
+        android:layout_below="@+id/bd1"
+        android:text="HighHat" />
 
     <Button
         android:id="@+id/SnareButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="snare"
-        android:backgroundTint="#842525"
-        android:layout_below="@+id/hh1"
         android:layout_alignLeft="@+id/hh1"
-        android:layout_alignStart="@+id/hh1" />
+        android:layout_alignStart="@+id/hh1"
+        android:layout_below="@+id/hh1"
+        android:backgroundTint="#842525"
+        android:text="snare" />
 
 </RelativeLayout>

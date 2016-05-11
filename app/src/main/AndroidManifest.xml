@@ -26,23 +26,20 @@
         <activity
             android:name=".Activity.BassActivity"
             android:label="@string/title_activity_Bass"
-            android:theme="@style/AppTheme.NoActionBar" />
+            />
         <activity
             android:name=".Activity.HighHatActivity"
-            android:label="@string/title_activity_high_hat"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_High_Hat"
+            />
         <activity
             android:name=".Activity.SnareActivity"
-            android:label="@string/title_activity_snare"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activity.AbstractDrumActivity"
-            android:label="@string/title_activity_abstract_drum"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_Snare"
+            />
         <activity
             android:name=".Activity.BeatActivity"
-            android:label="@string/title_activity_beat"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="@string/title_activity_Beat"
+            />
+        <activity android:name=".Activity.BaseActivity"></activity>
     </application>
 
 </manifest>

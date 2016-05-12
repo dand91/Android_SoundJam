@@ -3,10 +3,15 @@ package com.example.andersson.musicapp.TimeTracking;
 import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.MainActivity;
+import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.TimeObservable;
 
-import java.util.Calendar;
+import org.apache.commons.net.ntp.NTPUDPClient;
+import org.apache.commons.net.ntp.TimeInfo;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Observer;
 
 /**
@@ -15,15 +20,76 @@ import java.util.Observer;
 public class TimeThread extends Thread {
 
     private static TimeThread instance = null;
-    int i;
-    private Calendar calendar;
     private TimeObservable ob;
     private ThreadHolder holder;
+    private ThreadPool threadPool;
+    private long adjust = 0;
 
     private TimeThread() {
 
-        this.setPriority(Thread.MAX_PRIORITY);
         this.ob = new TimeObservable();
+
+        threadPool = ThreadPool.getInstance();
+
+        Thread tempThread = new Thread() {
+
+            @Override
+            public void run() {
+
+                while (true) {
+
+                    long returnTime = getTime();
+
+                    if(returnTime > 0) {
+
+                        adjust = returnTime - System.currentTimeMillis();
+
+                    }
+
+                    Log.d("TimeThread", "Adjusting: " + adjust);
+
+
+                    try {
+
+                        sleep(60000);
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            private long getTime() {
+
+                String[] TIME_SERVER = {"0.se.pool.ntp.org","1.se.pool.ntp.org","2.se.pool.ntp.org","3.se.pool.ntp.org"};
+
+                for (int i = 0; i < TIME_SERVER.length; i++) {
+
+                    try {
+
+                        NTPUDPClient timeClient = new NTPUDPClient();
+                        Log.d("TimeThread", "Starting NTP version: " + timeClient.getVersion() + " Source: " + TIME_SERVER[i]);
+
+                        timeClient.setDefaultTimeout(2000);
+
+                        InetAddress inetAddress = InetAddress.getByName(TIME_SERVER[i]);
+                        TimeInfo timeInfo = timeClient.getTime(inetAddress);
+
+                        return timeInfo.getMessage().getTransmitTimeStamp().getTime();
+
+                    } catch (UnknownHostException e2) {
+                        Log.e("TimeThread", "URL error");
+                    } catch (java.io.IOException e) {
+                        Log.e("TimeThread", "Connection error");
+                    }
+
+                }
+
+                return 0l;
+            }
+        };
+
+        threadPool.add(tempThread, "getTime");
     }
 
     public static TimeThread getInstance() {
@@ -36,64 +102,32 @@ public class TimeThread extends Thread {
 
     public void run() {
 
+
         holder = ThreadHolder.getInstance();
 
         if (holder == null) {
 
-            Log.e("ThreadHolder", "Holder is null");
+            Log.e("TimeThread", "Holder is null");
             System.exit(0);
 
         } else {
 
             boolean run = true;
-            boolean set = true;
-            int adjust = 0;
-            int tempLoopTime = 0;
-            int oldLoopTime = 0;
 
             while (true) {
 
+                int tempLoopTime = (int) (((MainActivity) holder.getMainActivity()).getLoopTime() * 1000);
 
-                calendar = Calendar.getInstance();
-                int second = calendar.get(Calendar.SECOND) + 1;
-                int millisecond = calendar.get(Calendar.MILLISECOND) + 1;
-                int time = (int) (Math.round((second * 1000 + millisecond) / 10.0) * 10);
-                tempLoopTime = (int) (Math.round((((MainActivity) holder.getMainActivity()).getLoopTime() * 1000) / 10.0) * 10);
+                long currentTime = System.currentTimeMillis() + adjust;
+                long tempTime = currentTime % tempLoopTime;
 
-                //int time = (int) (second * 1000 + millisecond);
-                //int tempLoopTime = (int)(((MainActivity) holder.getMainActivity()).getLoopTime() * 1000);
+                if (tempTime == 0 && run) {
 
-                if(calendar.get(Calendar.SECOND) == 0 && set){
-
-                    if(oldLoopTime != tempLoopTime){
-                        adjust = 0;
-                    }
-
-                    int temp1 = (int)(60000/tempLoopTime);
-                    //Log.e("TEST1", "" + temp1);
-                    int temp2 = (temp1 + 1)*tempLoopTime - 60000 ;
-                    //Log.e("TEST2", "" + temp2);
-                    int temp3 = tempLoopTime - temp2;
-                    //Log.e("TEST3", "" + temp3);
-                    adjust = adjust + temp3;
-                    //Log.e("TEST4", "" + adjust);
-
-                    set = false;
-
-                }else if(calendar.get(Calendar.SECOND)  != 0){
-
-                    set = true;
-                }
-
-                if ((time + adjust) % tempLoopTime == 0 && run) {
-
-                    Log.i("TimerThread", "Run: " + time);
-                    oldLoopTime = tempLoopTime;
+                    Log.i("TimeThread", "Run: " + currentTime);
                     run = false;
-
                     ob.setChange();
 
-                } else if ((time + adjust ) % tempLoopTime != 0) {
+                } else if (tempTime != 0) {
 
                     run = true;
 

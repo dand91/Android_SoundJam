@@ -4,7 +4,6 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.os.Handler;
-import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
@@ -40,8 +39,6 @@ public class SinusThread extends AbstractInstrumentThread {
         sampleTime = (long) (getLoopTime() / getBars());
 
         if (System.currentTimeMillis() - startTime > sampleTime) {
-
-            Log.d("TEST", "" + value);
 
             freqOfTone = value;
             final Thread thread = new Thread(new Runnable() {

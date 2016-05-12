@@ -39,7 +39,7 @@ public class UpdateThread extends Thread {
 
         if (holder == null) {
 
-            Log.e("ThreadHolder", "Holder is null");
+            Log.e("UpdateThread", "Holder is null");
             System.exit(0);
 
         } else {

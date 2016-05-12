@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.MainActivity;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
+import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.UpdateObservable;
 
@@ -68,6 +69,7 @@ public class UpdateTask {
 
         } else {
 
+            ThreadPool.getInstance().getInfo();
 
             HttpURLConnection conn = initiateConnection("http://213.21.69.152:1234/test");
             SendClassList scl = collectDataFromThreads(holder);
@@ -75,6 +77,7 @@ public class UpdateTask {
             receiveXMLData(conn, ob, holder);
 
             conn.disconnect();
+
 
         }
 

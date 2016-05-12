@@ -91,7 +91,7 @@ public class ThreadHolder {
 
         threads.put(name, thread);
 
-        Log.d("Thread", "Number of objects: " + threads.size());
+        Log.d("ThreadHolder", "Number of objects: " + threads.size());
 
     }
 

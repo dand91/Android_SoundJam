@@ -1,14 +1,11 @@
 package com.example.andersson.musicapp.Activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -235,7 +232,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                     for (int in : tempSoundList) {
                                         s = s + in + " ";
                                     }
-                                    Log.i("Recorded: ", s);
+                                    Log.i("AbstractInstrument", "Recorded: " + s);
 
                                     instrument.setSoundList(tempSoundList);
                                     record = false;
@@ -256,7 +253,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                             };
 
-                            threadPool.add(tempThread,"record");
+                            threadPool.add(tempThread, "record");
                             break;
                         }
                     }
@@ -301,7 +298,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
             public void onClick(View view) {
                 playRealTime = true;
                 instrument.setPlayRealTime(true);
-                Log.d("EA1", "playRealTime");
+                Log.d("AbstractInstrument", "playRealTime");
             }
         });
         stopButton = (Button) findViewById(R.id.stopButton);
@@ -313,7 +310,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                 playRealTime = false;
                 instrument.setPlayRealTime(false);
 
-                Log.d("EA1", "stopRealTime");
+                Log.d("AbstractInstrument", "stopRealTime");
             }
         });
     }

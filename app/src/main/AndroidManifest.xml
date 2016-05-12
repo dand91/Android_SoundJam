@@ -16,7 +16,6 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -25,20 +24,16 @@
             android:label="@string/title_activity_Bassdrum" />
         <activity
             android:name=".Activity.BassActivity"
-            android:label="@string/title_activity_Bass"
-            />
+            android:label="@string/title_activity_Bass" />
         <activity
             android:name=".Activity.HighHatActivity"
-            android:label="@string/title_activity_High_Hat"
-            />
+            android:label="@string/title_activity_High_Hat" />
         <activity
             android:name=".Activity.SnareActivity"
-            android:label="@string/title_activity_Snare"
-            />
+            android:label="@string/title_activity_Snare" />
         <activity
             android:name=".Activity.BeatActivity"
-            android:label="@string/title_activity_Beat"
-            />
+            android:label="@string/title_activity_Beat" />
         <activity android:name=".Activity.BaseActivity"></activity>
     </application>
 

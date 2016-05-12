@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,7 +60,7 @@ public class MainActivity extends BaseActivity {
             if (!timer.isAlive()) {
 
 
-               threadPool.add(timer,"timer");
+                threadPool.add(timer, "timer");
 
             }
 
@@ -69,7 +68,7 @@ public class MainActivity extends BaseActivity {
 
             if (!updater.isAlive()) {
 
-                threadPool.add(updater,"updater");
+                threadPool.add(updater, "updater");
 
             }
 

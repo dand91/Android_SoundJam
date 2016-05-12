@@ -114,7 +114,7 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
                         }
                     };
 
-                    threadPool.add(tempThread,"Active");
+                    threadPool.add(tempThread, "Active");
 
                 } else if (playRealTime) {
 

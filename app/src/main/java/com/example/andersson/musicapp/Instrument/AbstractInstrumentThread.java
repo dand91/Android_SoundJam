@@ -60,21 +60,21 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
                     } else {
 
-                        Log.e("EIT2", "soundPool is null");
+                        Log.e("InstrumentThread", "soundPool is null");
                         System.exit(0);
 
                     }
 
                 } else {
 
-                    Log.e("EIT2", "Context is null");
+                    Log.e("InstrumentThread", "Context is null");
                     System.exit(0);
 
                 }
 
             } else {
 
-                Log.e("EIT2", "Activity is null");
+                Log.e("InstrumentThread", "Activity is null");
                 System.exit(0);
 
             }
@@ -181,7 +181,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     @Override
     public void update(Observable o, Object arg) {
 
-        ThreadPool threadPool = ThreadPool.getInstance();
+        final ThreadPool threadPool = ThreadPool.getInstance();
 
 
         if (o instanceof TimeObservable) {
@@ -230,7 +230,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                     }
                 };
 
-                threadPool.add(tempThread,"play");
+                threadPool.add(tempThread, "play");
 
             }
 
@@ -256,7 +256,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
             };
 
-            threadPool.add(tempThread,"update");
+            threadPool.add(tempThread, "update");
 
         }
     }

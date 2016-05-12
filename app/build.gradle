@@ -1,6 +1,19 @@
 apply plugin: 'com.android.application'
 
+
+
+dependencies {
+
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile files('libs/simple-xml-2.7.1.jar')
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:design:22.2.1'
+    compile 'commons-net:commons-net:3.3'
+
+}
+
 android {
+
     compileSdkVersion 22
     buildToolsVersion "22.0.0"
 
@@ -17,12 +30,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+    }
 }
 
-dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.android.support:design:22.2.1'
-    compile files('libs/simple-xml-2.7.1.jar')
 
-}
+

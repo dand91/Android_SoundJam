@@ -18,15 +18,12 @@ public class ThreadHolder {
     private HashMap<String, Thread> threads;
     private TimeThread timer;
     private UpdateThread updater;
-    private Activity mainActivity;
-    private HashMap<String, Boolean> beat;
 
     public ThreadHolder() {
 
         this.threads = new HashMap<String, Thread>();
         this.timer = TimeThread.getInstance();
         this.updater = UpdateThread.getInstance();
-        beat = new HashMap<String, Boolean>();
 
     }
 
@@ -38,11 +35,6 @@ public class ThreadHolder {
         return instance;
     }
 
-    public String getGroupName() {
-
-        return ((MainActivity) mainActivity).getGroupName();
-    }
-
     public HashMap<String, Thread> getThreads() {
         return threads;
     }
@@ -50,7 +42,6 @@ public class ThreadHolder {
     public Thread getThread(String key) {
         return threads.get(key);
     }
-
 
     public void setLoopTime(double loopTime) {
 
@@ -95,34 +86,4 @@ public class ThreadHolder {
 
     }
 
-    public Activity getMainActivity() {
-
-        return mainActivity;
-    }
-
-    public void setMainActivity(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
-    }
-
-    public HashMap<String, Boolean> getBeatMap() {
-
-        return beat;
-    }
-
-    public void setBeatArray(String instrument, int index, boolean on) {
-
-        if (!beat.containsKey(instrument + index)) {
-            beat.put(instrument + index, on);
-        } else {
-            beat.remove(instrument + index);
-            beat.put(instrument + index, on);
-        }
-
-    }
-
-    public void clearBeatArray() {
-
-        beat.clear();
-
-    }
 }

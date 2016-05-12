@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.andersson.musicapp.Activity.MainActivity;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.Pool.ThreadPool;
+import com.example.andersson.musicapp.SharedResources.MainHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.UpdateObservable;
 
@@ -33,19 +34,20 @@ public class UpdateTask {
     /**
      * Class for sending and retrieving data from HTTP server.
      *
-     * @param holder,ob - SharedInfoHolder to get information from threads. UpdateObservable to
+     * @param threadHolder,ob - SharedInfoHolder to get information from threads. UpdateObservable to
      *                  notify threads.
      * @return String - Dummy string
      */
-    public static String saveAndLoad(ThreadHolder holder, UpdateObservable ob) {
+    public static String saveAndLoad(ThreadHolder threadHolder, UpdateObservable ob) {
 
         MainActivity tempMain = null;
         String tempGroupName = null;
+        MainHolder mainHolder = MainHolder.getInstance();
 
         try {
 
-            tempGroupName = holder.getGroupName();
-            tempMain = (MainActivity) holder.getMainActivity();
+            tempGroupName = mainHolder.getGroupName();
+            tempMain = (MainActivity) mainHolder.getMainActivity();
 
             if (tempGroupName.equals("noName")) {
 
@@ -72,9 +74,9 @@ public class UpdateTask {
             ThreadPool.getInstance().getInfo();
 
             HttpURLConnection conn = initiateConnection("http://213.21.69.152:1234/test");
-            SendClassList scl = collectDataFromThreads(holder);
+            SendClassList scl = collectDataFromThreads(mainHolder,threadHolder);
             sendXMLData(conn, scl);
-            receiveXMLData(conn, ob, holder);
+            receiveXMLData(conn, ob, mainHolder);
 
             conn.disconnect();
 
@@ -133,16 +135,16 @@ public class UpdateTask {
      * Collects data from the active threads. Creates a list of SendClass objects to be converted to
      * XML string.
      *
-     * @param holder - Object containing the threads.
+     * @param mainHolder,threadHolder - Object containing the threads.
      * @return scl - The list of SendClass objects.
      */
-    private static SendClassList collectDataFromThreads(ThreadHolder holder) {
+    private static SendClassList collectDataFromThreads(MainHolder mainHolder,ThreadHolder threadHolder) {
 
-        HashMap<String, Thread> threads = holder.getThreads();
+        HashMap<String, Thread> threads = threadHolder.getThreads();
         SendClassList scl = new SendClassList();
 
-        String groupName = holder.getGroupName();
-        int BPM = ((MainActivity) holder.getMainActivity()).getBPM();
+        String groupName = mainHolder.getGroupName();
+        int BPM = ((MainActivity) mainHolder.getMainActivity()).getBPM();
 
 
         if (!threads.entrySet().isEmpty()) {
@@ -194,7 +196,7 @@ public class UpdateTask {
                 temp.setData("N/I");
                 temp.setVolume("N/I");
                 temp.setBars(0);
-                scl.setGroupName(holder.getGroupName());
+                scl.setGroupName(mainHolder.getGroupName());
                 scl.getSendClassList().add(temp);
 
             } catch (Exception e) {
@@ -253,9 +255,9 @@ public class UpdateTask {
      * Uses the created conn object to retrieve data from the HTTP server. The XML data is
      * demarshalled and sent to the corresponding thread through Observer pattern.
      *
-     * @param conn,ob,holder
+     * @param conn,ob,threadHolder
      */
-    private static void receiveXMLData(HttpURLConnection conn, UpdateObservable ob, ThreadHolder holder) {
+    private static void receiveXMLData(HttpURLConnection conn, UpdateObservable ob, MainHolder mainHolder) {
 
         String response = "";
         BufferedReader br = null;
@@ -298,7 +300,7 @@ public class UpdateTask {
                 int k = 0;
 
                 int BPMTemp = sc.getBPM();
-                ((MainActivity) holder.getMainActivity()).setBPM(BPMTemp);
+                ((MainActivity) mainHolder.getMainActivity()).setBPM(BPMTemp);
 
                 for (SendClass scTemp : sc.getSendClassList()) {
 
@@ -329,7 +331,7 @@ public class UpdateTask {
 
                 if (k > 0) {
 
-                    ((MainActivity) holder.getMainActivity()).setInfoText("Info fetched from database!");
+                    ((MainActivity) mainHolder.getMainActivity()).setInfoText("Info fetched from database!");
                 }
 
             } catch (Exception e) {

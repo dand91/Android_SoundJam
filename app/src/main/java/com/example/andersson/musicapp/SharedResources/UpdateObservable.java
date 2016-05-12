@@ -2,10 +2,12 @@ package com.example.andersson.musicapp.SharedResources;
 
 import android.util.Log;
 
+import java.util.Observable;
+
 /**
  * Created by Andersson on 07/04/16.
  */
-public class UpdateObservable extends AbstractObservable {
+public class UpdateObservable extends Observable {
 
     public UpdateObservable() {
         super();
@@ -13,7 +15,7 @@ public class UpdateObservable extends AbstractObservable {
 
     public void setChange(Object arg) {
 
-        Log.d("UpdateObservable", "Number of observers - " + this.countObservers() + " - " + this.getClass());
+        Log.d("UpdateObservable", "Number of observers - " + this.countObservers());
         notifyObservers(arg);
         setChanged();
 

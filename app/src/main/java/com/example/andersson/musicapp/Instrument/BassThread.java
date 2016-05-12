@@ -9,8 +9,7 @@ import com.example.andersson.musicapp.SharedResources.ThreadHolder;
  */
 public class BassThread extends AbstractInstrumentThread {
 
-    long startTime = 0;
-    long sampleTime = 0;
+    private int value = 0;
     private int soundId1;
     private int soundId2;
     private int soundId3;
@@ -20,56 +19,38 @@ public class BassThread extends AbstractInstrumentThread {
     private int soundId7;
     private int soundId8;
 
-    public BassThread(AbstractInstrumentActivity activity, ThreadHolder holder) {
-        super(activity, holder);
+    public BassThread(AbstractInstrumentActivity activity) {
+        super(activity);
 
     }
 
     @Override
     public void playLoop(int index) {
 
-        float tempvolume = volume / 10f;
+        if (soundList != null && soundList.size() > index && !record) {
 
-        if (soundList != null && soundList.size() > index && !record && !playRealTime) {
+            if(!playRealTime) {
 
-            int value = soundList.get(index);
+                int loopValue = soundList.get(index);
+                soundCase(loopValue);
 
-            if (value == 0) {
+            }else{
 
-                sph.getSoundPool().play(soundId1, tempvolume, tempvolume, 1, 0, 1f);
-
-            } else if (value == 1) {
-
-                sph.getSoundPool().play(soundId2, tempvolume, tempvolume, 1, 0, 1f);
-
-            } else if (value == 2) {
-
-                sph.getSoundPool().play(soundId3, tempvolume, tempvolume, 1, 0, 1f);
-
-            } else if (value == 3) {
-
-                sph.getSoundPool().play(soundId4, tempvolume, tempvolume, 1, 0, 1f);
+                soundCase(value);
 
             }
+
+        }else if(record){
+
+            soundCase(value);
+
         }
     }
 
     public void playRealTime(int value) {
 
-        if (playRealTime) {
+        this.value = value;
 
-            soundCase(value);
-
-        } else {
-
-            sampleTime = (long) (((double) getLoopTime() / (double) getBars()) * 1000);
-
-            if (System.currentTimeMillis() - startTime > sampleTime) {
-
-                soundCase(value);
-                startTime = System.currentTimeMillis();
-            }
-        }
     }
 
     protected void initiateSound() {

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.andersson.musicapp.R;
+import com.example.andersson.musicapp.SharedResources.BeatHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 import java.util.HashMap;
@@ -21,9 +22,8 @@ public class BeatActivity extends BaseActivity {
     public ImageView bd1, bd2, bd3, bd4, bd5, bd6, bd7, bd8;
     public ImageView hh1, hh2, hh3, hh4, hh5, hh6, hh7, hh8;
     public ImageView sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8;
-    public ThreadHolder holder;
+    public BeatHolder beatHolder;
     public Map<String, ImageView> beatMap;
-    private String info;
 
     private Button BassDrumButton;
     private Button snareButton;
@@ -134,7 +134,7 @@ public class BeatActivity extends BaseActivity {
 
         }};
 
-        holder = ThreadHolder.getInstance();
+        beatHolder = BeatHolder.getInstance();
         updateBeat();
 
 
@@ -151,7 +151,7 @@ public class BeatActivity extends BaseActivity {
 
     private void updateBeat() {
 
-        for (Map.Entry<String, Boolean> entry : holder.getBeatMap().entrySet()) {
+        for (Map.Entry<String, Boolean> entry : beatHolder.getBeatMap().entrySet()) {
 
             String key = entry.getKey();
             Boolean value = entry.getValue();

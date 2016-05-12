@@ -85,9 +85,10 @@ public class ThreadPool {
         try {
 
             futureMap.remove(name);
+
         } catch (Exception e) {
 
-            //TODO
+            e.printStackTrace();
         }
 
     }

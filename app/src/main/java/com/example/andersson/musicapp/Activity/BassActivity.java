@@ -4,11 +4,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.Instrument.BassThread;
 import com.example.andersson.musicapp.R;
+import com.example.andersson.musicapp.SharedResources.MainHolder;
 
 import java.util.ArrayList;
 
@@ -21,26 +23,28 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private TextView mAccelData;
+    private long oldTime = 0;
 
     public BassActivity() {
         super();
     }
 
-    // Sensor code
-    protected void onResume() {
+    @Override
+    public void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        playRealTime = false;
     }
 
-    protected void onPause() {
+    @Override
+    public void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(this);
+        playRealTime = true;
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
-        if (playRealTime) {
 
             float[] Reading = event.values;
 
@@ -50,54 +54,27 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
             mAccelData.setText("x:" + X + " y: " + Y + " z: " + Z);
 
-            int tol = 0;
+        int tol = 0;
 
-            if (X > tol && Y > tol && Z > tol) {
-
-                instrument.playRealTime(0);
-
-            } else if (X > tol && Y < tol && Z > tol) {
-
-                instrument.playRealTime(1);
-
-            } else if (X < tol && Y > tol && Z > tol) {
-
-                instrument.playRealTime(2);
-
-            } else if (X < tol && Y < tol && Z > tol) {
-
-                instrument.playRealTime(3);
-
-            } else if (X > tol && Y > tol && Z < tol) {
-
-                instrument.playRealTime(4);
-
-            } else if (X > tol && Y < tol && Z < tol) {
-
-                instrument.playRealTime(5);
-
-            } else if (X < tol && Y > tol && Z < tol) {
-
-                instrument.playRealTime(6);
-
-            } else if (X < tol && Y < tol && Z < tol) {
-
-                instrument.playRealTime(7);
-
-            }
-
-        } else if (record) {
-
-            float[] Reading = event.values;
-
-            X = (int) Reading[0];
-            Y = (int) Reading[1];
-            Z = (int) (Reading[2]);
-
+        if (X > tol && Y > tol && Z > 0) {
+            instrument.playRealTime(0);
+        } else if (X > tol && Y < tol && Z > 0) {
+            instrument.playRealTime(1);
+        } else if (X < tol && Y > tol && Z > 0) {
+            instrument.playRealTime(2);
+        } else if (X < tol && Y < tol && Z > 0) {
+            instrument.playRealTime(3);
+        } else if (X > tol && Y > tol && Z < 0) {
+            instrument.playRealTime(4);
+        } else if (X > tol && Y < tol && Z < 0) {
+            instrument.playRealTime(5);
+        } else if (X < tol && Y > tol && Z < 0) {
+            instrument.playRealTime(6);
+        } else if (X < tol && Y < tol && Z < 0) {
+            instrument.playRealTime(8);
+        } else {
+            instrument.playRealTime(4);
         }
-
-        mAccelData.setText("x:" + X + " y: " + Y + " z: " + Z);
-
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -181,7 +158,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
     @Override
     protected AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
-        return new BassThread(this, holder);
+        return new BassThread(this);
     }
 
     // end GUI/Instrument code
@@ -194,10 +171,8 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
         this.mAccelData = (TextView) findViewById(R.id.dataView);
 
         playRealTime = false;
-        double bars = instrument.getBars();
-        double loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
+        double loopTime = ((MainActivity) MainHolder.getInstance().getMainActivity()).getLoopTime();
         instrument.setLoopTime(loopTime);
-        instrument.setBars(bars);
 
     }
 

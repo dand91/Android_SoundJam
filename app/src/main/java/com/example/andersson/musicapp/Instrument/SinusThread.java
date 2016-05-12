@@ -24,8 +24,8 @@ public class SinusThread extends AbstractInstrumentThread {
     private double sample[] = new double[numSamples];
     private double freqOfTone = 440; // hz
 
-    public SinusThread(AbstractInstrumentActivity activity, ThreadHolder holder) {
-        super(activity, holder);
+    public SinusThread(AbstractInstrumentActivity activity) {
+        super(activity);
     }
 
     @Override

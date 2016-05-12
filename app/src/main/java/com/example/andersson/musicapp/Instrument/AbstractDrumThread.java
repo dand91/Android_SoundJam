@@ -1,6 +1,7 @@
 package com.example.andersson.musicapp.Instrument;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
+import com.example.andersson.musicapp.SharedResources.BeatHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 /**
@@ -8,8 +9,11 @@ import com.example.andersson.musicapp.SharedResources.ThreadHolder;
  */
 public abstract class AbstractDrumThread extends AbstractInstrumentThread {
 
+    private BeatHolder beatHolder;
+
     public AbstractDrumThread(AbstractInstrumentActivity activity, ThreadHolder holder) {
-        super(activity, holder);
+        super(activity);
+        this.beatHolder = BeatHolder.getInstance();
     }
 
     protected abstract void initiateSound();
@@ -41,11 +45,11 @@ public abstract class AbstractDrumThread extends AbstractInstrumentThread {
 
                 if (soundList.get(i) == 1) {
 
-                    holder.setBeatArray(activity.getName(), k, true);
+                    beatHolder.setBeatArray(activity.getName(), k, true);
 
                 } else {
 
-                    holder.setBeatArray(activity.getName(), k, false);
+                    beatHolder.setBeatArray(activity.getName(), k, false);
 
                 }
 

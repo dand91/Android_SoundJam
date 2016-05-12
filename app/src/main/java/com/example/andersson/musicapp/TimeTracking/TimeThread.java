@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.MainActivity;
 import com.example.andersson.musicapp.Pool.ThreadPool;
+import com.example.andersson.musicapp.SharedResources.MainHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.TimeObservable;
 
@@ -22,6 +23,7 @@ public class TimeThread extends Thread {
     private static TimeThread instance = null;
     private TimeObservable ob;
     private ThreadHolder holder;
+    private MainHolder mainHolder;
     private ThreadPool threadPool;
     private long adjust = 0;
 
@@ -30,6 +32,7 @@ public class TimeThread extends Thread {
         this.ob = new TimeObservable();
 
         threadPool = ThreadPool.getInstance();
+        mainHolder = MainHolder.getInstance();
 
         Thread tempThread = new Thread() {
 
@@ -116,7 +119,7 @@ public class TimeThread extends Thread {
 
             while (true) {
 
-                int tempLoopTime = (int) (((MainActivity) holder.getMainActivity()).getLoopTime() * 1000);
+                int tempLoopTime = (int) (((MainActivity) mainHolder.getMainActivity()).getLoopTime() * 1000);
 
                 long currentTime = System.currentTimeMillis() + adjust;
                 long tempTime = currentTime % tempLoopTime;

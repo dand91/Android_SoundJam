@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.R;
+import com.example.andersson.musicapp.SharedResources.BeatHolder;
+import com.example.andersson.musicapp.SharedResources.MainHolder;
 import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
@@ -24,6 +26,8 @@ import java.util.Calendar;
 public abstract class AbstractInstrumentActivity extends BaseActivity {
 
     public ThreadHolder holder;
+    public BeatHolder beatHolder;
+    public MainHolder mainHolder;
     public AbstractInstrumentThread instrument;
     public EditText soundListText;
     public boolean playRealTime;
@@ -64,6 +68,9 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
         info = null;
         holder = ThreadHolder.getInstance();
+        beatHolder = BeatHolder.getInstance();
+        mainHolder = MainHolder.getInstance();
+
         sph = SoundPoolHolder.getInstance();
 
         try {
@@ -140,8 +147,21 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                 if (!record) {
 
-                    instrument.setBars(8);
-                    speedText.setText("Speed: 8 bars");
+                    if(speedText != null) {
+
+                        instrument.setBars(8);
+                        speedText.setText("Speed: 8 bars");
+
+                        ArrayList<Integer> tempList = instrument.getSoundList();
+
+                        if (tempList.size() == 16) {
+
+                            instrument.setSoundList(
+                                    new ArrayList<Integer>(
+                                            tempList.subList(0, 8)));
+                        }
+                    }
+
                     soundListText.setText("");
 
                     while (true) {
@@ -150,7 +170,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                         int second = calendar.get(Calendar.SECOND) + 1;
                         int millisecond = calendar.get(Calendar.MILLISECOND) + 1;
                         int time = (int) (Math.round((second * 1000 + millisecond) / 10.0) * 10);
-                        final int tempLoopTime = (int) (Math.round((((MainActivity) holder.getMainActivity()).getLoopTime() * 1000) / 10.0) * 10);
+                        final int tempLoopTime = (int) (Math.round((((MainActivity) mainHolder.getMainActivity()).getLoopTime() * 1000) / 10.0) * 10);
                         final double bars = instrument.getBars();
 
 
@@ -326,7 +346,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                 ArrayList<Integer> tempList = new ArrayList<Integer>();
                 tempList.add(-1);
-                holder.clearBeatArray();
+                beatHolder.clearBeatArray();
                 instrument.setSoundList(tempList);
                 progressText.setText("Instrument removed.");
             }

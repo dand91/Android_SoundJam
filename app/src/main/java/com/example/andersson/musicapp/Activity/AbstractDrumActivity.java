@@ -8,6 +8,8 @@ import android.hardware.SensorManager;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.R;
+import com.example.andersson.musicapp.SharedResources.BeatHolder;
+import com.example.andersson.musicapp.SharedResources.MainHolder;
 
 import java.util.ArrayList;
 
@@ -17,25 +19,36 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private boolean isActive;
+    private BeatHolder beatHolder;
+    private MainHolder mainHolder;
 
     private ShakeDetector mShakeDetector;
 
     public AbstractDrumActivity() {
         super();
+
+        beatHolder = BeatHolder.getInstance();
+        mainHolder = MainHolder.getInstance();
+
     }
 
     public abstract String getName();
 
     public abstract AbstractInstrumentThread getInstrumentClass();
 
-    protected void onResume() {
+    @Override
+    public void onResume() {
         super.onResume();
         mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+        playRealTime = true;
+
     }
 
+    @Override
     protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(mShakeDetector);
+        playRealTime = false;
     }
 
     @Override
@@ -53,13 +66,13 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
 
             list.add(1);
             soundListText.setText(soundListText.getText() + " 1 ");
-            holder.setBeatArray(this.getName(), index, true);
+            beatHolder.setBeatArray(this.getName(), index, true);
 
         } else {
 
             list.add(0);
             soundListText.setText(soundListText.getText() + " 0 ");
-            holder.setBeatArray(this.getName(), index, false);
+            beatHolder.setBeatArray(this.getName(), index, false);
 
         }
     }
@@ -78,7 +91,7 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
 
         playRealTime = false;
         double bars = instrument.getBars();
-        double loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
+        double loopTime = ((MainActivity) mainHolder.getMainActivity()).getLoopTime();
         instrument.setLoopTime(loopTime);
         instrument.setBars(bars);
 
@@ -102,7 +115,6 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
 
                             try {
 
-                                //sleep((long) ((loopTime / bars) / 2));
                                 sleep(400);
 
                             } catch (InterruptedException e) {

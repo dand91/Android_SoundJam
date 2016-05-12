@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.Activity.MainActivity;
 import com.example.andersson.musicapp.Pool.ThreadPool;
+import com.example.andersson.musicapp.SharedResources.MainHolder;
 import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.TimeObservable;
@@ -23,7 +24,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
     public int i;
     public ArrayList<Integer> soundList = new ArrayList<Integer>();
-    public ThreadHolder holder;
+    public ThreadHolder threadHolder;
     public AbstractInstrumentActivity activity;
     public boolean set;
     public boolean changed;
@@ -35,10 +36,10 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     private double loopTime;
     private double bars;
 
-    public AbstractInstrumentThread(AbstractInstrumentActivity activity, ThreadHolder holder) {
+    public AbstractInstrumentThread(AbstractInstrumentActivity activity) {
 
         this.sph = SoundPoolHolder.getInstance();
-        this.holder = holder;
+        this.threadHolder = ThreadHolder.getInstance();
         this.activity = activity;
         this.i = 0;
 
@@ -186,7 +187,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
         if (o instanceof TimeObservable) {
 
-            loopTime = ((MainActivity) holder.getMainActivity()).getLoopTime();
+            loopTime = ((MainActivity) MainHolder.getInstance().getMainActivity()).getLoopTime();
 
             final double tempLoopTime = (Math.round((loopTime * 1000) / 10.0) * 10);
             final double loopBars = getBars();

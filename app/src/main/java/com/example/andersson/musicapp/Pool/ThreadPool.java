@@ -74,9 +74,14 @@ public class ThreadPool {
 
     }
 
-    public Object get(String name) throws ExecutionException, InterruptedException {
+    public Object getFuture(String name) throws ExecutionException, InterruptedException {
 
         return futureMap.get(name).get();
+
+    }
+    public Object getThread(String name){
+
+        return threadMap.get(name);
 
     }
 
@@ -84,7 +89,8 @@ public class ThreadPool {
 
         try {
 
-            futureMap.remove(name);
+            Future future = futureMap.remove(name);
+            future.cancel(true);
 
         } catch (Exception e) {
 

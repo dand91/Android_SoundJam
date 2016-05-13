@@ -177,8 +177,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                         if (time % tempLoopTime == 0) {
 
                             index = 0;
-                            // instrument.setChangedStatus(true);
-                            barButton.setBackgroundColor(Color.RED);
                             barButton.setEnabled(false);
 
                             tempSoundList = new ArrayList<Integer>();
@@ -264,7 +262,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                         public void run() {
 
                                             barButton.setEnabled(true);
-                                            barButton.setBackgroundColor(Color.GREEN);
                                         }
                                     });
 
@@ -369,30 +366,72 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
             public void onClick(View view) {
 
+                progressText.setText("Updating server");
+
                 if (instrument.getBars() == 8 && instrument.getSoundList().size() == 8) {
 
-                    instrument.setBars(16);
-                    speedText.setText("Speed: 16 bars");
                     ArrayList<Integer> tempList = instrument.getSoundList();
 
                     if (tempList.size() == 8) {
+
                         ArrayList<Integer> newList = new ArrayList<Integer>();
                         newList.addAll(tempList);
                         newList.addAll(tempList);
+
+                        speedButton.setEnabled(false);
+                        speedButton.setClickable(false);
+                        instrument.setBars(16);
                         instrument.setSoundList(newList);
+
+                        try {
+
+                            Thread.sleep(4000);
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        instrument.setSoundList(newList);
+                        instrument.setBars(16);
+                        speedButton.setEnabled(true);
+                        speedButton.setClickable(true);
+
                     }
+
+                    speedText.setText("Speed: 16 bars");
 
                 } else if (instrument.getBars() == 16 && instrument.getSoundList().size() == 16) {
 
-                    instrument.setBars(8);
-                    speedText.setText("Speed: 8 bars");
                     ArrayList<Integer> tempList = instrument.getSoundList();
 
                     if (tempList.size() == 16) {
+
+
+                        instrument.setBars(8);
+                        speedButton.setEnabled(false);
+                        speedButton.setClickable(false);
                         instrument.setSoundList(
                                 new ArrayList<Integer>(
                                         tempList.subList(0, 8)));
+
+                        try {
+
+                            Thread.sleep(4000);
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        instrument.setBars(8);
+                        instrument.setSoundList(
+                                new ArrayList<Integer>(
+                                        tempList.subList(0, 8)));
+                        speedButton.setEnabled(true);
+                        speedButton.setClickable(true);
+
+
                     }
+                    speedText.setText("Speed: 8 bars");
+
                 }
             }
         });

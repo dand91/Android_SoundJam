@@ -14,6 +14,7 @@ import org.apache.commons.net.ntp.TimeInfo;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Observer;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Andersson on 07/04/16.
@@ -34,65 +35,9 @@ public class TimeThread extends Thread {
         threadPool = ThreadPool.getInstance();
         mainHolder = MainHolder.getInstance();
 
-        Thread tempThread = new Thread() {
+        Thread tempThread = new NTPThread();
 
-            @Override
-            public void run() {
-
-                while (true) {
-
-                    long returnTime = getTime();
-
-                    if(returnTime > 0) {
-
-                        adjust = returnTime - System.currentTimeMillis();
-
-                    }
-
-                    Log.d("TimeThread", "Adjusting: " + adjust);
-
-
-                    try {
-
-                        sleep(60000);
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            private long getTime() {
-
-                String[] TIME_SERVER = {"0.se.pool.ntp.org","1.se.pool.ntp.org","2.se.pool.ntp.org","3.se.pool.ntp.org"};
-
-                for (int i = 0; i < TIME_SERVER.length; i++) {
-
-                    try {
-
-                        NTPUDPClient timeClient = new NTPUDPClient();
-                        Log.d("TimeThread", "Starting NTP version: " + timeClient.getVersion() + " Source: " + TIME_SERVER[i]);
-
-                        timeClient.setDefaultTimeout(2000);
-
-                        InetAddress inetAddress = InetAddress.getByName(TIME_SERVER[i]);
-                        TimeInfo timeInfo = timeClient.getTime(inetAddress);
-
-                        return timeInfo.getMessage().getTransmitTimeStamp().getTime();
-
-                    } catch (UnknownHostException e2) {
-                        Log.e("TimeThread", "URL error");
-                    } catch (java.io.IOException e) {
-                        Log.e("TimeThread", "Connection error");
-                    }
-
-                }
-
-                return 0l;
-            }
-        };
-
-        threadPool.add(tempThread, "getTime");
+        threadPool.add(tempThread, "NTP");
     }
 
     public static TimeThread getInstance() {
@@ -121,7 +66,18 @@ public class TimeThread extends Thread {
 
                 int tempLoopTime = (int) (((MainActivity) mainHolder.getMainActivity()).getLoopTime() * 1000);
 
-                long currentTime = System.currentTimeMillis() + adjust;
+                long currentTime = 0;
+
+                try {
+
+                    currentTime = System.currentTimeMillis() + ((NTPThread)threadPool.getThread("NTP")).getAdjust();
+
+                } catch (Exception e) {
+                    Log.e("TimeThread", "Error feching adjust from thread.");
+                    Log.e("TimeThread", e.getMessage());
+
+                }
+
                 long tempTime = currentTime % tempLoopTime;
 
                 if (tempTime == 0 && run) {

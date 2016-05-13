@@ -302,6 +302,8 @@ public class UpdateTask {
                 int BPMTemp = sc.getBPM();
                 ((MainActivity) mainHolder.getMainActivity()).setBPM(BPMTemp);
 
+                String info = "";
+
                 for (SendClass scTemp : sc.getSendClassList()) {
 
                     k++;
@@ -327,11 +329,13 @@ public class UpdateTask {
                     ob.setChange(map);
 
                     Log.i("UpdateTask", "Result fetch: " + instrumentNameTemp + " " + list.toString());
+                    info = info + "\nAdded: " + instrumentNameTemp;
                 }
 
                 if (k > 0) {
 
-                    ((MainActivity) mainHolder.getMainActivity()).setInfoText("Info fetched from database!");
+                    ((MainActivity) mainHolder.getMainActivity())
+                            .setInfoText("Info fetched from database from group: " + sc.getGroupName() + info);
                 }
 
             } catch (Exception e) {

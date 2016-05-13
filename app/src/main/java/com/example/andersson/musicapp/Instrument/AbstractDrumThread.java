@@ -21,7 +21,7 @@ public abstract class AbstractDrumThread extends AbstractInstrumentThread {
     @Override
     public void playLoop(int index) {
 
-        if (soundList != null && soundList.size() > index && soundList.get(index) == 1 && !record && !playRealTime) {
+        if (soundList != null && soundList.size() > index && soundList.get(index) == 1 && !record && !playRealTime && !pause) {
 
             sph.getSoundPool().play(soundId, volume, volume, 1, 0, 1f);
 

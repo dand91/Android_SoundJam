@@ -14,7 +14,7 @@ public class BassdrumActivity extends AbstractDrumActivity {
     @Override
     public String getName() { // Set the name, mostly for thread separation
 
-        return "bd";
+        return "BassDrum";
     }
 
     @Override

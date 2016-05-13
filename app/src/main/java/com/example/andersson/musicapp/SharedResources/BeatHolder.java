@@ -1,5 +1,7 @@
 package com.example.andersson.musicapp.SharedResources;
 
+import android.util.Log;
+
 import java.util.HashMap;
 
 /**

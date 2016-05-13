@@ -9,7 +9,7 @@
 
 
     <ImageView
-        android:id="@+id/bd1"
+        android:id="@+id/BassDrum1"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
@@ -21,219 +21,219 @@
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/bd2"
+        android:id="@+id/BassDrum2"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignTop="@+id/bd1"
-        android:layout_toEndOf="@+id/bd1"
-        android:layout_toRightOf="@+id/bd1"
+        android:layout_alignTop="@+id/BassDrum1"
+        android:layout_toEndOf="@+id/BassDrum1"
+        android:layout_toRightOf="@+id/BassDrum1"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/bd3"
+        android:id="@+id/BassDrum3"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignBottom="@+id/bd2"
-        android:layout_toEndOf="@+id/bd2"
-        android:layout_toRightOf="@+id/bd2"
+        android:layout_alignBottom="@+id/BassDrum2"
+        android:layout_toEndOf="@+id/BassDrum2"
+        android:layout_toRightOf="@+id/BassDrum2"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/bd4"
+        android:id="@+id/BassDrum4"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignBottom="@+id/bd3"
-        android:layout_toEndOf="@+id/bd3"
-        android:layout_toRightOf="@+id/bd3"
+        android:layout_alignBottom="@+id/BassDrum3"
+        android:layout_toEndOf="@+id/BassDrum3"
+        android:layout_toRightOf="@+id/BassDrum3"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/bd5"
+        android:id="@+id/BassDrum5"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignBottom="@+id/bd4"
-        android:layout_toEndOf="@+id/bd4"
-        android:layout_toRightOf="@+id/bd4"
+        android:layout_alignBottom="@+id/BassDrum4"
+        android:layout_toEndOf="@+id/BassDrum4"
+        android:layout_toRightOf="@+id/BassDrum4"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/bd6"
+        android:id="@+id/BassDrum6"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignBottom="@+id/bd5"
-        android:layout_toEndOf="@+id/bd5"
-        android:layout_toRightOf="@+id/bd5"
+        android:layout_alignBottom="@+id/BassDrum5"
+        android:layout_toEndOf="@+id/BassDrum5"
+        android:layout_toRightOf="@+id/BassDrum5"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/bd7"
+        android:id="@+id/BassDrum7"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignTop="@+id/bd6"
-        android:layout_toEndOf="@+id/bd6"
-        android:layout_toRightOf="@+id/bd6"
+        android:layout_alignTop="@+id/BassDrum6"
+        android:layout_toEndOf="@+id/BassDrum6"
+        android:layout_toRightOf="@+id/BassDrum6"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/bd8"
+        android:id="@+id/BassDrum8"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignBottom="@+id/bd7"
-        android:layout_toEndOf="@+id/bd7"
-        android:layout_toRightOf="@+id/bd7"
+        android:layout_alignBottom="@+id/BassDrum7"
+        android:layout_toEndOf="@+id/BassDrum7"
+        android:layout_toRightOf="@+id/BassDrum7"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/hh1"
+        android:id="@+id/HighHat1"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_below="@+id/HighHatButton"
-        android:layout_toLeftOf="@+id/hh2"
-        android:layout_toStartOf="@+id/hh2"
+        android:layout_toLeftOf="@+id/HighHat2"
+        android:layout_toStartOf="@+id/HighHat2"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/hh2"
+        android:id="@+id/HighHat2"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/bd2"
-        android:layout_alignStart="@+id/bd2"
-        android:layout_alignTop="@+id/hh1"
+        android:layout_alignLeft="@+id/BassDrum2"
+        android:layout_alignStart="@+id/BassDrum2"
+        android:layout_alignTop="@+id/HighHat1"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/hh3"
+        android:id="@+id/HighHat3"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignTop="@+id/hh2"
-        android:layout_toEndOf="@+id/hh2"
-        android:layout_toRightOf="@+id/hh2"
+        android:layout_alignTop="@+id/HighHat2"
+        android:layout_toEndOf="@+id/HighHat2"
+        android:layout_toRightOf="@+id/HighHat2"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/hh4"
+        android:id="@+id/HighHat4"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/bd4"
-        android:layout_alignStart="@+id/bd4"
-        android:layout_alignTop="@+id/hh3"
+        android:layout_alignLeft="@+id/BassDrum4"
+        android:layout_alignStart="@+id/BassDrum4"
+        android:layout_alignTop="@+id/HighHat3"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/hh5"
+        android:id="@+id/HighHat5"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/bd5"
-        android:layout_alignStart="@+id/bd5"
-        android:layout_alignTop="@+id/hh4"
+        android:layout_alignLeft="@+id/BassDrum5"
+        android:layout_alignStart="@+id/BassDrum5"
+        android:layout_alignTop="@+id/HighHat4"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/hh6"
+        android:id="@+id/HighHat6"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/bd6"
-        android:layout_alignStart="@+id/bd6"
-        android:layout_alignTop="@+id/hh5"
+        android:layout_alignLeft="@+id/BassDrum6"
+        android:layout_alignStart="@+id/BassDrum6"
+        android:layout_alignTop="@+id/HighHat5"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/hh7"
+        android:id="@+id/HighHat7"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/bd7"
-        android:layout_alignStart="@+id/bd7"
-        android:layout_alignTop="@+id/hh6"
+        android:layout_alignLeft="@+id/BassDrum7"
+        android:layout_alignStart="@+id/BassDrum7"
+        android:layout_alignTop="@+id/HighHat6"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/hh8"
+        android:id="@+id/HighHat8"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/bd8"
-        android:layout_alignStart="@+id/bd8"
-        android:layout_alignTop="@+id/hh7"
+        android:layout_alignLeft="@+id/BassDrum8"
+        android:layout_alignStart="@+id/BassDrum8"
+        android:layout_alignTop="@+id/HighHat7"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/sn1"
+        android:id="@+id/Snare1"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_below="@+id/SnareButton"
-        android:layout_toLeftOf="@+id/sn2"
-        android:layout_toStartOf="@+id/sn2"
+        android:layout_toLeftOf="@+id/Snare2"
+        android:layout_toStartOf="@+id/Snare2"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/sn2"
+        android:id="@+id/Snare2"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/hh2"
-        android:layout_alignStart="@+id/hh2"
-        android:layout_alignTop="@+id/sn1"
+        android:layout_alignLeft="@+id/HighHat2"
+        android:layout_alignStart="@+id/HighHat2"
+        android:layout_alignTop="@+id/Snare1"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/sn3"
+        android:id="@+id/Snare3"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignTop="@+id/sn2"
-        android:layout_toEndOf="@+id/sn2"
-        android:layout_toRightOf="@+id/sn2"
+        android:layout_alignTop="@+id/Snare2"
+        android:layout_toEndOf="@+id/Snare2"
+        android:layout_toRightOf="@+id/Snare2"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/sn4"
+        android:id="@+id/Snare4"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/hh4"
-        android:layout_alignStart="@+id/hh4"
-        android:layout_alignTop="@+id/sn3"
+        android:layout_alignLeft="@+id/HighHat4"
+        android:layout_alignStart="@+id/HighHat4"
+        android:layout_alignTop="@+id/Snare3"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/sn5"
+        android:id="@+id/Snare5"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/hh5"
-        android:layout_alignStart="@+id/hh5"
-        android:layout_alignTop="@+id/sn4"
+        android:layout_alignLeft="@+id/HighHat5"
+        android:layout_alignStart="@+id/HighHat5"
+        android:layout_alignTop="@+id/Snare4"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/sn6"
+        android:id="@+id/Snare6"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/hh6"
-        android:layout_alignStart="@+id/hh6"
-        android:layout_alignTop="@+id/sn5"
+        android:layout_alignLeft="@+id/HighHat6"
+        android:layout_alignStart="@+id/HighHat6"
+        android:layout_alignTop="@+id/Snare5"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/sn7"
+        android:id="@+id/Snare7"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/hh7"
-        android:layout_alignStart="@+id/hh7"
-        android:layout_alignTop="@+id/sn6"
+        android:layout_alignLeft="@+id/HighHat7"
+        android:layout_alignStart="@+id/HighHat7"
+        android:layout_alignTop="@+id/Snare6"
         android:background="@drawable/cell_shape" />
 
     <ImageView
-        android:id="@+id/sn8"
+        android:id="@+id/Snare8"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/hh8"
-        android:layout_alignStart="@+id/hh8"
-        android:layout_alignTop="@+id/sn6"
+        android:layout_alignLeft="@+id/HighHat8"
+        android:layout_alignStart="@+id/HighHat8"
+        android:layout_alignTop="@+id/Snare6"
         android:background="@drawable/cell_shape" />
 
     <Button
         android:id="@+id/BassDrumButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bd2"
-        android:layout_alignLeft="@+id/bd1"
-        android:layout_alignStart="@+id/bd1"
+        android:layout_above="@+id/BassDrum2"
+        android:layout_alignLeft="@+id/BassDrum1"
+        android:layout_alignStart="@+id/BassDrum1"
         android:backgroundTint="#842525"
         android:text="Bassdrum" />
 
@@ -241,18 +241,18 @@
         android:id="@+id/HighHatButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/bd1"
-        android:layout_alignStart="@+id/bd1"
-        android:layout_below="@+id/bd1"
+        android:layout_alignLeft="@+id/BassDrum1"
+        android:layout_alignStart="@+id/BassDrum1"
+        android:layout_below="@+id/BassDrum1"
         android:text="HighHat" />
 
     <Button
         android:id="@+id/SnareButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/hh1"
-        android:layout_alignStart="@+id/hh1"
-        android:layout_below="@+id/hh1"
+        android:layout_alignLeft="@+id/HighHat1"
+        android:layout_alignStart="@+id/HighHat1"
+        android:layout_below="@+id/HighHat1"
         android:backgroundTint="#842525"
         android:text="snare" />
 

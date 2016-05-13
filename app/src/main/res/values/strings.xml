@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Main</string>
+    <string name="app_name">SoundJAM</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_Bassdrum">Bassdrum</string>

@@ -40,7 +40,6 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
     public void onResume() {
         super.onResume();
         mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
-        playRealTime = true;
 
     }
 
@@ -48,7 +47,6 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
     protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(mShakeDetector);
-        playRealTime = false;
     }
 
     @Override

@@ -45,7 +45,8 @@ public class BaseActivity extends AppCompatActivity {
         for(Map.Entry thread : map.entrySet()){
 
             try {
-                ((AbstractInstrumentThread)thread.getValue()).setPlayRealTime(true);
+                ((AbstractInstrumentThread)thread.getValue()).setPause(true);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -64,7 +65,8 @@ public class BaseActivity extends AppCompatActivity {
         for(Map.Entry thread : map.entrySet()){
 
             try {
-                ((AbstractInstrumentThread)thread.getValue()).setPlayRealTime(false);
+                ((AbstractInstrumentThread)thread.getValue()).setPause(false);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

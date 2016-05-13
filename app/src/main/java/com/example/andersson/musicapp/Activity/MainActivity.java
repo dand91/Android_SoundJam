@@ -131,6 +131,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
 
                 groupName = groupNameText.getText().toString();
+                groupNameText.setText("");
                 Log.d("Main", "New group name: " + groupNameText.getText().toString());
             }
         });

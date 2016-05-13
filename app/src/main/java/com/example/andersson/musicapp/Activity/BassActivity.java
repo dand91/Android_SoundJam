@@ -33,14 +33,12 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
     public void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        playRealTime = false;
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(this);
-        playRealTime = true;
     }
 
     @Override
@@ -147,7 +145,7 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
     @Override
     public String getName() {
 
-        return "BassActivity";
+        return "Bass";
     }
 
     @Override

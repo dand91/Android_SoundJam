@@ -27,11 +27,12 @@ public class BassThread extends AbstractInstrumentThread {
     @Override
     public void playLoop(int index) {
 
-        if (soundList != null && soundList.size() > index && !record) {
+        if (soundList != null && soundList.size() > index && !record && !pause ) {
 
             if(!playRealTime) {
 
                 int loopValue = soundList.get(index);
+
                 soundCase(loopValue);
 
             }else{
@@ -40,7 +41,7 @@ public class BassThread extends AbstractInstrumentThread {
 
             }
 
-        }else if(record){
+        }else if(record && !pause){
 
             soundCase(value);
 

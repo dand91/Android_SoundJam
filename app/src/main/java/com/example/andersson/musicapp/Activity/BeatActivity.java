@@ -19,9 +19,9 @@ import java.util.Map;
 public class BeatActivity extends BaseActivity {
 
 
-    public ImageView bd1, bd2, bd3, bd4, bd5, bd6, bd7, bd8;
-    public ImageView hh1, hh2, hh3, hh4, hh5, hh6, hh7, hh8;
-    public ImageView sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8;
+    public ImageView BassDrum1, BassDrum2, BassDrum3, BassDrum4, BassDrum5, BassDrum6, BassDrum7, BassDrum8;
+    public ImageView HighHat1, HighHat2, HighHat3, HighHat4, HighHat5, HighHat6, HighHat7, HighHat8;
+    public ImageView Snare1, Snare2, Snare3, Snare4, Snare5, Snare6, Snare7, Snare8;
     public BeatHolder beatHolder;
     public Map<String, ImageView> beatMap;
 
@@ -78,59 +78,59 @@ public class BeatActivity extends BaseActivity {
             }
         });
 
-        bd1 = (ImageView) findViewById(R.id.bd1);
-        bd2 = (ImageView) findViewById(R.id.bd2);
-        bd3 = (ImageView) findViewById(R.id.bd3);
-        bd4 = (ImageView) findViewById(R.id.bd4);
-        bd5 = (ImageView) findViewById(R.id.bd5);
-        bd6 = (ImageView) findViewById(R.id.bd6);
-        bd7 = (ImageView) findViewById(R.id.bd7);
-        bd8 = (ImageView) findViewById(R.id.bd8);
+        BassDrum1 = (ImageView) findViewById(R.id.BassDrum1);
+        BassDrum2 = (ImageView) findViewById(R.id.BassDrum2);
+        BassDrum3 = (ImageView) findViewById(R.id.BassDrum3);
+        BassDrum4 = (ImageView) findViewById(R.id.BassDrum4);
+        BassDrum5 = (ImageView) findViewById(R.id.BassDrum5);
+        BassDrum6 = (ImageView) findViewById(R.id.BassDrum6);
+        BassDrum7 = (ImageView) findViewById(R.id.BassDrum7);
+        BassDrum8 = (ImageView) findViewById(R.id.BassDrum8);
 
-        hh1 = (ImageView) findViewById(R.id.hh1);
-        hh2 = (ImageView) findViewById(R.id.hh2);
-        hh3 = (ImageView) findViewById(R.id.hh3);
-        hh4 = (ImageView) findViewById(R.id.hh4);
-        hh5 = (ImageView) findViewById(R.id.hh5);
-        hh6 = (ImageView) findViewById(R.id.hh6);
-        hh7 = (ImageView) findViewById(R.id.hh7);
-        hh8 = (ImageView) findViewById(R.id.hh8);
+        HighHat1 = (ImageView) findViewById(R.id.HighHat1);
+        HighHat2 = (ImageView) findViewById(R.id.HighHat2);
+        HighHat3 = (ImageView) findViewById(R.id.HighHat3);
+        HighHat4 = (ImageView) findViewById(R.id.HighHat4);
+        HighHat5 = (ImageView) findViewById(R.id.HighHat5);
+        HighHat6 = (ImageView) findViewById(R.id.HighHat6);
+        HighHat7 = (ImageView) findViewById(R.id.HighHat7);
+        HighHat8 = (ImageView) findViewById(R.id.HighHat8);
 
-        sn1 = (ImageView) findViewById(R.id.sn1);
-        sn2 = (ImageView) findViewById(R.id.sn2);
-        sn3 = (ImageView) findViewById(R.id.sn3);
-        sn4 = (ImageView) findViewById(R.id.sn4);
-        sn5 = (ImageView) findViewById(R.id.sn5);
-        sn6 = (ImageView) findViewById(R.id.sn6);
-        sn7 = (ImageView) findViewById(R.id.sn7);
-        sn8 = (ImageView) findViewById(R.id.sn8);
+        Snare1 = (ImageView) findViewById(R.id.Snare1);
+        Snare2 = (ImageView) findViewById(R.id.Snare2);
+        Snare3 = (ImageView) findViewById(R.id.Snare3);
+        Snare4 = (ImageView) findViewById(R.id.Snare4);
+        Snare5 = (ImageView) findViewById(R.id.Snare5);
+        Snare6 = (ImageView) findViewById(R.id.Snare6);
+        Snare7 = (ImageView) findViewById(R.id.Snare7);
+        Snare8 = (ImageView) findViewById(R.id.Snare8);
 
         beatMap = new HashMap<String, ImageView>() {{
 
-            put("bd1", bd1);
-            put("bd2", bd2);
-            put("bd3", bd3);
-            put("bd4", bd4);
-            put("bd5", bd5);
-            put("bd6", bd6);
-            put("bd7", bd7);
-            put("bd8", bd8);
-            put("hh1", hh1);
-            put("hh2", hh2);
-            put("hh3", hh3);
-            put("hh4", hh4);
-            put("hh5", hh5);
-            put("hh6", hh6);
-            put("hh7", hh7);
-            put("hh8", hh8);
-            put("sn1", sn1);
-            put("sn2", sn2);
-            put("sn3", sn3);
-            put("sn4", sn4);
-            put("sn5", sn5);
-            put("sn6", sn6);
-            put("sn7", sn7);
-            put("sn8", sn8);
+            put("BassDrum1", BassDrum1);
+            put("BassDrum2", BassDrum2);
+            put("BassDrum3", BassDrum3);
+            put("BassDrum4", BassDrum4);
+            put("BassDrum5", BassDrum5);
+            put("BassDrum6", BassDrum6);
+            put("BassDrum7", BassDrum7);
+            put("BassDrum8", BassDrum8);
+            put("HighHat1", HighHat1);
+            put("HighHat2", HighHat2);
+            put("HighHat3", HighHat3);
+            put("HighHat4", HighHat4);
+            put("HighHat5", HighHat5);
+            put("HighHat6", HighHat6);
+            put("HighHat7", HighHat7);
+            put("HighHat8", HighHat8);
+            put("Snare1", Snare1);
+            put("Snare2", Snare2);
+            put("Snare3", Snare3);
+            put("Snare4", Snare4);
+            put("Snare5", Snare5);
+            put("Snare6", Snare6);
+            put("Snare7", Snare7);
+            put("Snare8", Snare8);
 
         }};
 
@@ -179,7 +179,15 @@ public class BeatActivity extends BaseActivity {
                 bg = ContextCompat.getDrawable(this.getApplicationContext(), R.drawable.cell_shape);
             }
 
-            temp.setBackground(bg);
+            try {
+
+                temp.setBackground(bg);
+
+            }catch(Exception e){
+
+                Log.e("TEST","" + key);
+
+            }
 
         }
 

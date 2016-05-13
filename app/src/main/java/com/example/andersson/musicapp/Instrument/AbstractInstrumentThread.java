@@ -31,6 +31,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public float volume = 0.5f;
     public boolean playRealTime;
     public boolean record;
+    public boolean pause;
     protected int soundId;
     protected SoundPoolHolder sph;
     private double loopTime;
@@ -168,6 +169,11 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
         this.playRealTime = playRealTime;
     }
 
+
+    public void setPause(boolean pause) {
+
+        this.pause = pause;
+    }
 
     public void setChangedStatus(boolean changed) {
 

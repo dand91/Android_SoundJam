@@ -37,9 +37,6 @@ public class MainActivity extends BaseActivity {
     private double loopTime = 4;
     private int BPM = 120;
 
-    private static final int UPDATE_TIME = 4000;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +45,7 @@ public class MainActivity extends BaseActivity {
 
         if (!haveNetworkConnection()) {
 
-            AlertNoInternet();
+            CreateDialog("No internet connection.");
         }
 
 
@@ -162,7 +159,7 @@ public class MainActivity extends BaseActivity {
                 threadHolder.setLoopTime(loopTime);
 
                 try {
-                    Thread.sleep(UPDATE_TIME);
+                    Thread.sleep(CLIENT_UPDATE_TIME);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -221,10 +218,14 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    public void AlertNoInternet() {
+    /**
+     * Method for creating an Dialog box which prints out the message contained in parameter message.
+     * @param message
+     */
+    public void CreateDialog(String message) {
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("No internet connection.");
+        builder1.setMessage(message);
         builder1.setCancelable(true);
 
         builder1.setPositiveButton(
@@ -237,8 +238,15 @@ public class MainActivity extends BaseActivity {
 
         AlertDialog alert = builder1.create();
         alert.show();
+
     }
 
+
+    /**
+     * Method for checking if WIFI or other network connection is established.
+     *
+     * @return true - if network connection exists, otherwise false.
+     */
     private boolean haveNetworkConnection() {
 
         boolean haveConnectedWifi = false;

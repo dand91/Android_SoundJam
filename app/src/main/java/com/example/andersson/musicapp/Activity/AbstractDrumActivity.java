@@ -59,17 +59,17 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
     }
 
     @Override
-    protected void generateSoundInfo(ArrayList<Integer> list, int index) { // should be connected to a sensor, it's called at new beatTime
+    protected void generateSoundInfo(ArrayList<Integer> updateList, int index) { // should be connected to a sensor, it's called at new beatTime
 
         if (isActive) {
 
-            list.add(1);
+            updateList.add(1);
             soundListText.setText(soundListText.getText() + " 1 ");
             beatHolder.setBeatArray(this.getName(), index, true);
 
         } else {
 
-            list.add(0);
+            updateList.add(0);
             soundListText.setText(soundListText.getText() + " 0 ");
             beatHolder.setBeatArray(this.getName(), index, false);
 
@@ -89,10 +89,13 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
         this.mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         playRealTime = false;
+        instrument.setPlayRealTime(false);
+
         double bars = instrument.getBars();
+        instrument.setBars(bars);
+
         double loopTime = ((MainActivity) mainHolder.getMainActivity()).getLoopTime();
         instrument.setLoopTime(loopTime);
-        instrument.setBars(bars);
 
         final ThreadPool threadPool = ThreadPool.getInstance();
 
@@ -120,7 +123,6 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
                                 e.printStackTrace();
                             }
                             isActive = false;
-
 
                         }
                     };

@@ -8,6 +8,7 @@ import com.example.andersson.musicapp.SharedResources.MainHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.TimeObservable;
 
+import java.util.Observable;
 import java.util.Observer;
 
 /**
@@ -30,6 +31,14 @@ public class TimeThread extends Thread {
         mainHolder = MainHolder.getInstance();
 
         Thread tempThread = new NTPThread();
+
+        ((NTPThread)tempThread).addObserver(new Observer() {
+            @Override
+            public void update(Observable observable, Object o) {
+
+                adjust = (long) o;
+            }
+        });
 
         threadPool.add(tempThread, "NTP");
     }
@@ -64,7 +73,7 @@ public class TimeThread extends Thread {
 
                 try {
 
-                    currentTime = System.currentTimeMillis() + ((NTPThread)threadPool.getThread("NTP")).getAdjustment();
+                    currentTime = System.currentTimeMillis() + adjust;
                 } catch (Exception e) {
                     Log.e("TimeThread", "Error feching adjust from thread.");
                     Log.e("TimeThread", e.getMessage());

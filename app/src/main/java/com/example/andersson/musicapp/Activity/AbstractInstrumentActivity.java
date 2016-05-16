@@ -50,8 +50,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
     public boolean playRealTime;
     public boolean record;
 
-    private final static int UPDATE_TIME = 4000;
-
     abstract void generateSoundInfo(ArrayList<Integer> list, int index);
 
     public abstract String getName();
@@ -140,12 +138,12 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
         recordButton = (Button) findViewById(R.id.recordButton);
         progressText = (TextView) findViewById(R.id.progressText);
 
-        final ThreadPool threadPool = ThreadPool.getInstance();
-
         recordButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+
+                ThreadPool threadPool = ThreadPool.getInstance();
 
                 if (!record) {
 
@@ -192,6 +190,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                                                 }
                                             });
+
 
                                             sleep(1000);
 
@@ -243,7 +242,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                                             try {
 
-                                                sleep(UPDATE_TIME);
+                                                sleep(CLIENT_UPDATE_TIME);
 
                                             } catch (InterruptedException e) {
                                                 e.printStackTrace();
@@ -278,8 +277,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-
-
             }
 
             @Override
@@ -295,32 +292,32 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                 Thread volumeThread = new Thread() {
 
-                            @Override
-                            public void run() {
+                    @Override
+                    public void run() {
 
                         runOnUiThread(new Runnable() {
 
-                                          @Override
-                                          public void run() {
+                            @Override
+                            public void run() {
 
-                                              int volume = volumeSeekBar.getProgress();
-                                              instrument.setVolume(((float) volume) / 100);
+                                int volume = volumeSeekBar.getProgress();
+                                instrument.setVolume(((float) volume) / 100);
 
-                                              try {
+                                try {
 
-                                                  sleep(UPDATE_TIME);
+                                    sleep(CLIENT_UPDATE_TIME);
 
-                                              } catch (InterruptedException e) {
-                                                  e.printStackTrace();
-                                              }
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
 
-                                              instrument.setVolume(((float) volume) / 100);
+                                instrument.setVolume(((float) volume) / 100);
 
-                                          }
-                                      });
+                            }
+                        });
                     }
                 };
-                threadPool.add(volumeThread,"volumeThread");
+                threadPool.add(volumeThread, "volumeThread");
             }
 
         });
@@ -390,15 +387,14 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                 if (instrument.getBars() == 8 && instrument.getSoundList().size() == 8) {
 
-                    final ArrayList<Integer> tempList = instrument.getSoundList();
-
-                    if (tempList.size() == 8) {
-
-
                         runOnUiThread(new Runnable() {
 
                             @Override
                             public void run() {
+
+                                final ArrayList<Integer> tempList = instrument.getSoundList();
+
+                                if (tempList.size() == 8) {
 
                                 progressText.setText("Update server");
 
@@ -413,7 +409,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                                 try {
 
-                                    Thread.sleep(UPDATE_TIME);
+                                    Thread.sleep(CLIENT_UPDATE_TIME);
 
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
@@ -423,13 +419,13 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                 instrument.setBars(16);
                                 speedButton.setEnabled(true);
                                 speedButton.setClickable(true);
-
                             }
-                        });
+                        }
+                    });
 
 
 
-                    }
+
 
                     speedText.setText("Speed: 16 bars");
 
@@ -454,7 +450,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                                 try {
 
-                                    Thread.sleep(4000);
+                                    Thread.sleep(CLIENT_UPDATE_TIME);
 
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();

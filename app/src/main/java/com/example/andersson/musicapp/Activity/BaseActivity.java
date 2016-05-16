@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class BaseActivity extends AppCompatActivity {
 
+    public final static int CLIENT_UPDATE_TIME = 2000;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

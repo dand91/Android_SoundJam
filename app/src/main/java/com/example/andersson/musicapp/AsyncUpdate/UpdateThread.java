@@ -10,16 +10,19 @@ import java.util.Observer;
 /**
  * Created by Andersson on 07/04/16.
  */
+
 public class UpdateThread extends Thread {
 
-    private static final int UPDATE_TIME = 5000;
+    private static final int SERVER_UPDATE_TIME = 2000;
+
     private static UpdateThread instance = null;
+
     private ThreadHolder threadHolder;
-    private UpdateObservable ob;
+    private UpdateObservable observable;
 
     private UpdateThread() {
 
-        this.ob = new UpdateObservable();
+        this.observable = new UpdateObservable();
 
     }
 
@@ -44,20 +47,22 @@ public class UpdateThread extends Thread {
 
         } else {
 
-            AsyncTask mAsyncTask = new AsyncTask();
-            mAsyncTask.execute();
+            AsyncTask asyncTask = new AsyncTask();
+            asyncTask.execute();
 
-            mAsyncTask.addHolder(threadHolder);
-            mAsyncTask.addObserver(ob);
+            asyncTask.addHolder(threadHolder);
+            asyncTask.addObserver(observable);
 
             while (true) {
 
                 Log.i("UpdateThread", " Running UpdateTask.");
 
-                mAsyncTask.doInBackground();
+                asyncTask.doInBackground();
 
                 try {
-                    Thread.sleep(UPDATE_TIME);
+
+                    Thread.sleep(SERVER_UPDATE_TIME);
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -67,7 +72,7 @@ public class UpdateThread extends Thread {
 
     public void add(Observer newOb) {
 
-        ob.addObserver(newOb);
+        observable.addObserver(newOb);
     }
 }
 

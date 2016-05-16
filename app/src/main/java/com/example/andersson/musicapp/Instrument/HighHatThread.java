@@ -10,8 +10,8 @@ import com.example.andersson.musicapp.SharedResources.ThreadHolder;
  */
 public class HighHatThread extends AbstractDrumThread {
 
-    public HighHatThread(AbstractInstrumentActivity activity, ThreadHolder holder) {
-        super(activity, holder);
+    public HighHatThread(AbstractInstrumentActivity activity) {
+        super(activity);
     }
 
     protected void initiateSound() {

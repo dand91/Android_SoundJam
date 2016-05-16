@@ -12,6 +12,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 /**
  * Created by Andersson on 11/05/16.
  */
+
 public class ThreadPool {
 
     private static ThreadPool instance = null;
@@ -20,9 +21,13 @@ public class ThreadPool {
     private HashMap<String, Future> futureMap;
     private HashMap<String, Callable> callableMap;
 
+    private static final Integer MAX_THREAD = 20;
+
     public ThreadPool() {
 
-        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(20);
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_THREAD);
+        Log.d("ThreadPool" , "Pre starting threads: " + executor.prestartAllCoreThreads());
+
         threadMap = new HashMap<String, Thread>();
         futureMap = new HashMap<String, Future>();
         callableMap = new HashMap<String, Callable>();
@@ -64,6 +69,7 @@ public class ThreadPool {
             Log.e("ThreadPool", "Error while executing thread. Message: " + e.getMessage());
         }
 
+        callableMap.put(name,thread);
         futureMap.put(name, future);
 
     }
@@ -79,13 +85,20 @@ public class ThreadPool {
         return futureMap.get(name).get();
 
     }
+
+    public Object getCallable(String name) throws ExecutionException, InterruptedException {
+
+        return callableMap.get(name);
+
+    }
+
     public Object getThread(String name){
 
         return threadMap.get(name);
 
     }
 
-    public void remove(String name) {
+    public void removeFuture(String name) {
 
         try {
 
@@ -101,14 +114,21 @@ public class ThreadPool {
 
     public void getInfo() {
 
-        Log.v("ThreadPool", "Active Threads: " + executor.getActiveCount());
-        Log.v("ThreadPool", "Complete Task Count: " + executor.getCompletedTaskCount());
-        Log.v("ThreadPool", "Core Pool Size: " + executor.getCorePoolSize());
-        Log.v("ThreadPool", "Largest Pool Size: " + executor.getLargestPoolSize());
-        Log.v("ThreadPool", "Maximum Pool Size: " + executor.getMaximumPoolSize());
-        Log.v("ThreadPool", "Pool Size: " + executor.getPoolSize());
-        Log.v("ThreadPool", "Task Count: " + executor.getTaskCount());
-        Log.v("ThreadPool", "Remaining Queue Capacity: " + executor.getQueue().remainingCapacity());
+        try {
+
+            Log.v("ThreadPool", "Active Threads: " + executor.getActiveCount());
+            Log.v("ThreadPool", "Complete Task Count: " + executor.getCompletedTaskCount());
+            Log.v("ThreadPool", "Core Pool Size: " + executor.getCorePoolSize());
+            Log.v("ThreadPool", "Largest Pool Size: " + executor.getLargestPoolSize());
+            Log.v("ThreadPool", "Maximum Pool Size: " + executor.getMaximumPoolSize());
+            Log.v("ThreadPool", "Pool Size: " + executor.getPoolSize());
+            Log.v("ThreadPool", "Task Count: " + executor.getTaskCount());
+            Log.v("ThreadPool", "Remaining Queue Capacity: " + executor.getQueue().remainingCapacity());
+
+        }catch(Exception e ){
+
+            Log.e("ThreadPool","Error while printing info");
+        }
 
     }
 }

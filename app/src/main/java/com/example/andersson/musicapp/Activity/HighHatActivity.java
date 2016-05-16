@@ -19,6 +19,6 @@ public class HighHatActivity extends AbstractDrumActivity {
 
     @Override
     public AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
-        return new HighHatThread(this, holder);
+        return new HighHatThread(this);
     }
 }

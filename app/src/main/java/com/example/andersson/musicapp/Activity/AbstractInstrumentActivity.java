@@ -2,7 +2,6 @@ package com.example.andersson.musicapp.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
@@ -25,28 +24,33 @@ import java.util.Calendar;
 
 public abstract class AbstractInstrumentActivity extends BaseActivity {
 
-    public ThreadHolder holder;
+    public ThreadHolder threadHolder;
     public BeatHolder beatHolder;
     public MainHolder mainHolder;
+    protected SoundPoolHolder soundPoolHolder;
+
     public AbstractInstrumentThread instrument;
+
     public EditText soundListText;
-    public boolean playRealTime;
-    public boolean record;
     public Button recordButton;
     public Button playButton;
     public Button stopButton;
     public Button removeButton;
     public Button speedButton;
-    public Button barButton;
-    public EditText barText;
     public TextView speedText;
     public SeekBar volumeSeekBar;
     public TextView progressText;
-    protected SoundPoolHolder sph;
+
     protected ArrayList<Integer> tempSoundList;
-    int index = 0;
+
+    private int index = 0;
     private int countDown;
     private String info;
+
+    public boolean playRealTime;
+    public boolean record;
+
+    private final static int UPDATE_TIME = 4000;
 
     abstract void generateSoundInfo(ArrayList<Integer> list, int index);
 
@@ -67,11 +71,10 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
 
         info = null;
-        holder = ThreadHolder.getInstance();
+        threadHolder = ThreadHolder.getInstance();
         beatHolder = BeatHolder.getInstance();
         mainHolder = MainHolder.getInstance();
-
-        sph = SoundPoolHolder.getInstance();
+        soundPoolHolder = SoundPoolHolder.getInstance();
 
         try {
 
@@ -103,23 +106,23 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
         String name = getName();
 
-        if (holder != null) {
+        if (threadHolder != null) {
 
-            if (holder.containsKey(name)) {
+            if (threadHolder.containsKey(name)) {
 
-                instrument = (AbstractInstrumentThread) holder.getThread(name);
+                instrument = (AbstractInstrumentThread) threadHolder.getThread(name);
                 Log.d("AbstractInstrument", "New playLoop fetched");
 
 
             } else {
 
                 instrument = getInstrumentClass();
-                holder.addThread(name, instrument);
+                threadHolder.addThread(name, instrument);
                 Log.d("AbstractInstrument", "New playLoop created");
 
             }
 
-        } else if (holder == null) {
+        } else if (threadHolder == null) {
 
             Log.d("AbstractInstrument", "Holder is null - " + name);
             System.exit(0);
@@ -142,25 +145,9 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
         recordButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-
             public void onClick(View view) {
 
                 if (!record) {
-
-                    if(speedText != null) {
-
-                        instrument.setBars(8);
-                        speedText.setText("Speed: 8 bars");
-
-                        ArrayList<Integer> tempList = instrument.getSoundList();
-
-                        if (tempList.size() == 16) {
-
-                            instrument.setSoundList(
-                                    new ArrayList<Integer>(
-                                            tempList.subList(0, 8)));
-                        }
-                    }
 
                     soundListText.setText("");
 
@@ -171,14 +158,12 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                         int millisecond = calendar.get(Calendar.MILLISECOND) + 1;
                         int time = (int) (Math.round((second * 1000 + millisecond) / 10.0) * 10);
                         final int tempLoopTime = (int) (Math.round((((MainActivity) mainHolder.getMainActivity()).getLoopTime() * 1000) / 10.0) * 10);
-                        final double bars = instrument.getBars();
-
+                        final double bars = 8;
+                        instrument.setBars(8);
 
                         if (time % tempLoopTime == 0) {
 
                             index = 0;
-                            barButton.setEnabled(false);
-
                             tempSoundList = new ArrayList<Integer>();
 
 
@@ -238,7 +223,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                                             sleep((long) ((tempLoopTime / bars)) - 200);
 
-
                                         }
 
                                     } catch (InterruptedException e) {
@@ -246,22 +230,29 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                         e.printStackTrace();
                                     }
 
-                                    String s = "";
-                                    for (int in : tempSoundList) {
-                                        s = s + in + " ";
-                                    }
-                                    Log.i("AbstractInstrument", "Recorded: " + s);
-
-                                    instrument.setSoundList(tempSoundList);
-                                    record = false;
-                                    instrument.setRecord(false);
-
                                     runOnUiThread(new Runnable() {
 
                                         @Override
                                         public void run() {
 
-                                            barButton.setEnabled(true);
+                                            progressText.setText("Update server");
+
+                                            instrument.setSoundList(tempSoundList);
+                                            record = false;
+                                            instrument.setRecord(false);
+
+                                            try {
+
+                                                sleep(UPDATE_TIME);
+
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                            instrument.setSoundList(tempSoundList);
+
+                                            progressText.setText("");
+
                                         }
                                     });
 
@@ -287,7 +278,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-                instrument.setVolume(((float) i) / 100);
+
 
             }
 
@@ -299,10 +290,40 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+
+                ThreadPool threadPool = ThreadPool.getInstance();
+
+                Thread volumeThread = new Thread() {
+
+                            @Override
+                            public void run() {
+
+                        runOnUiThread(new Runnable() {
+
+                                          @Override
+                                          public void run() {
+
+                                              int volume = volumeSeekBar.getProgress();
+                                              instrument.setVolume(((float) volume) / 100);
+
+                                              try {
+
+                                                  sleep(UPDATE_TIME);
+
+                                              } catch (InterruptedException e) {
+                                                  e.printStackTrace();
+                                              }
+
+                                              instrument.setVolume(((float) volume) / 100);
+
+                                          }
+                                      });
+                    }
+                };
+                threadPool.add(volumeThread,"volumeThread");
             }
 
         });
-
     }
 
     protected void stopPlayGUI() {
@@ -366,35 +387,47 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
             public void onClick(View view) {
 
-                progressText.setText("Updating server");
 
                 if (instrument.getBars() == 8 && instrument.getSoundList().size() == 8) {
 
-                    ArrayList<Integer> tempList = instrument.getSoundList();
+                    final ArrayList<Integer> tempList = instrument.getSoundList();
 
                     if (tempList.size() == 8) {
 
-                        ArrayList<Integer> newList = new ArrayList<Integer>();
-                        newList.addAll(tempList);
-                        newList.addAll(tempList);
 
-                        speedButton.setEnabled(false);
-                        speedButton.setClickable(false);
-                        instrument.setBars(16);
-                        instrument.setSoundList(newList);
+                        runOnUiThread(new Runnable() {
 
-                        try {
+                            @Override
+                            public void run() {
 
-                            Thread.sleep(4000);
+                                progressText.setText("Update server");
 
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                                ArrayList<Integer> newList = new ArrayList<Integer>();
+                                newList.addAll(tempList);
+                                newList.addAll(tempList);
 
-                        instrument.setSoundList(newList);
-                        instrument.setBars(16);
-                        speedButton.setEnabled(true);
-                        speedButton.setClickable(true);
+                                speedButton.setEnabled(false);
+                                speedButton.setClickable(false);
+                                instrument.setBars(16);
+                                instrument.setSoundList(newList);
+
+                                try {
+
+                                    Thread.sleep(UPDATE_TIME);
+
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                                instrument.setSoundList(newList);
+                                instrument.setBars(16);
+                                speedButton.setEnabled(true);
+                                speedButton.setClickable(true);
+
+                            }
+                        });
+
+
 
                     }
 
@@ -402,64 +435,47 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                 } else if (instrument.getBars() == 16 && instrument.getSoundList().size() == 16) {
 
-                    ArrayList<Integer> tempList = instrument.getSoundList();
+
+                    final ArrayList<Integer> tempList = instrument.getSoundList();
 
                     if (tempList.size() == 16) {
 
+                        runOnUiThread(new Runnable() {
 
-                        instrument.setBars(8);
-                        speedButton.setEnabled(false);
-                        speedButton.setClickable(false);
-                        instrument.setSoundList(
-                                new ArrayList<Integer>(
-                                        tempList.subList(0, 8)));
+                            @Override
+                            public void run() {
 
-                        try {
+                                instrument.setBars(8);
+                                speedButton.setEnabled(false);
+                                speedButton.setClickable(false);
+                                instrument.setSoundList(
+                                        new ArrayList<Integer>(
+                                                tempList.subList(0, 8)));
 
-                            Thread.sleep(4000);
+                                try {
 
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        instrument.setBars(8);
-                        instrument.setSoundList(
-                                new ArrayList<Integer>(
-                                        tempList.subList(0, 8)));
-                        speedButton.setEnabled(true);
-                        speedButton.setClickable(true);
+                                    Thread.sleep(4000);
 
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
 
+                                instrument.setBars(8);
+                                instrument.setSoundList(
+                                        new ArrayList<Integer>(
+                                                tempList.subList(0, 8)));
+                                speedButton.setEnabled(true);
+                                speedButton.setClickable(true);
+
+                            }
+                        });
                     }
                     speedText.setText("Speed: 8 bars");
 
                 }
+                progressText.setText("");
+
             }
-        });
-    }
-
-    protected void barGUI() {
-
-        barText = (EditText) findViewById(R.id.BarView);
-        barButton = (Button) findViewById(R.id.BarButton);
-        barButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-
-                try {
-                    instrument.setBars(Integer.valueOf(barText.getText().toString()));
-                    barText.setText("");
-                } catch (Exception e) {
-
-                    if (instrument != null) {
-                        barText.setText((int) instrument.getBars());
-                    } else {
-                        barText.setText("");
-                    }
-                }
-            }
-
         });
     }
 

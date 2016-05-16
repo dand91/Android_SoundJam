@@ -3,6 +3,8 @@ package com.example.andersson.musicapp.SharedResources;
 import android.util.Log;
 
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Andersson on 12/05/16.

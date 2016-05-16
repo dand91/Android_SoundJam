@@ -16,7 +16,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_base, menu);
         return true;
     }
@@ -26,7 +26,6 @@ public class BaseActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
             return true;
@@ -45,14 +44,13 @@ public class BaseActivity extends AppCompatActivity {
         for(Map.Entry thread : map.entrySet()){
 
             try {
+
                 ((AbstractInstrumentThread)thread.getValue()).setPause(true);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
-
     }
 
     @Override
@@ -65,6 +63,7 @@ public class BaseActivity extends AppCompatActivity {
         for(Map.Entry thread : map.entrySet()){
 
             try {
+
                 ((AbstractInstrumentThread)thread.getValue()).setPause(false);
 
             } catch (Exception e) {

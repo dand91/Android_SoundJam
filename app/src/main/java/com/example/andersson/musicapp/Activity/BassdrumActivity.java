@@ -19,6 +19,6 @@ public class BassdrumActivity extends AbstractDrumActivity {
 
     @Override
     public AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
-        return new BassdrumThread(this, holder);
+        return new BassdrumThread(this);
     }
 }

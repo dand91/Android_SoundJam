@@ -22,7 +22,7 @@ import java.util.Observer;
 
 public abstract class AbstractInstrumentThread extends Thread implements Observer {
 
-    public int i;
+    public int i = 0;
     public ArrayList<Integer> soundList = new ArrayList<Integer>();
     public ThreadHolder threadHolder;
     public AbstractInstrumentActivity activity;
@@ -35,14 +35,13 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     protected int soundId;
     protected SoundPoolHolder sph;
     private double loopTime;
-    private double bars;
+    protected double bars;
 
     public AbstractInstrumentThread(AbstractInstrumentActivity activity) {
 
         this.sph = SoundPoolHolder.getInstance();
         this.threadHolder = ThreadHolder.getInstance();
         this.activity = activity;
-        this.i = 0;
 
         if (activity == null) {
 

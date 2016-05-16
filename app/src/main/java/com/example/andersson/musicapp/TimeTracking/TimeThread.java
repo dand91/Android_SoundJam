@@ -8,13 +8,7 @@ import com.example.andersson.musicapp.SharedResources.MainHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.SharedResources.TimeObservable;
 
-import org.apache.commons.net.ntp.NTPUDPClient;
-import org.apache.commons.net.ntp.TimeInfo;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Observer;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Andersson on 07/04/16.
@@ -70,8 +64,7 @@ public class TimeThread extends Thread {
 
                 try {
 
-                    currentTime = System.currentTimeMillis() + ((NTPThread)threadPool.getThread("NTP")).getAdjust();
-
+                    currentTime = System.currentTimeMillis() + ((NTPThread)threadPool.getThread("NTP")).getAdjustment();
                 } catch (Exception e) {
                     Log.e("TimeThread", "Error feching adjust from thread.");
                     Log.e("TimeThread", e.getMessage());

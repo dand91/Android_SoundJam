@@ -10,8 +10,8 @@ import com.example.andersson.musicapp.SharedResources.ThreadHolder;
  */
 public class SnareThread extends AbstractDrumThread {
 
-    public SnareThread(AbstractInstrumentActivity activity, ThreadHolder holder) {
-        super(activity, holder);
+    public SnareThread(AbstractInstrumentActivity activity) {
+        super(activity);
     }
 
     protected void initiateSound() {

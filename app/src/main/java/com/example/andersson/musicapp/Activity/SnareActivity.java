@@ -20,6 +20,6 @@ public class SnareActivity extends AbstractDrumActivity {
 
     @Override
     public AbstractInstrumentThread getInstrumentClass() {// Return corresponding playLoop that the activity should use
-        return new SnareThread(this, holder);
+        return new SnareThread(this);
     }
 }

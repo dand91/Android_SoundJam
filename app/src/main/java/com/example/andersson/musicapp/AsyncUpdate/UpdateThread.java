@@ -12,9 +12,9 @@ import java.util.Observer;
  */
 public class UpdateThread extends Thread {
 
-    private static final int timer = 5;
+    private static final int UPDATE_TIME = 5000;
     private static UpdateThread instance = null;
-    private ThreadHolder holder;
+    private ThreadHolder threadHolder;
     private UpdateObservable ob;
 
     private UpdateThread() {
@@ -35,9 +35,9 @@ public class UpdateThread extends Thread {
 
     public void run() {
 
-        holder = ThreadHolder.getInstance();
+        threadHolder = ThreadHolder.getInstance();
 
-        if (holder == null) {
+        if (threadHolder == null) {
 
             Log.e("UpdateThread", "Holder is null");
             System.exit(0);
@@ -47,7 +47,7 @@ public class UpdateThread extends Thread {
             AsyncTask mAsyncTask = new AsyncTask();
             mAsyncTask.execute();
 
-            mAsyncTask.addHolder(holder);
+            mAsyncTask.addHolder(threadHolder);
             mAsyncTask.addObserver(ob);
 
             while (true) {
@@ -57,7 +57,7 @@ public class UpdateThread extends Thread {
                 mAsyncTask.doInBackground();
 
                 try {
-                    Thread.sleep(timer * 1000);
+                    Thread.sleep(UPDATE_TIME);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -25,6 +25,7 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
     private ShakeDetector mShakeDetector;
 
     public AbstractDrumActivity() {
+
         super();
 
         beatHolder = BeatHolder.getInstance();
@@ -141,7 +142,6 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
 
         soundListGUI();
         recordGUI();
-        barGUI();
         stopPlayGUI();
         volumeGUI();
         removeGUI();

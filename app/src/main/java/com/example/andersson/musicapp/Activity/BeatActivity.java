@@ -9,12 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.BeatHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 public class BeatActivity extends BaseActivity {
 
@@ -22,7 +25,6 @@ public class BeatActivity extends BaseActivity {
     public ImageView BassDrum1, BassDrum2, BassDrum3, BassDrum4, BassDrum5, BassDrum6, BassDrum7, BassDrum8;
     public ImageView HighHat1, HighHat2, HighHat3, HighHat4, HighHat5, HighHat6, HighHat7, HighHat8;
     public ImageView Snare1, Snare2, Snare3, Snare4, Snare5, Snare6, Snare7, Snare8;
-    public BeatHolder beatHolder;
     public Map<String, ImageView> beatMap;
 
     private Button BassDrumButton;
@@ -33,7 +35,6 @@ public class BeatActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beat);
-
 
         HighHatButton = (Button) findViewById(R.id.HighHatButton);
         HighHatButton.setOnClickListener(new View.OnClickListener() {
@@ -134,10 +135,7 @@ public class BeatActivity extends BaseActivity {
 
         }};
 
-        beatHolder = BeatHolder.getInstance();
         updateBeat();
-
-
     }
 
     @Override
@@ -145,51 +143,74 @@ public class BeatActivity extends BaseActivity {
         super.onBackPressed();
 
         updateBeat();
-
         finish();
+
     }
 
     private void updateBeat() {
 
-        for (Map.Entry<String, Boolean> entry : beatHolder.getBeatMap().entrySet()) {
+        final BeatHolder beatHolder = BeatHolder.getInstance();
+        ThreadPool threadPool = ThreadPool.getInstance();
 
-            String key = entry.getKey();
-            Boolean value = entry.getValue();
+        Thread tempThread = new Thread() {
 
-            ImageView temp = null;
+            @Override
+            public void run() {
 
-            try {
 
-                temp = beatMap.get(key);
 
-            } catch (NullPointerException e) {
+                    runOnUiThread(new Runnable() {
 
-                Log.e("BeatActivity", "Error while fetching: " + key);
-                System.exit(0);
+                        @Override
+                        public void run() {
+
+                            for (Map.Entry<String, Boolean> entry : beatHolder.getBeatMap().entrySet()) {
+
+
+                                String key = entry.getKey();
+                                Boolean value = entry.getValue();
+
+                                ImageView temp = null;
+
+                                try {
+
+                                    temp = beatMap.get(key);
+
+                                } catch (NullPointerException e) {
+
+                                    Log.e("BeatActivity", "Error while fetching: " + key);
+                                    System.exit(0);
+                                }
+
+                                Drawable bg = null;
+
+
+                                if (value) {
+
+                                    bg = ContextCompat.getDrawable(getApplicationContext(), R.drawable.cell_shape_red);
+
+                                } else {
+
+                                    bg = ContextCompat.getDrawable(getApplicationContext(), R.drawable.cell_shape);
+                                }
+
+                                try {
+
+                                    temp.setBackground(bg);
+
+                                } catch (Exception e) {
+
+                                    Log.e("BeatActivity", "Error while setting: " + key);
+
+                                }
+
+
+                            }
+                        }
+                    });
             }
+        };
 
-            Drawable bg = null;
-
-            if (value) {
-
-                bg = ContextCompat.getDrawable(this.getApplicationContext(), R.drawable.cell_shape_red);
-
-            } else {
-
-                bg = ContextCompat.getDrawable(this.getApplicationContext(), R.drawable.cell_shape);
-            }
-
-            try {
-
-                temp.setBackground(bg);
-
-            }catch(Exception e){
-
-                Log.e("TEST","" + key);
-
-            }
-
-        }
-
+        threadPool.add(tempThread,"updateBeat");
     }
 }

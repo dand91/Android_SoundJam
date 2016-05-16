@@ -7,8 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,11 +30,15 @@ public class MainActivity extends BaseActivity {
     private EditText BPMText;
     private EditText groupNameText;
     private TextView InfoView;
-    private ThreadHolder holder;
+    private ThreadHolder threadHolder;
     private MainHolder mainHolder;
     private String groupName = "noName";
+
     private double loopTime = 4;
     private int BPM = 120;
+
+    private static final int UPDATE_TIME = 4000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +52,9 @@ public class MainActivity extends BaseActivity {
         }
 
 
-        if (holder == null) {
+        if (threadHolder == null) {
 
-            holder = ThreadHolder.getInstance();
+            threadHolder = ThreadHolder.getInstance();
             mainHolder = MainHolder.getInstance();
             mainHolder.setMainActivity(this);
 
@@ -74,7 +76,6 @@ public class MainActivity extends BaseActivity {
                 threadPool.add(updater, "updater");
 
             }
-
 
             Intent myIntent = new Intent(MainActivity.this, BassdrumActivity.class);
             myIntent.putExtra("backInfo", "back");
@@ -158,8 +159,14 @@ public class MainActivity extends BaseActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
                 loopTime = (double) (8 * 60) / BPM;
-                holder.setLoopTime(loopTime);
+                threadHolder.setLoopTime(loopTime);
 
+                try {
+                    Thread.sleep(UPDATE_TIME);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                threadHolder.setLoopTime(loopTime);
             }
 
         });
@@ -175,7 +182,7 @@ public class MainActivity extends BaseActivity {
 
         this.BPM = newBPM;
         loopTime = (double) (8 * 60) / BPM;
-        holder.setLoopTime(loopTime);
+        threadHolder.setLoopTime(loopTime);
 
         runOnUiThread(new Runnable() {
 

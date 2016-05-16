@@ -9,8 +9,8 @@ import com.example.andersson.musicapp.SharedResources.ThreadHolder;
  */
 public class BassdrumThread extends AbstractDrumThread {
 
-    public BassdrumThread(AbstractInstrumentActivity activity, ThreadHolder holder) {
-        super(activity, holder);
+    public BassdrumThread(AbstractInstrumentActivity activity) {
+        super(activity);
 
     }
 

@@ -11,7 +11,7 @@ public abstract class AbstractDrumThread extends AbstractInstrumentThread {
 
     private BeatHolder beatHolder;
 
-    public AbstractDrumThread(AbstractInstrumentActivity activity, ThreadHolder holder) {
+    public AbstractDrumThread(AbstractInstrumentActivity activity) {
         super(activity);
         this.beatHolder = BeatHolder.getInstance();
     }
@@ -56,5 +56,20 @@ public abstract class AbstractDrumThread extends AbstractInstrumentThread {
                 k++;
             }
         }
+    }
+
+    @Override
+    public double getBars() {
+
+        if (soundList.size() == 0) {
+
+            return 16;
+
+        } else {
+
+            return bars;
+
+        }
+
     }
 }

@@ -179,7 +179,6 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
         soundListGUI();
         recordGUI();
-        barGUI();
         stopPlayGUI();
         volumeGUI();
         removeGUI();

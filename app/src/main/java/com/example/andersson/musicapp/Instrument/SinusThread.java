@@ -6,7 +6,6 @@ import android.media.AudioTrack;
 import android.os.Handler;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
-import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 /**
  * Created by Andersson on 05/04/16.

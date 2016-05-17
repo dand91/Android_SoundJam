@@ -1,9 +1,7 @@
 package com.example.andersson.musicapp.SharedResources;
 
-import android.app.Activity;
 import android.util.Log;
 
-import com.example.andersson.musicapp.Activity.MainActivity;
 import com.example.andersson.musicapp.AsyncUpdate.UpdateThread;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.TimeTracking.TimeThread;

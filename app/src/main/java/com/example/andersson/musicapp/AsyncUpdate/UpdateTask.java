@@ -10,14 +10,12 @@ import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.SharedResources.MainHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
-import com.example.andersson.musicapp.SharedResources.UpdateObservable;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
@@ -31,25 +29,28 @@ import java.util.Map;
 
 public class UpdateTask {
 
+
+    private static final String[] SERVER_ADDRESS = {"http://213.21.69.152:1234/test"};
+    private static final Integer TIMEOUT_TIME = 2000;
+
     /**
      * Class for sending and retrieving data from HTTP server.
      *
-     * @param threadHolder,ob - SharedInfoHolder to get information from threads. UpdateObservable to
-     *                  notify threads.
+     * @param ob - SharedInfoHolder to get information from threads. UpdateObservable to
+     *           notify threads.
      * @return String - Dummy string
      */
-    public static String saveAndLoad(ThreadHolder threadHolder, UpdateObservable ob) {
+    public static String saveAndLoad(UpdateObservable ob) {
 
-        MainActivity tempMain = null;
-        String tempGroupName = null;
         MainHolder mainHolder = MainHolder.getInstance();
+        ThreadHolder threadHolder = ThreadHolder.getInstance();
+        MainActivity tempMain = (MainActivity) mainHolder.getMainActivity();
 
         try {
 
-            tempGroupName = mainHolder.getGroupName();
-            tempMain = (MainActivity) mainHolder.getMainActivity();
+            String tempGroupName = mainHolder.getGroupName();
 
-            if (tempGroupName.equals("noName")) {
+            if (tempGroupName.equals("noName") || tempGroupName.equals("")) {
 
                 return "";
 
@@ -67,19 +68,18 @@ public class UpdateTask {
         if (!haveNetworkConnection(tempMain)) { // Check internet connection
 
             Log.e("UpdateTask", "No internet connection");
-            tempMain.AlertNoInternet();
+            tempMain.CreateDialog("No internet connection");
 
         } else {
 
             ThreadPool.getInstance().getInfo();
 
-            HttpURLConnection conn = initiateConnection("http://213.21.69.152:1234/test");
-            SendClassList scl = collectDataFromThreads(mainHolder,threadHolder);
-            sendXMLData(conn, scl);
+            HttpURLConnection conn = initiateConnection(SERVER_ADDRESS);
+            SendClassList scl = collectDataFromThreads(mainHolder, threadHolder);
+            sendXMLData(conn, scl, mainHolder);
             receiveXMLData(conn, ob, mainHolder);
 
             conn.disconnect();
-
 
         }
 
@@ -90,45 +90,52 @@ public class UpdateTask {
      * Initiates a URL connection through the class HttpURLConnection, sets variables to make it a
      * POST request.
      *
-     * @param address - String address to server
+     * @param addressList - String address to server
      * @return conn - The connection object
      */
-    private static HttpURLConnection initiateConnection(String address) {
+    private static HttpURLConnection initiateConnection(String[] addressList) {
 
-        InputStream is = null;
+        for (int i = 0; i < addressList.length; i++) {
 
-        URL url = null;
-        HttpURLConnection conn = null;
+            String address = addressList[i];
 
-        try {
+            try {
 
-            url = new URL(address); // URL to HTTP server
+                URL url = new URL(address); // URL to HTTP server
 
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            conn.setRequestMethod("POST");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(TIMEOUT_TIME);
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setRequestMethod("POST");
 
-        } catch (MalformedURLException e1) {
+                return conn;
 
-            Log.e("UpdateTask", "Error while connecting to server.");
-            Log.e("UpdateTask", "Message1: " + e1.getMessage());
-            System.exit(0);
+            } catch (MalformedURLException e1) {
 
-        } catch (ProtocolException e2) {
+                Log.e("UpdateTask", "Error while connecting to server.");
+                Log.e("UpdateTask", "Message1: " + e1.getMessage());
+                e1.printStackTrace();
 
-            Log.e("UpdateTask", "Error while connecting to server.");
-            Log.e("UpdateTask", "Message1: " + e2.getMessage());
-            System.exit(0);
+            } catch (ProtocolException e2) {
 
-        } catch (IOException e3) {
+                Log.e("UpdateTask", "Error while connecting to server.");
+                Log.e("UpdateTask", "Message1: " + e2.getMessage());
+                e2.printStackTrace();
 
-            Log.e("UpdateTask", "Error while connecting to server.");
-            Log.e("UpdateTask", "Message1: " + e3.getMessage());
-            System.exit(0);
+            } catch (IOException e3) {
+
+                Log.e("UpdateTask", "Error while connecting to server.");
+                Log.e("UpdateTask", "Message1: " + e3.getMessage());
+                e3.printStackTrace();
+            }
         }
 
-        return conn;
+
+        Log.e("UpdateTask", "Server connection loop finished, shutting down.");
+        System.exit(1);
+
+        return null;
     }
 
     /**
@@ -138,51 +145,63 @@ public class UpdateTask {
      * @param mainHolder,threadHolder - Object containing the threads.
      * @return scl - The list of SendClass objects.
      */
-    private static SendClassList collectDataFromThreads(MainHolder mainHolder,ThreadHolder threadHolder) {
+    private static SendClassList collectDataFromThreads(MainHolder mainHolder, ThreadHolder threadHolder) {
 
         HashMap<String, Thread> threads = threadHolder.getThreads();
         SendClassList scl = new SendClassList();
 
         String groupName = mainHolder.getGroupName();
-        int BPM = ((MainActivity) mainHolder.getMainActivity()).getBPM();
+        int BPM = mainHolder.getBPM();
 
+        scl.setGroupName(groupName);
+        scl.setBPM(BPM);
 
         if (!threads.entrySet().isEmpty()) {
 
             try {
 
+                /*
+                    Retrieve information from the program. This should be adapted to you're SendClass
+                    and SendCalssList
+                */
                 for (Map.Entry<String, Thread> entry : threads.entrySet()) {
 
                     AbstractInstrumentThread tempThread = (AbstractInstrumentThread) entry.getValue();
                     ArrayList<Integer> soundList = tempThread.getSoundList();
                     String tempString = soundList.toString();
 
+                    SendClass temp = new SendClass();
+
                     if (tempThread.getChangeStatus() && tempString.length() > 2) {
 
-                        tempString = soundList.toString().substring(1, tempString.length() - 1).replace(" ", "");
+
                         tempThread.setChangedStatus(false);
+
+                        tempString = soundList.toString().substring(1, tempString.length() - 1).replace(" ", "");
+                        temp.setHasData(true);
+                        temp.setInstrumentName(entry.getKey());
+                        temp.setData(tempString);
+                        temp.setVolume(String.valueOf(tempThread.getVolume()));
+                        temp.setBars((int) tempThread.getBars());
 
                     } else {
 
-                        tempString = "N/I";
-
+                        temp.setInstrumentName("N/I");
+                        temp.setData("N/I");
+                        temp.setVolume("N/I");
+                        temp.setBars(0);
+                        temp.setHasData(false);
                     }
 
-                    SendClass temp = new SendClass();
-                    temp.setInstrumentName(entry.getKey());
-                    temp.setData(tempString);
-                    temp.setVolume(String.valueOf(tempThread.getVolume()));
-                    temp.setBars((int) tempThread.getBars());
-
-                    scl.setGroupName(groupName);
-                    scl.setBPM(BPM);
                     scl.getSendClassList().add(temp);
+
                 }
 
             } catch (Exception e) {
 
                 Log.e("UpdateTask", "Error while adding info from threads.");
                 Log.e("UpdateTask", "Message2.1: " + e.getMessage());
+                e.printStackTrace();
                 System.exit(0);
 
             }
@@ -196,7 +215,7 @@ public class UpdateTask {
                 temp.setData("N/I");
                 temp.setVolume("N/I");
                 temp.setBars(0);
-                scl.setGroupName(mainHolder.getGroupName());
+                temp.setHasData(false);
                 scl.getSendClassList().add(temp);
 
             } catch (Exception e) {
@@ -214,23 +233,21 @@ public class UpdateTask {
      *
      * @param conn,scl
      */
-    private static void sendXMLData(HttpURLConnection conn, SendClassList scl) {
-
-        StringWriter writer = new StringWriter();
-
-        Serializer serializerWrite =
-                new Persister(); // XML converter
-
-        OutputStreamWriter wr = null;
+    private static void sendXMLData(HttpURLConnection conn, SendClassList scl, MainHolder mainHolder) {
 
         try {
+
+            StringWriter writer = new StringWriter();
+
+            Serializer serializerWrite =
+                    new Persister(); // XML converter
 
             serializerWrite.write(scl, writer);
             String temp = writer.toString();
 
             Log.v("UpdateTask", "Sending: " + temp);
 
-            wr = new OutputStreamWriter(conn
+            OutputStreamWriter wr = new OutputStreamWriter(conn
                     .getOutputStream());
             wr.write(temp);
             wr.flush();
@@ -239,13 +256,16 @@ public class UpdateTask {
         } catch (IOException e1) {
 
             Log.e("UpdateTask", "Error while sending info.");
-            Log.e("UpdateTask", "Message2.3: " + e1.getMessage());
-            System.exit(0);
+            Log.e("UpdateTask", "Message 3: " + e1.getMessage());
+            e1.printStackTrace();
+
+            ((MainActivity) mainHolder.getMainActivity()).CreateDialog("Unable to connect to server, try again later.");
 
         } catch (Exception e2) {
 
             Log.e("UpdateTask", "Error while converting to XML.");
-            Log.e("UpdateTask", "Message2.3: " + e2.getMessage());
+            Log.e("UpdateTask", "Message 3: " + e2.getMessage());
+            e2.printStackTrace();
             System.exit(0);
         }
 
@@ -260,12 +280,11 @@ public class UpdateTask {
     private static void receiveXMLData(HttpURLConnection conn, UpdateObservable ob, MainHolder mainHolder) {
 
         String response = "";
-        BufferedReader br = null;
 
         try {
 
 
-            br = new BufferedReader(new InputStreamReader(conn
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn
                     .getInputStream()));
             String line = "";
             StringBuilder responseOutput = new StringBuilder();
@@ -284,27 +303,33 @@ public class UpdateTask {
 
             Log.e("UpdateTask", "Error while fetching info.");
             Log.e("UpdateTask", "Message4.1: " + e.getMessage());
+            e.printStackTrace();
             System.exit(0);
 
         }
 
         if (response.length() > 0) {
 
-            Serializer serializerOut = new Persister();
-            SendClassList sc = null;
 
             try {
 
-                sc = serializerOut.read(SendClassList.class, response);
+                Serializer serializerOut = new Persister();
+
+                SendClassList sc = serializerOut.read(SendClassList.class, response);
 
                 int k = 0;
 
                 int BPMTemp = sc.getBPM();
-                ((MainActivity) mainHolder.getMainActivity()).setBPM(BPMTemp);
+                mainHolder.setBPM(BPMTemp);
 
                 String info = "";
 
                 for (SendClass scTemp : sc.getSendClassList()) {
+
+                    /*
+                        Retrieve information from xml below. This should be adapted to you're SendClass
+                        and SendCalssList.
+                     */
 
                     k++;
                     String instrumentNameTemp = scTemp.getInstrumentName();
@@ -334,13 +359,13 @@ public class UpdateTask {
 
                 if (k > 0) {
 
-                    ((MainActivity) mainHolder.getMainActivity())
-                            .setInfoText("Info fetched from database from group: " + sc.getGroupName() + info);
+                    mainHolder.setInfoText("Info fetched from database from group: " + sc.getGroupName() + info);
                 }
 
             } catch (Exception e) {
                 Log.e("UpdateTask", "Error while parsing fetched info.");
                 Log.e("UpdateTask", "Message4.2: " + e.getMessage());
+                e.printStackTrace();
                 System.exit(0);
             }
 
@@ -355,9 +380,9 @@ public class UpdateTask {
 
                 Log.e("UpdateTask", "Error while fetching header info.");
                 Log.e("UpdateTask", "Message5: " + e.getMessage());
+                e.printStackTrace();
                 System.exit(0);
             }
-
         }
     }
 

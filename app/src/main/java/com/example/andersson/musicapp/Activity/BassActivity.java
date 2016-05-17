@@ -4,7 +4,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
@@ -43,13 +42,13 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-            float[] Reading = event.values;
+        float[] Reading = event.values;
 
-            X = (int) Reading[0];
-            Y = (int) Reading[1];
-            Z = (int) (Reading[2]);
+        X = (int) Reading[0];
+        Y = (int) Reading[1];
+        Z = (int) (Reading[2]);
 
-            mAccelData.setText("x:" + X + " y: " + Y + " z: " + Z);
+        mAccelData.setText("x:" + X + " y: " + Y + " z: " + Z);
 
         int tol = 0;
 

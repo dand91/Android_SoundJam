@@ -25,6 +25,22 @@ public class MainHolder {
         return ((MainActivity) mainActivity).getGroupName();
     }
 
+    public int getBPM() {
+
+        return ((MainActivity) mainActivity).getBPM();
+
+    }
+
+    public void setBPM(int BPM) {
+
+        ((MainActivity) mainActivity).setBPM(BPM);
+    }
+
+
+    public void setInfoText(String info) {
+
+        ((MainActivity) mainActivity).setInfoText(info);
+    }
 
     public Activity getMainActivity() {
 

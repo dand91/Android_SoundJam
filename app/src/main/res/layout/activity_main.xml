@@ -28,7 +28,7 @@
         android:text="Done" />
 
     <Button
-        android:id="@+id/exampleButton3"
+        android:id="@+id/sinusButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/BPMText"
@@ -41,9 +41,9 @@
         android:id="@+id/BassButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/exampleButton3"
-        android:layout_toLeftOf="@+id/exampleButton3"
-        android:layout_toStartOf="@+id/exampleButton3"
+        android:layout_alignTop="@+id/sinusButton"
+        android:layout_toLeftOf="@+id/sinusButton"
+        android:layout_toStartOf="@+id/sinusButton"
         android:backgroundTint="#842525"
         android:text="Bass" />
 
@@ -71,9 +71,9 @@
         android:id="@+id/drumsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/exampleButton3"
-        android:layout_toEndOf="@+id/exampleButton3"
-        android:layout_toRightOf="@+id/exampleButton3"
+        android:layout_alignTop="@+id/sinusButton"
+        android:layout_toEndOf="@+id/sinusButton"
+        android:layout_toRightOf="@+id/sinusButton"
         android:backgroundTint="#842525"
         android:text="drums" />
 
@@ -85,5 +85,13 @@
         android:layout_alignStart="@+id/BassButton"
         android:layout_below="@+id/BassButton"
         android:layout_marginTop="21dp" />
+
+    <Button
+        android:id="@+id/restartButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/InfoView"
+        android:layout_centerHorizontal="true"
+        android:text="restart" />
 
 </RelativeLayout>

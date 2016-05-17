@@ -4,12 +4,12 @@ import android.util.Log;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.Activity.MainActivity;
+import com.example.andersson.musicapp.AsyncUpdate.UpdateObservable;
 import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.SharedResources.MainHolder;
 import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
-import com.example.andersson.musicapp.SharedResources.TimeObservable;
-import com.example.andersson.musicapp.SharedResources.UpdateObservable;
+import com.example.andersson.musicapp.TimeTracking.TimeObservable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,8 +34,8 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public boolean pause;
     protected int soundId;
     protected SoundPoolHolder sph;
-    private double loopTime;
     protected double bars;
+    private double loopTime;
 
     public AbstractInstrumentThread(AbstractInstrumentActivity activity) {
 
@@ -189,7 +189,6 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
         final ThreadPool threadPool = ThreadPool.getInstance();
 
-
         if (o instanceof TimeObservable) {
 
             loopTime = ((MainActivity) MainHolder.getInstance().getMainActivity()).getLoopTime();
@@ -197,29 +196,37 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
             final double tempLoopTime = (Math.round((loopTime * 1000) / 10.0) * 10);
             final double loopBars = getBars();
 
-            if (!soundList.isEmpty() && soundList.get(0) != -1) {
+            if ((!soundList.isEmpty() && soundList.get(0) != -1) |
+                    (playRealTime & this instanceof BassThread) |
+                    (record & this instanceof BassThread)) {
 
 
-                Thread tempThread = new Thread() {
+                Thread playThread = new Thread() {
+
                     @Override
                     public void run() {
 
                         while (true) {
 
+
                             new Thread() {
+
                                 @Override
                                 public void run() {
 
-                                    playLoop(i);
+                                playLoop(i);
+                            }
 
-                                }
                             }.start();
+
+
 
                             i++;
 
                             if (i == loopBars) {
 
                                 i = 0;
+
                                 break;
 
                             } else {
@@ -236,7 +243,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                     }
                 };
 
-                threadPool.add(tempThread, "play");
+                threadPool.add(playThread, "play");
 
             }
 
@@ -244,25 +251,20 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
             final HashMap<String, Object> map = (HashMap<String, Object>) arg;
 
-            Thread tempThread = new Thread() {
+            Runnable updateThread = () -> {
 
-                @Override
-                public void run() {
+                if (((String) map.get("instrumentName")).equals(activity.getName())) {
 
-                    if (((String) map.get("instrumentName")).equals(activity.getName())) {
+                    setVolume((float) map.get("volume"));
+                    ArrayList<Integer> tempList = (ArrayList<Integer>) map.get("soundList");
+                    setSoundList(tempList);
+                    setBars(Double.valueOf((int) map.get("bars")));
+                    setBeat();
 
-                        setVolume((float) map.get("volume"));
-                        ArrayList<Integer> tempList = (ArrayList<Integer>) map.get("soundList");
-                        setSoundList(tempList);
-                        setBars(Double.valueOf((int) map.get("bars")));
-                        setBeat();
-
-                    }
                 }
-
             };
 
-            threadPool.add(tempThread, "update");
+            threadPool.add(new Thread(updateThread), "update");
 
         }
     }

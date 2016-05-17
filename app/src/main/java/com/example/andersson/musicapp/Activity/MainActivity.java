@@ -24,8 +24,9 @@ import com.example.andersson.musicapp.TimeTracking.TimeThread;
 public class MainActivity extends BaseActivity {
 
     private Button BassButton;
-    private Button groupNameButton;
+    private Button GroupNameButton;
     private Button DrumsButton;
+    private Button RestartButton;
     private SeekBar BPMBar;
     private EditText BPMText;
     private EditText groupNameText;
@@ -33,6 +34,7 @@ public class MainActivity extends BaseActivity {
     private ThreadHolder threadHolder;
     private MainHolder mainHolder;
     private String groupName = "noName";
+    private UpdateThread updater;
 
     private double loopTime = 4;
     private int BPM = 120;
@@ -47,7 +49,6 @@ public class MainActivity extends BaseActivity {
 
             CreateDialog("No internet connection.");
         }
-
 
         if (threadHolder == null) {
 
@@ -66,7 +67,7 @@ public class MainActivity extends BaseActivity {
 
             }
 
-            UpdateThread updater = UpdateThread.getInstance();
+            updater = UpdateThread.getInstance();
 
             if (!updater.isAlive()) {
 
@@ -121,8 +122,8 @@ public class MainActivity extends BaseActivity {
         });
 
         groupNameText = (EditText) findViewById(R.id.groupNameText);
-        groupNameButton = (Button) findViewById(R.id.groupNameButton);
-        groupNameButton.setOnClickListener(new View.OnClickListener() {
+        GroupNameButton = (Button) findViewById(R.id.groupNameButton);
+        GroupNameButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
 
@@ -130,7 +131,8 @@ public class MainActivity extends BaseActivity {
 
                 groupName = groupNameText.getText().toString();
                 groupNameText.setText("");
-                Log.d("Main", "New group name: " + groupNameText.getText().toString());
+                updater.wake();
+                Log.d("Main", "New group name: " + groupName);
             }
         });
 
@@ -168,6 +170,21 @@ public class MainActivity extends BaseActivity {
 
         });
 
+        RestartButton = (Button) findViewById(R.id.restartButton);
+        RestartButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent i = getBaseContext().getPackageManager()
+                        .getLaunchIntentForPackage(getBaseContext().getPackageName());
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                System.exit(1);
+            }
+        });
+
         InfoView = (TextView) findViewById(R.id.InfoView);
     }
 
@@ -181,15 +198,11 @@ public class MainActivity extends BaseActivity {
         loopTime = (double) (8 * 60) / BPM;
         threadHolder.setLoopTime(loopTime);
 
-        runOnUiThread(new Runnable() {
+        runOnUiThread(() -> {
 
-            @Override
-            public void run() {
+            BPMText.setText("BPM: " + BPM);
+            BPMBar.setProgress(BPM - 120);
 
-                BPMText.setText("BPM: " + BPM);
-                BPMBar.setProgress(BPM - 120);
-
-            }
         });
 
     }
@@ -201,44 +214,43 @@ public class MainActivity extends BaseActivity {
 
     public void setInfoText(String text) {
 
-        final String tempText = text;
+        runOnUiThread(() -> {
 
-        runOnUiThread(new Runnable() {
-
-            public void run() {
-
-                InfoView.setText(tempText);
-            }
+            InfoView.setText(text);
         });
 
     }
 
     public double getLoopTime() {
+
         return loopTime;
     }
 
 
     /**
      * Method for creating an Dialog box which prints out the message contained in parameter message.
+     *
      * @param message
      */
     public void CreateDialog(String message) {
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage(message);
-        builder1.setCancelable(true);
+        runOnUiThread(() -> {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            builder1.setMessage(message);
+            builder1.setCancelable(true);
 
-        builder1.setPositiveButton(
-                "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+            builder1.setPositiveButton(
+                    "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
 
-        AlertDialog alert = builder1.create();
-        alert.show();
+            AlertDialog alert = builder1.create();
+            alert.show();
 
+        });
     }
 
 

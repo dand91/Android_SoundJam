@@ -7,25 +7,17 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Activity.AbstractDrumActivity">
-
-    <Button
-        android:id="@+id/recordButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/removeButton"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/removeButton"
-        android:layout_marginTop="114dp"
-        android:text="Record" />
+    tools:context=".Activity.SinusActivity">
 
     <Button
         android:id="@+id/playButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/removeButton"
-        android:layout_toLeftOf="@+id/removeButton"
-        android:layout_toStartOf="@+id/removeButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="33dp"
+        android:layout_marginStart="33dp"
         android:backgroundTint="#842525"
         android:text="PLAY" />
 
@@ -34,8 +26,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/playButton"
-        android:layout_toEndOf="@+id/recordButton"
-        android:layout_toRightOf="@+id/recordButton"
+        android:layout_marginLeft="31dp"
+        android:layout_marginStart="31dp"
+        android:layout_toEndOf="@+id/soundListText"
+        android:layout_toRightOf="@+id/soundListText"
         android:backgroundTint="#842525"
         android:text="STOP" />
 
@@ -45,7 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/recordButton"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="132dp"
         android:focusable="true"
         android:indeterminate="false"
         android:max="100" />
@@ -64,30 +59,11 @@
         android:layout_below="@+id/progressText"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        android:id="@+id/removeButton"
+    <TextView
+        android:id="@+id/dataView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/soundListText"
-        android:layout_centerHorizontal="true"
-        android:text="remove" />
-
-    <Button
-        android:id="@+id/speedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/playButton"
-        android:layout_alignStart="@+id/playButton"
-        android:layout_below="@+id/playButton"
-        android:text="SpeedShift" />
-
-    <TextView
-        android:id="@+id/speedText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/speedButton"
-        android:layout_alignBottom="@+id/speedButton"
-        android:layout_toEndOf="@+id/speedButton"
-        android:layout_toRightOf="@+id/speedButton" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

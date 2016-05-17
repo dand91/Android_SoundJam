@@ -41,7 +41,7 @@ public class NTPThread extends Thread {
 
             returnTime = getNTPUpdate();
 
-            if (returnTime > 0) {
+            if (returnTime != Integer.MAX_VALUE) {
 
                 timeInfo.computeDetails();
                 adjust = returnTime - System.currentTimeMillis();
@@ -52,9 +52,10 @@ public class NTPThread extends Thread {
 
                     observable.NTPnotify(offset);
 
-                }catch(NullPointerException e){
+                } catch (NullPointerException e) {
 
-                    Log.e("NTPThread","Offset is null using adjustment");
+                    Log.e("NTPThread", "Offset is null using adjustment");
+
                     observable.NTPnotify(adjust);
 
                 }
@@ -84,6 +85,7 @@ public class NTPThread extends Thread {
                 String server = TIME_SERVER[i];
 
                 NTPUDPClient timeClient = new NTPUDPClient();
+                timeClient.setVersion(4);
 
                 Log.d("NTPThread", "Starting NTP version: " + timeClient.getVersion() + " Server: " + server);
 
@@ -104,7 +106,7 @@ public class NTPThread extends Thread {
             }
         }
 
-        return 0l;
+        return Integer.MAX_VALUE;
     }
 
     public synchronized long getAdjustment() {
@@ -129,7 +131,7 @@ public class NTPThread extends Thread {
 
         for (Long time : timeList) {
 
-            sumTime += (double)time;
+            sumTime += (double) time;
 
         }
 
@@ -144,7 +146,7 @@ public class NTPThread extends Thread {
 
         for (Long time : timeList) {
 
-            sumTime += Math.sqrt((double)time - mean);
+            sumTime += Math.pow(((double) time - mean), 2);
 
         }
 
@@ -157,6 +159,9 @@ public class NTPThread extends Thread {
         observable.addObserver(observer);
     }
 
+    /**
+     * Method for printing information. Commends above each output is taken from rfc1305
+     */
     public void getInfo() {
 
         try {

@@ -1,4 +1,4 @@
-package com.example.andersson.musicapp.SharedResources;
+package com.example.andersson.musicapp.TimeTracking;
 
 import android.util.Log;
 

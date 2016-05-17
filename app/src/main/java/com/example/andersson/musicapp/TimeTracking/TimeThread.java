@@ -5,8 +5,6 @@ import android.util.Log;
 import com.example.andersson.musicapp.Activity.MainActivity;
 import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.SharedResources.MainHolder;
-import com.example.andersson.musicapp.SharedResources.ThreadHolder;
-import com.example.andersson.musicapp.SharedResources.TimeObservable;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -18,7 +16,6 @@ public class TimeThread extends Thread {
 
     private static TimeThread instance = null;
     private TimeObservable ob;
-    private ThreadHolder holder;
     private MainHolder mainHolder;
     private ThreadPool threadPool;
     private long adjust = 0;
@@ -32,11 +29,12 @@ public class TimeThread extends Thread {
 
         Thread tempThread = new NTPThread();
 
-        ((NTPThread)tempThread).addObserver(new Observer() {
+        ((NTPThread) tempThread).addObserver(new Observer() {
             @Override
-            public void update(Observable observable, Object o) {
+            public void update(Observable observable, Object object) {
 
-                adjust = (long) o;
+                adjust = (long) object;
+
             }
         });
 
@@ -53,46 +51,36 @@ public class TimeThread extends Thread {
 
     public void run() {
 
+        boolean run = true;
 
-        holder = ThreadHolder.getInstance();
+        while (true) {
 
-        if (holder == null) {
+            int tempLoopTime = (int) (((MainActivity) mainHolder.getMainActivity()).getLoopTime() * 1000);
 
-            Log.e("TimeThread", "Holder is null");
-            System.exit(0);
+            long currentTime = 0;
 
-        } else {
+            try {
 
-            boolean run = true;
+                currentTime = System.currentTimeMillis() + adjust;
 
-            while (true) {
+            } catch (Exception e) {
+                Log.e("TimeThread", "Error feching adjust from thread.");
+                Log.e("TimeThread", e.getMessage());
 
-                int tempLoopTime = (int) (((MainActivity) mainHolder.getMainActivity()).getLoopTime() * 1000);
+            }
 
-                long currentTime = 0;
+            long tempTime = currentTime % tempLoopTime;
 
-                try {
+            if (tempTime == 0 && run) {
 
-                    currentTime = System.currentTimeMillis() + adjust;
-                } catch (Exception e) {
-                    Log.e("TimeThread", "Error feching adjust from thread.");
-                    Log.e("TimeThread", e.getMessage());
+                Log.i("TimeThread", "Run: " + currentTime);
+                run = false;
+                ob.setChange();
 
-                }
+            } else if (tempTime != 0) {
 
-                long tempTime = currentTime % tempLoopTime;
+                run = true;
 
-                if (tempTime == 0 && run) {
-
-                    Log.i("TimeThread", "Run: " + currentTime);
-                    run = false;
-                    ob.setChange();
-
-                } else if (tempTime != 0) {
-
-                    run = true;
-
-                }
             }
         }
     }

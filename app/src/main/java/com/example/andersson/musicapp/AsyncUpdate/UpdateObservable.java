@@ -1,7 +1,8 @@
-package com.example.andersson.musicapp.SharedResources;
+package com.example.andersson.musicapp.AsyncUpdate;
 
 import android.util.Log;
 
+import java.util.HashMap;
 import java.util.Observable;
 
 /**
@@ -13,7 +14,7 @@ public class UpdateObservable extends Observable {
         super();
     }
 
-    public void setChange(Object arg) {
+    public void setChange(HashMap arg) {
 
         Log.d("UpdateObservable", "Number of observers - " + this.countObservers());
         notifyObservers(arg);

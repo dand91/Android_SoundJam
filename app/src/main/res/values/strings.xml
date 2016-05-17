@@ -10,5 +10,6 @@
     <string name="title_activity_Abstract_Drum">AbstractDrum</string>
     <string name="title_activity_Beat">Beat</string>
     <string name="title_activity_splash">Splash</string>
+    <string name="title_activity_sinus">Sinus</string>
 
 </resources>

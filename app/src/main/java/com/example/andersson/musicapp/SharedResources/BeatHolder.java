@@ -1,20 +1,19 @@
 package com.example.andersson.musicapp.SharedResources;
 
-import android.util.Log;
+import android.app.Activity;
 
 import java.util.HashMap;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by Andersson on 12/05/16.
  */
 public class BeatHolder {
 
-    private HashMap<String, Boolean> beat;
     private static BeatHolder instance = null;
+    private HashMap<String, Boolean> beat;
+    private Activity activity;
 
-    public BeatHolder(){
+    public BeatHolder() {
 
         this.beat = new HashMap<String, Boolean>();
 
@@ -50,4 +49,13 @@ public class BeatHolder {
 
     }
 
+    public void addActivity(Activity activity) {
+
+        this.activity = activity;
+    }
+
+    public Activity getActivity() {
+
+        return activity;
+    }
 }

@@ -12,12 +12,9 @@ import android.widget.ImageView;
 import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.BeatHolder;
-import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 
 public class BeatActivity extends BaseActivity {
 
@@ -30,11 +27,15 @@ public class BeatActivity extends BaseActivity {
     private Button BassDrumButton;
     private Button snareButton;
     private Button HighHatButton;
+    private BeatHolder beatHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beat);
+
+        beatHolder = BeatHolder.getInstance();
+        beatHolder.addActivity(this);
 
         HighHatButton = (Button) findViewById(R.id.HighHatButton);
         HighHatButton.setOnClickListener(new View.OnClickListener() {
@@ -138,18 +139,9 @@ public class BeatActivity extends BaseActivity {
         updateBeat();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
 
-        updateBeat();
-        finish();
+    public void updateBeat() {
 
-    }
-
-    private void updateBeat() {
-
-        final BeatHolder beatHolder = BeatHolder.getInstance();
         ThreadPool threadPool = ThreadPool.getInstance();
 
         Thread tempThread = new Thread() {
@@ -157,60 +149,54 @@ public class BeatActivity extends BaseActivity {
             @Override
             public void run() {
 
+                runOnUiThread(() -> {
+
+                    for (Map.Entry<String, Boolean> entry : beatHolder.getBeatMap().entrySet()) {
 
 
-                    runOnUiThread(new Runnable() {
+                        String key = entry.getKey();
+                        Boolean value = entry.getValue();
 
-                        @Override
-                        public void run() {
+                        ImageView temp = null;
 
-                            for (Map.Entry<String, Boolean> entry : beatHolder.getBeatMap().entrySet()) {
+                        try {
 
+                            temp = beatMap.get(key);
 
-                                String key = entry.getKey();
-                                Boolean value = entry.getValue();
+                        } catch (NullPointerException e) {
 
-                                ImageView temp = null;
-
-                                try {
-
-                                    temp = beatMap.get(key);
-
-                                } catch (NullPointerException e) {
-
-                                    Log.e("BeatActivity", "Error while fetching: " + key);
-                                    System.exit(0);
-                                }
-
-                                Drawable bg = null;
-
-
-                                if (value) {
-
-                                    bg = ContextCompat.getDrawable(getApplicationContext(), R.drawable.cell_shape_red);
-
-                                } else {
-
-                                    bg = ContextCompat.getDrawable(getApplicationContext(), R.drawable.cell_shape);
-                                }
-
-                                try {
-
-                                    temp.setBackground(bg);
-
-                                } catch (Exception e) {
-
-                                    Log.e("BeatActivity", "Error while setting: " + key);
-
-                                }
-
-
-                            }
+                            Log.e("BeatActivity", "Error while fetching: " + key);
+                            System.exit(0);
                         }
-                    });
+
+                        Drawable bg = null;
+
+
+                        if (value) {
+
+                            bg = ContextCompat.getDrawable(getApplicationContext(), R.drawable.cell_shape_red);
+
+                        } else {
+
+                            bg = ContextCompat.getDrawable(getApplicationContext(), R.drawable.cell_shape);
+                        }
+
+                        try {
+
+                            temp.setBackground(bg);
+
+                        } catch (Exception e) {
+
+                            Log.e("BeatActivity", "Error while setting: " + key);
+
+                        }
+
+
+                    }
+                });
             }
         };
 
-        threadPool.add(tempThread,"updateBeat");
+        threadPool.add(tempThread, "updateBeat");
     }
 }

@@ -2,7 +2,6 @@ package com.example.andersson.musicapp.Instrument;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.R;
-import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 /**
  * Created by Andersson on 07/04/16.
@@ -20,6 +19,7 @@ public class BassThread extends AbstractInstrumentThread {
     private int soundId8;
 
     public BassThread(AbstractInstrumentActivity activity) {
+
         super(activity);
 
     }
@@ -27,21 +27,14 @@ public class BassThread extends AbstractInstrumentThread {
     @Override
     public void playLoop(int index) {
 
-        if (soundList != null && soundList.size() > index && !record && !pause ) {
+        if (soundList != null && soundList.size() > index && !record && !pause && !playRealTime) {
 
-            if(!playRealTime) {
+            int loopValue = soundList.get(index);
 
-                int loopValue = soundList.get(index);
+            soundCase(loopValue);
 
-                soundCase(loopValue);
 
-            }else{
-
-                soundCase(value);
-
-            }
-
-        }else if(record && !pause){
+        } else if ((record && !pause) | playRealTime) {
 
             soundCase(value);
 

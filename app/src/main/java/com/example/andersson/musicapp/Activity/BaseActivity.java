@@ -13,7 +13,8 @@ import java.util.Map;
 
 public class BaseActivity extends AppCompatActivity {
 
-    public final static int CLIENT_UPDATE_TIME = 2000;
+    public final static int CLIENT_UPDATE_TIME = 3000;
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -40,13 +41,13 @@ public class BaseActivity extends AppCompatActivity {
         super.onPause();
 
         ThreadHolder holder = ThreadHolder.getInstance();
-        HashMap<String,Thread> map = holder.getThreads();
+        HashMap<String, Thread> map = holder.getThreads();
 
-        for(Map.Entry thread : map.entrySet()){
+        for (Map.Entry thread : map.entrySet()) {
 
             try {
 
-                ((AbstractInstrumentThread)thread.getValue()).setPause(true);
+                ((AbstractInstrumentThread) thread.getValue()).setPause(true);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -59,20 +60,17 @@ public class BaseActivity extends AppCompatActivity {
         super.onResume();
 
         ThreadHolder holder = ThreadHolder.getInstance();
-        HashMap<String,Thread> map = holder.getThreads();
+        HashMap<String, Thread> map = holder.getThreads();
 
-        for(Map.Entry thread : map.entrySet()){
+        for (Map.Entry thread : map.entrySet()) {
 
             try {
 
-                ((AbstractInstrumentThread)thread.getValue()).setPause(false);
+                ((AbstractInstrumentThread) thread.getValue()).setPause(false);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
-
     }
-
 }

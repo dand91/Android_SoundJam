@@ -36,6 +36,10 @@
             android:name=".Activity.BeatActivity"
             android:label="@string/title_activity_Beat" />
         <activity android:name=".Activity.BaseActivity" />
+        <activity
+            android:name=".Activity.SinusActivity"
+            android:label="@string/title_activity_sinus"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

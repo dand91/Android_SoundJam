@@ -15,18 +15,17 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class ThreadPool {
 
+    private static final Integer MAX_THREAD = 50;
     private static ThreadPool instance = null;
     private ThreadPoolExecutor executor;
     private HashMap<String, Thread> threadMap;
     private HashMap<String, Future> futureMap;
     private HashMap<String, Callable> callableMap;
 
-    private static final Integer MAX_THREAD = 20;
-
     public ThreadPool() {
 
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_THREAD);
-        Log.d("ThreadPool" , "Pre starting threads: " + executor.prestartAllCoreThreads());
+        Log.d("ThreadPool", "Pre starting threads: " + executor.prestartAllCoreThreads());
 
         threadMap = new HashMap<String, Thread>();
         futureMap = new HashMap<String, Future>();
@@ -69,7 +68,7 @@ public class ThreadPool {
             Log.e("ThreadPool", "Error while executing thread. Message: " + e.getMessage());
         }
 
-        callableMap.put(name,thread);
+        callableMap.put(name, thread);
         futureMap.put(name, future);
 
     }
@@ -92,7 +91,7 @@ public class ThreadPool {
 
     }
 
-    public Object getThread(String name){
+    public Object getThread(String name) {
 
         return threadMap.get(name);
 
@@ -125,9 +124,9 @@ public class ThreadPool {
             Log.v("ThreadPool", "Task Count: " + executor.getTaskCount());
             Log.v("ThreadPool", "Remaining Queue Capacity: " + executor.getQueue().remainingCapacity());
 
-        }catch(Exception e ){
+        } catch (Exception e) {
 
-            Log.e("ThreadPool","Error while printing info");
+            Log.e("ThreadPool", "Error while printing info");
         }
 
     }

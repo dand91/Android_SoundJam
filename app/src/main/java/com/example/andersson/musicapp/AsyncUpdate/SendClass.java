@@ -14,6 +14,8 @@ public class SendClass {
     private String volume;
     @Element
     private Integer bars;
+    @Element
+    private Boolean hasData;
 
     public String getInstrumentName() {
         return instrumentName;
@@ -45,6 +47,14 @@ public class SendClass {
 
     public void setBars(Integer bars) {
         this.bars = bars;
+    }
+
+    public Boolean getHasData() {
+        return hasData;
+    }
+
+    public void setHasData(Boolean hasData) {
+        this.hasData = hasData;
     }
 
 

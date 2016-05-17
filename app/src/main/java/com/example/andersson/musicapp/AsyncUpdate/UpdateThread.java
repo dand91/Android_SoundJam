@@ -2,9 +2,6 @@ package com.example.andersson.musicapp.AsyncUpdate;
 
 import android.util.Log;
 
-import com.example.andersson.musicapp.SharedResources.ThreadHolder;
-import com.example.andersson.musicapp.SharedResources.UpdateObservable;
-
 import java.util.Observer;
 
 /**
@@ -17,7 +14,6 @@ public class UpdateThread extends Thread {
 
     private static UpdateThread instance = null;
 
-    private ThreadHolder threadHolder;
     private UpdateObservable observable;
 
     private UpdateThread() {
@@ -38,34 +34,24 @@ public class UpdateThread extends Thread {
 
     public void run() {
 
-        threadHolder = ThreadHolder.getInstance();
+        AsyncTask asyncTask = new AsyncTask();
+        asyncTask.execute();
 
-        if (threadHolder == null) {
+        asyncTask.addObserver(observable);
 
-            Log.e("UpdateThread", "Holder is null");
-            System.exit(0);
+        while (true) {
 
-        } else {
+            Log.i("UpdateThread", " Running UpdateTask.");
 
-            AsyncTask asyncTask = new AsyncTask();
-            asyncTask.execute();
+            asyncTask.doInBackground();
 
-            asyncTask.addHolder(threadHolder);
-            asyncTask.addObserver(observable);
+            try {
 
-            while (true) {
+                sleep(SERVER_UPDATE_TIME);
 
-                Log.i("UpdateThread", " Running UpdateTask.");
+            } catch (InterruptedException e) {
 
-                asyncTask.doInBackground();
-
-                try {
-
-                    Thread.sleep(SERVER_UPDATE_TIME);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                Log.i("UpdateThread", "Thread interrupted");
             }
         }
     }
@@ -73,6 +59,11 @@ public class UpdateThread extends Thread {
     public void add(Observer newOb) {
 
         observable.addObserver(newOb);
+    }
+
+    public void wake() {
+
+        interrupt();
     }
 }
 

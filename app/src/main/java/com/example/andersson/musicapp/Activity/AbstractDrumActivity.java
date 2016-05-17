@@ -122,6 +122,7 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
+
                             isActive = false;
 
                         }
@@ -148,5 +149,16 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
         volumeGUI();
         removeGUI();
         speedGUI();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        ((BeatActivity) BeatHolder.getInstance().getActivity()).updateBeat();
+
+        finish();
+
     }
 }

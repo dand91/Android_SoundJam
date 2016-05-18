@@ -2,12 +2,12 @@ package com.example.andersson.musicapp.AsyncUpdate;
 
 public class AsyncTask extends android.os.AsyncTask<Void, Void, String> {
 
-    private UpdateObservable ob;
+    private UpdateObservable observable;
 
     @Override
     protected String doInBackground(Void... params) {
 
-        String result = UpdateTask.saveAndLoad(ob);
+        String result = UpdateTask.saveAndLoad(observable);
         return result;
     }
 
@@ -17,8 +17,8 @@ public class AsyncTask extends android.os.AsyncTask<Void, Void, String> {
 
     }
 
-    public void addObserver(UpdateObservable ob) {
-        this.ob = ob;
+    public void addObserver(UpdateObservable observable) {
+        this.observable = observable;
     }
 
 }

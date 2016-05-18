@@ -36,11 +36,11 @@ public class UpdateTask {
     /**
      * Class for sending and retrieving data from HTTP server.
      *
-     * @param ob - SharedInfoHolder to get information from threads. UpdateObservable to
+     * @param observable - SharedInfoHolder to get information from threads. UpdateObservable to
      *           notify threads.
      * @return String - Dummy string
      */
-    public static String saveAndLoad(UpdateObservable ob) {
+    public static String saveAndLoad(UpdateObservable observable) {
 
         MainHolder mainHolder = MainHolder.getInstance();
         ThreadHolder threadHolder = ThreadHolder.getInstance();
@@ -77,7 +77,7 @@ public class UpdateTask {
             HttpURLConnection conn = initiateConnection(SERVER_ADDRESS);
             SendClassList scl = collectDataFromThreads(mainHolder, threadHolder);
             sendXMLData(conn, scl, mainHolder);
-            receiveXMLData(conn, ob, mainHolder);
+            receiveXMLData(conn, observable, mainHolder);
 
             conn.disconnect();
 
@@ -108,25 +108,26 @@ public class UpdateTask {
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
                 conn.setRequestMethod("POST");
+                conn.connect();
 
                 return conn;
 
             } catch (MalformedURLException e1) {
 
                 Log.e("UpdateTask", "Error while connecting to server.");
-                Log.e("UpdateTask", "Message1: " + e1.getMessage());
+                Log.e("UpdateTask", "Message 1: " + e1.getMessage());
                 e1.printStackTrace();
 
             } catch (ProtocolException e2) {
 
                 Log.e("UpdateTask", "Error while connecting to server.");
-                Log.e("UpdateTask", "Message1: " + e2.getMessage());
+                Log.e("UpdateTask", "Message 1: " + e2.getMessage());
                 e2.printStackTrace();
 
             } catch (IOException e3) {
 
                 Log.e("UpdateTask", "Error while connecting to server.");
-                Log.e("UpdateTask", "Message1: " + e3.getMessage());
+                Log.e("UpdateTask", "Message 1: " + e3.getMessage());
                 e3.printStackTrace();
             }
         }
@@ -200,7 +201,7 @@ public class UpdateTask {
             } catch (Exception e) {
 
                 Log.e("UpdateTask", "Error while adding info from threads.");
-                Log.e("UpdateTask", "Message2.1: " + e.getMessage());
+                Log.e("UpdateTask", "Message 2.1: " + e.getMessage());
                 e.printStackTrace();
                 System.exit(0);
 
@@ -220,7 +221,7 @@ public class UpdateTask {
 
             } catch (Exception e) {
                 Log.e("UpdateTask", "Error while adding group info.");
-                Log.e("UpdateTask", "Message2.2: " + e.getMessage());
+                Log.e("UpdateTask", "Message 2.2: " + e.getMessage());
                 System.exit(0);
             }
         }
@@ -260,6 +261,7 @@ public class UpdateTask {
             e1.printStackTrace();
 
             ((MainActivity) mainHolder.getMainActivity()).CreateDialog("Unable to connect to server, try again later.");
+            return;
 
         } catch (Exception e2) {
 
@@ -302,9 +304,10 @@ public class UpdateTask {
         } catch (IOException e) {
 
             Log.e("UpdateTask", "Error while fetching info.");
-            Log.e("UpdateTask", "Message4.1: " + e.getMessage());
-            e.printStackTrace();
-            System.exit(0);
+            Log.e("UpdateTask", "Message 4.1: " + e.getMessage());
+
+            ((MainActivity) mainHolder.getMainActivity()).CreateDialog("Unable to connect to server, try again later.");
+            return;
 
         }
 
@@ -363,8 +366,9 @@ public class UpdateTask {
                 }
 
             } catch (Exception e) {
+
                 Log.e("UpdateTask", "Error while parsing fetched info.");
-                Log.e("UpdateTask", "Message4.2: " + e.getMessage());
+                Log.e("UpdateTask", "Message 4.2: " + e.getMessage());
                 e.printStackTrace();
                 System.exit(0);
             }
@@ -379,9 +383,8 @@ public class UpdateTask {
             } catch (Exception e) {
 
                 Log.e("UpdateTask", "Error while fetching header info.");
-                Log.e("UpdateTask", "Message5: " + e.getMessage());
+                Log.e("UpdateTask", "Message 5: " + e.getMessage());
                 e.printStackTrace();
-                System.exit(0);
             }
         }
     }

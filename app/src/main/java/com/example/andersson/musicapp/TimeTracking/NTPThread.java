@@ -102,7 +102,6 @@ public class NTPThread extends Thread {
             } catch (java.io.IOException e2) {
                 Log.e("NTPThread", "Connection error");
                 Log.e("NTPThread", "Message: " + e2.getMessage());
-
             }
         }
 

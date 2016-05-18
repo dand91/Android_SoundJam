@@ -27,6 +27,7 @@ public class MainActivity extends BaseActivity {
     private Button GroupNameButton;
     private Button DrumsButton;
     private Button RestartButton;
+    private Button SyncButton;
     private SeekBar BPMBar;
     private EditText BPMText;
     private EditText groupNameText;
@@ -35,9 +36,10 @@ public class MainActivity extends BaseActivity {
     private MainHolder mainHolder;
     private String groupName = "noName";
     private UpdateThread updater;
-
+    private TimeThread timer;
     private double loopTime = 4;
     private int BPM = 120;
+    private boolean sync = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +60,9 @@ public class MainActivity extends BaseActivity {
 
             ThreadPool threadPool = ThreadPool.getInstance();
 
-            TimeThread timer = TimeThread.getInstance();
+            timer = TimeThread.getInstance();
 
-            if (!timer.isAlive()) {
-
+            if (!timer.isAlive() && threadPool.getThread("timer") == null) {
 
                 threadPool.add(timer, "timer");
 
@@ -69,7 +70,7 @@ public class MainActivity extends BaseActivity {
 
             updater = UpdateThread.getInstance();
 
-            if (!updater.isAlive()) {
+            if (!updater.isAlive() && threadPool.getThread("updater") == null) {
 
                 threadPool.add(updater, "updater");
 
@@ -158,14 +159,17 @@ public class MainActivity extends BaseActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
                 loopTime = (double) (8 * 60) / BPM;
-                threadHolder.setLoopTime(loopTime);
 
-                try {
-                    Thread.sleep(CLIENT_UPDATE_TIME);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                for(int i = 0; i < 10 ; i++) {
+
+                    threadHolder.setLoopTime(loopTime);
+
+                    try {
+                        Thread.sleep(CLIENT_UPDATE_TIME/10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-                threadHolder.setLoopTime(loopTime);
             }
 
         });
@@ -185,6 +189,20 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        SyncButton = (Button) findViewById(R.id.syncButton);
+        SyncButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                sync = !sync;
+                Log.e("Main","Sync: " + sync);
+                timer.setSync(sync);
+
+            }
+        });
+
         InfoView = (TextView) findViewById(R.id.InfoView);
     }
 
@@ -196,7 +214,6 @@ public class MainActivity extends BaseActivity {
 
         this.BPM = newBPM;
         loopTime = (double) (8 * 60) / BPM;
-        threadHolder.setLoopTime(loopTime);
 
         runOnUiThread(() -> {
 
@@ -205,6 +222,16 @@ public class MainActivity extends BaseActivity {
 
         });
 
+        for(int i = 0; i < 10 ; i++) {
+
+            threadHolder.setLoopTime(loopTime);
+
+            try {
+                Thread.sleep(CLIENT_UPDATE_TIME/10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public String getGroupName() {

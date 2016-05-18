@@ -51,13 +51,13 @@
         android:id="@+id/BPMBar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="59dp"
+        android:layout_marginTop="145dp"
         android:focusable="true"
         android:indeterminate="false"
-        android:max="10" />
+        android:max="10"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:id="@+id/BPMText"
@@ -90,8 +90,19 @@
         android:id="@+id/restartButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/InfoView"
-        android:layout_centerHorizontal="true"
-        android:text="restart" />
+        android:text="restart"
+        android:layout_marginBottom="44dp"
+        android:layout_alignBottom="@+id/BPMBar"
+        android:layout_toLeftOf="@+id/groupNameText"
+        android:layout_toStartOf="@+id/groupNameText" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NTP sync"
+        android:id="@+id/syncButton"
+        android:layout_alignTop="@+id/restartButton"
+        android:layout_toRightOf="@+id/groupNameText"
+        android:layout_toEndOf="@+id/groupNameText" />
 
 </RelativeLayout>

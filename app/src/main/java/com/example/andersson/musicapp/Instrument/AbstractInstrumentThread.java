@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
 import com.example.andersson.musicapp.Activity.MainActivity;
 import com.example.andersson.musicapp.AsyncUpdate.UpdateObservable;
+import com.example.andersson.musicapp.AsyncUpdate.UpdateThread;
 import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.SharedResources.MainHolder;
 import com.example.andersson.musicapp.SharedResources.SoundPoolHolder;
@@ -141,9 +142,8 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     public void setSoundList(ArrayList<Integer> soundList) {
 
         set = true;
-        setChangedStatus(true);
         this.soundList = soundList;
-
+        UpdateThread.getInstance().wake();
 
     }
 

@@ -143,12 +143,12 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
     @Override
     protected void initiateGUI() {
 
+        speedGUI();
         soundListGUI();
         recordGUI();
         stopPlayGUI();
         volumeGUI();
         removeGUI();
-        speedGUI();
     }
 
 

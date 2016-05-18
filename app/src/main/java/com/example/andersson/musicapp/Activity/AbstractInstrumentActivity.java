@@ -25,22 +25,28 @@ import java.util.Calendar;
 
 public abstract class AbstractInstrumentActivity extends BaseActivity {
 
-    public ThreadHolder threadHolder;
-    public BeatHolder beatHolder;
-    public MainHolder mainHolder;
-    public AbstractInstrumentThread instrument;
-    public EditText soundListText;
+
     public Button recordButton;
     public Button playButton;
     public Button stopButton;
     public Button removeButton;
     public Button speedButton;
+
+    public ThreadHolder threadHolder;
+    public BeatHolder beatHolder;
+    public MainHolder mainHolder;
+    protected SoundPoolHolder soundPoolHolder;
+
+    public AbstractInstrumentThread instrument;
+
+    public EditText soundListText;
     public TextView speedText;
-    public SeekBar volumeSeekBar;
     public TextView progressText;
+    public SeekBar volumeSeekBar;
+
     public boolean playRealTime;
     public boolean record;
-    protected SoundPoolHolder soundPoolHolder;
+
     protected ArrayList<Integer> tempSoundList;
     private int index = 0;
     private String info;
@@ -237,6 +243,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                                 for(int i = 0 ; i < 10; i++) {
 
                                                     instrument.setSoundList(tempSoundList);
+                                                    instrument.setChangedStatus(true);
 
                                                     try {
 
@@ -362,20 +369,22 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                                 ArrayList<Integer> tempList = new ArrayList<Integer>();
                                 tempList.add(-1);
-                                beatHolder.clearBeatArray();
                                 soundListText.setText("");
-                                instrument.setSoundList(tempList);
 
-                                try {
+                                for(int i = 0; i < 10; i++) {
 
-                                    sleep(CLIENT_UPDATE_TIME);
+                                    instrument.setSoundList(tempList);
+                                    instrument.setChangedStatus(true);
+                                    beatHolder.clearBeatArray();
 
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
+                                    try {
+
+                                        sleep(CLIENT_UPDATE_TIME/10);
+
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-
-                                beatHolder.clearBeatArray();
-                                instrument.setSoundList(tempList);
                                 progressText.setText("Instrument removed.");
 
                             }
@@ -406,6 +415,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
             public void onClick(View view) {
 
+                progressText.setText("Updating server");
 
                 if (instrument.getBars() == 8 && instrument.getSoundList().size() == 8) {
 
@@ -428,6 +438,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                             instrument.setBars(16);
                             instrument.setSoundList(newList);
+                            instrument.setChangedStatus(true);
 
                             try {
 
@@ -463,7 +474,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                             instrument.setSoundList(
                                     new ArrayList<Integer>(
                                             tempList.subList(0, 8)));
-
+                            instrument.setChangedStatus(true);
 
                             try {
 
@@ -477,10 +488,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                         speedButton.setEnabled(true);
                         speedButton.setClickable(true);
 
-
                     }
-
-
                 }
                 progressText.setText("");
 

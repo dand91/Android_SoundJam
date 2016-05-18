@@ -19,6 +19,7 @@ public class TimeThread extends Thread {
     private MainHolder mainHolder;
     private ThreadPool threadPool;
     private long adjust = 0;
+    private boolean sync = false;
 
     private TimeThread() {
 
@@ -59,13 +60,14 @@ public class TimeThread extends Thread {
 
             long currentTime = 0;
 
-            try {
+
+            if(sync) {
 
                 currentTime = System.currentTimeMillis() + adjust;
 
-            } catch (Exception e) {
-                Log.e("TimeThread", "Error feching adjust from thread.");
-                Log.e("TimeThread", e.getMessage());
+            }else{
+
+                currentTime = System.currentTimeMillis();
 
             }
 
@@ -88,6 +90,12 @@ public class TimeThread extends Thread {
     public void add(Observer newOb) {
 
         ob.addObserver(newOb);
+    }
+
+    public void setSync(Boolean sync){
+
+        this.sync = sync;
+
     }
 
 }

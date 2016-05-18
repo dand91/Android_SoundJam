@@ -97,6 +97,16 @@ public class ThreadPool {
 
     }
 
+    public void removeThread(String name) {
+
+        Thread thread = threadMap.remove(name);
+
+    }
+    public void removeCallable(String name) {
+
+        Callable callable = callableMap.remove(name);
+    }
+
     public void removeFuture(String name) {
 
         try {

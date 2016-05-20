@@ -7,7 +7,6 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -36,7 +35,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
     public BeatHolder beatHolder;
     public MainHolder mainHolder;
     public AbstractInstrumentThread instrument;
-    public EditText soundListText;
+    public TextView soundListText;
     public TextView speedText;
     public TextView progressText;
     public SeekBar volumeSeekBar;
@@ -123,7 +122,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
             System.exit(0);
 
         }
-
 
         initiate();
         initiateGUI();
@@ -492,7 +490,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
     protected void soundListGUI() {
 
-        soundListText = (EditText) findViewById(R.id.soundListText);
+        soundListText = (TextView) findViewById(R.id.soundListText);
 
     }
 

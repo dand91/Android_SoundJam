@@ -1,8 +1,15 @@
 <resources>
-    <string name="app_name">MusicApp</string>
+    <string name="app_name">SoundJAM</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_example">ExampleActivity</string>
-    <string name="title_activity_sensor">SensorActivity</string>
+    <string name="title_activity_Bassdrum">Bassdrum</string>
+    <string name="title_activity_Snare">Snare</string>
+    <string name="title_activity_Sinus">Sinus</string>
+    <string name="title_activity_Bass">Bass</string>
+    <string name="title_activity_High_Hat">HighHat</string>
+    <string name="title_activity_Abstract_Drum">AbstractDrum</string>
+    <string name="title_activity_Beat">Beat</string>
+    <string name="title_activity_splash">Splash</string>
+    <string name="title_activity_sinus">Sinus</string>
+
 </resources>

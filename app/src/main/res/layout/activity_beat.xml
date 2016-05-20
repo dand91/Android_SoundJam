@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    tools:context=".Activity.BeatActivity">
+
+
+    <ImageView
+        android:id="@+id/BassDrum1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="36dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="154dp"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/BassDrum2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/BassDrum1"
+        android:layout_toEndOf="@+id/BassDrum1"
+        android:layout_toRightOf="@+id/BassDrum1"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/BassDrum3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/BassDrum2"
+        android:layout_toEndOf="@+id/BassDrum2"
+        android:layout_toRightOf="@+id/BassDrum2"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/BassDrum4"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/BassDrum3"
+        android:layout_toEndOf="@+id/BassDrum3"
+        android:layout_toRightOf="@+id/BassDrum3"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/BassDrum5"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/BassDrum4"
+        android:layout_toEndOf="@+id/BassDrum4"
+        android:layout_toRightOf="@+id/BassDrum4"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/BassDrum6"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/BassDrum5"
+        android:layout_toEndOf="@+id/BassDrum5"
+        android:layout_toRightOf="@+id/BassDrum5"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/BassDrum7"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/BassDrum6"
+        android:layout_toEndOf="@+id/BassDrum6"
+        android:layout_toRightOf="@+id/BassDrum6"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/BassDrum8"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/BassDrum7"
+        android:layout_toEndOf="@+id/BassDrum7"
+        android:layout_toRightOf="@+id/BassDrum7"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/HighHat1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/HighHatButton"
+        android:layout_toLeftOf="@+id/HighHat2"
+        android:layout_toStartOf="@+id/HighHat2"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/HighHat2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/BassDrum2"
+        android:layout_alignStart="@+id/BassDrum2"
+        android:layout_alignTop="@+id/HighHat1"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/HighHat3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/HighHat2"
+        android:layout_toEndOf="@+id/HighHat2"
+        android:layout_toRightOf="@+id/HighHat2"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/HighHat4"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/BassDrum4"
+        android:layout_alignStart="@+id/BassDrum4"
+        android:layout_alignTop="@+id/HighHat3"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/HighHat5"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/BassDrum5"
+        android:layout_alignStart="@+id/BassDrum5"
+        android:layout_alignTop="@+id/HighHat4"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/HighHat6"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/BassDrum6"
+        android:layout_alignStart="@+id/BassDrum6"
+        android:layout_alignTop="@+id/HighHat5"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/HighHat7"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/BassDrum7"
+        android:layout_alignStart="@+id/BassDrum7"
+        android:layout_alignTop="@+id/HighHat6"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/HighHat8"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/BassDrum8"
+        android:layout_alignStart="@+id/BassDrum8"
+        android:layout_alignTop="@+id/HighHat7"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/Snare1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/SnareButton"
+        android:layout_toLeftOf="@+id/Snare2"
+        android:layout_toStartOf="@+id/Snare2"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/Snare2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/HighHat2"
+        android:layout_alignStart="@+id/HighHat2"
+        android:layout_alignTop="@+id/Snare1"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/Snare3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/Snare2"
+        android:layout_toEndOf="@+id/Snare2"
+        android:layout_toRightOf="@+id/Snare2"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/Snare4"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/HighHat4"
+        android:layout_alignStart="@+id/HighHat4"
+        android:layout_alignTop="@+id/Snare3"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/Snare5"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/HighHat5"
+        android:layout_alignStart="@+id/HighHat5"
+        android:layout_alignTop="@+id/Snare4"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/Snare6"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/HighHat6"
+        android:layout_alignStart="@+id/HighHat6"
+        android:layout_alignTop="@+id/Snare5"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/Snare7"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/HighHat7"
+        android:layout_alignStart="@+id/HighHat7"
+        android:layout_alignTop="@+id/Snare6"
+        android:background="@drawable/cell_shape" />
+
+    <ImageView
+        android:id="@+id/Snare8"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/HighHat8"
+        android:layout_alignStart="@+id/HighHat8"
+        android:layout_alignTop="@+id/Snare6"
+        android:background="@drawable/cell_shape" />
+
+    <Button
+        android:id="@+id/BassDrumButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/BassDrum2"
+        android:layout_alignLeft="@+id/BassDrum1"
+        android:layout_alignStart="@+id/BassDrum1"
+        android:backgroundTint="#842525"
+        android:text="Bassdrum" />
+
+    <Button
+        android:id="@+id/HighHatButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/BassDrum1"
+        android:layout_alignStart="@+id/BassDrum1"
+        android:layout_below="@+id/BassDrum1"
+        android:text="HighHat" />
+
+    <Button
+        android:id="@+id/SnareButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/HighHat1"
+        android:layout_alignStart="@+id/HighHat1"
+        android:layout_below="@+id/HighHat1"
+        android:backgroundTint="#842525"
+        android:text="snare" />
+
+</RelativeLayout>

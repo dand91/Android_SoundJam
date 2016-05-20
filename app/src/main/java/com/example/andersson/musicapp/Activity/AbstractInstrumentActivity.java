@@ -235,7 +235,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                         instrument.setRecord(false);
                                         progressText.setText("Updating server");
 
-
                                         for (int i = 0; i < 10; i++) {
 
                                             instrument.setSoundList(tempSoundList);
@@ -379,6 +378,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                         e.printStackTrace();
                                     }
                                 }
+
                                 progressText.setText("Instrument removed.");
 
                             }

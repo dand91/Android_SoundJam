@@ -3,6 +3,7 @@ package com.example.andersson.musicapp.SharedResources;
 import android.app.Activity;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Andersson on 12/05/16.
@@ -45,8 +46,19 @@ public class BeatHolder {
 
     public void clearBeatArray() {
 
-        beat.clear();
 
+        try {
+
+            for (Map.Entry beatTemp : beat.entrySet()) {
+
+                    beat.put((String)beatTemp.getKey(),false);
+
+            }
+
+        }catch(Exception e){
+
+            e.printStackTrace();
+        }
     }
 
     public void addActivity(Activity activity) {

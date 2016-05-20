@@ -57,15 +57,12 @@
         android:layout_marginTop="51dp"
         />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="hej"
-        android:textSize="10pt"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:id="@+id/hej"
-        android:layout_below="@+id/textViewFreqHeader"
+        android:text="Mute"
+        android:id="@+id/buttonMute"
+        android:layout_alignTop="@+id/textViewFreqency"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

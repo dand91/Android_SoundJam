@@ -6,8 +6,11 @@ package com.example.andersson.musicapp.Activity;
         import android.hardware.SensorEvent;
         import android.hardware.SensorEventListener;
         import android.hardware.SensorManager;
+        import android.view.View;
         import android.view.animation.Animation;
         import android.view.animation.RotateAnimation;
+        import android.widget.Button;
+        import android.widget.ImageButton;
         import android.widget.ImageView;
         import android.widget.TextView;
 
@@ -28,6 +31,9 @@ public class SinusActivity extends AppCompatActivity implements SensorEventListe
 
     private TextView freqDisp;
     private ImageView freqKnobScale;
+    private Button muteButton;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,10 +63,27 @@ public class SinusActivity extends AppCompatActivity implements SensorEventListe
         freqDisp = (TextView) findViewById(R.id.textViewFreqency);
         freqKnobScale = (ImageView) findViewById(R.id.imageViewFreqKnobScale);
 
+        muteButton = (Button) findViewById(R.id.buttonMute);
+
+        muteButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //audioTrack.setVolume(0.5f);
+                    }
+                }
+        );
+
+
         prevSensorValue = 0;
         rotations = 0;
 
+
+
     }
+
+
+
 
 
     protected void onResume() {

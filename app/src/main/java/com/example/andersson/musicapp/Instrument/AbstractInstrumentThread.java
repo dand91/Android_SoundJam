@@ -37,6 +37,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     protected SoundPoolHolder sph;
     protected double bars;
     private double loopTime;
+    private long timeDifference = 0;
 
     public AbstractInstrumentThread(AbstractInstrumentActivity activity) {
 
@@ -193,7 +194,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
             loopTime = ((MainActivity) MainHolder.getInstance().getMainActivity()).getLoopTime();
 
-            final double tempLoopTime = (Math.round((loopTime * 1000) / 10.0) * 10);
+            final double tempLoopTime = getLoopTime() * 1000;
             final double loopBars = getBars();
 
             if ((!soundList.isEmpty() && soundList.get(0) != -1) |
@@ -206,18 +207,24 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                     @Override
                     public void run() {
 
+                        long startTime = System.currentTimeMillis();
+
                         for(int i = 0; i < loopBars; i++){
 
                             playLoop(i);
 
                                 try {
-                                    sleep((long) ((tempLoopTime / loopBars)) - 8);
+
+                                   sleep((long) ((tempLoopTime / loopBars)) );
+
                                 } catch (InterruptedException e) {
 
                                     e.printStackTrace();
                                 }
 
                         }
+
+
                     }
                 };
 
@@ -234,10 +241,16 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                 if (((String) map.get("instrumentName")).equals(activity.getName())) {
 
                     setVolume((float) map.get("volume"));
-                    ArrayList<Integer> tempList = (ArrayList<Integer>) map.get("soundList");
-                    setSoundList(tempList);
-                    setBars(Double.valueOf((int) map.get("bars")));
-                    setBeat();
+
+                    if(!record) {
+
+                        ArrayList<Integer> tempList = (ArrayList<Integer>) map.get("soundList");
+                        setSoundList(tempList);
+                        setBeat();
+                        setBars(Double.valueOf((int) map.get("bars")));
+
+                    }
+
 
                 }
             };

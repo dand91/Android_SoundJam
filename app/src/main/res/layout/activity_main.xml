@@ -90,27 +90,27 @@
         android:id="@+id/restartButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
-        android:text="restart"
         android:layout_alignBottom="@+id/BPMBar"
+        android:layout_marginBottom="44dp"
         android:layout_toLeftOf="@+id/pauseButton"
-        android:layout_toStartOf="@+id/pauseButton" />
+        android:layout_toStartOf="@+id/pauseButton"
+        android:text="restart" />
 
     <Button
         android:id="@+id/syncButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NTP sync"
         android:layout_alignTop="@+id/pauseButton"
+        android:layout_toEndOf="@+id/pauseButton"
         android:layout_toRightOf="@+id/pauseButton"
-        android:layout_toEndOf="@+id/pauseButton" />
+        android:text="NTP sync" />
 
     <Button
+        android:id="@+id/pauseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="pause"
-        android:id="@+id/pauseButton"
         android:layout_alignBottom="@+id/restartButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="pause" />
 
 </RelativeLayout>

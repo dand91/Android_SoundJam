@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity {
     private double loopTime = 4;
     private int BPM = 120;
     private boolean sync = false;
+    private boolean settintBPM = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +179,9 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+
+                settintBPM = true;
+
                 loopTime = (double) (8 * 60) / BPM;
 
                 for (int i = 0; i < 10; i++) {
@@ -189,7 +193,17 @@ public class MainActivity extends BaseActivity {
 
                     for(Map.Entry thread:map.entrySet()){
 
-                        ((AbstractInstrumentThread)thread.getValue()).setChangedStatus(true);
+                        AbstractInstrumentThread tempThread = ((AbstractInstrumentThread)thread.getValue());
+                        tempThread.setChangedStatus(true);
+
+                        if(i == 0){
+                            tempThread.setPause(true);
+
+                        }else if(i == 10 -1 ){
+
+                            tempThread.setPause(false);
+
+                        }
 
                     }
 
@@ -199,6 +213,9 @@ public class MainActivity extends BaseActivity {
                         e.printStackTrace();
                     }
                 }
+
+                settintBPM = false;
+
             }
 
         });
@@ -253,7 +270,9 @@ public class MainActivity extends BaseActivity {
 
     public void setBPM(int newBPM) {
 
-        this.BPM = newBPM;
+        if (!settintBPM){
+
+            this.BPM = newBPM;
         loopTime = (double) (8 * 60) / BPM;
 
         runOnUiThread(() -> {
@@ -273,6 +292,7 @@ public class MainActivity extends BaseActivity {
                 e.printStackTrace();
             }
         }
+    }
     }
 
     public String getGroupName() {

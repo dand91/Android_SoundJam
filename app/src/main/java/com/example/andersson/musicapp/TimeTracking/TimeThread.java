@@ -61,11 +61,11 @@ public class TimeThread extends Thread {
             long currentTime = 0;
 
 
-            if(sync) {
+            if (sync) {
 
                 currentTime = System.currentTimeMillis() + adjust;
 
-            }else{
+            } else {
 
                 currentTime = System.currentTimeMillis();
 
@@ -92,7 +92,7 @@ public class TimeThread extends Thread {
         ob.addObserver(newOb);
     }
 
-    public void setSync(Boolean sync){
+    public void setSync(Boolean sync) {
 
         this.sync = sync;
 

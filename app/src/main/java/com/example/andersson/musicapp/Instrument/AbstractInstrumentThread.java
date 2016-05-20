@@ -214,11 +214,10 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                                 @Override
                                 public void run() {
 
-                                playLoop(i);
-                            }
+                                    playLoop(i);
+                                }
 
                             }.start();
-
 
 
                             i++;

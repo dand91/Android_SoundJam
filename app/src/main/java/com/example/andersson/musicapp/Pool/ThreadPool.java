@@ -16,8 +16,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class ThreadPool {
 
     private static final Integer MAX_THREAD = 50;
+
     private static ThreadPool instance = null;
+
     private ThreadPoolExecutor executor;
+
     private HashMap<String, Thread> threadMap;
     private HashMap<String, Future> futureMap;
     private HashMap<String, Callable> callableMap;
@@ -25,8 +28,8 @@ public class ThreadPool {
     public ThreadPool() {
 
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_THREAD);
-        Log.d("ThreadPool", "Pre starting threads: " + executor.prestartAllCoreThreads());
 
+        Log.d("ThreadPool", "Pre starting threads: " + executor.prestartAllCoreThreads());
         threadMap = new HashMap<String, Thread>();
         futureMap = new HashMap<String, Future>();
         callableMap = new HashMap<String, Callable>();
@@ -79,6 +82,12 @@ public class ThreadPool {
 
     }
 
+    public boolean cancel(String name, boolean cancel) {
+
+        return futureMap.get(name).cancel(cancel);
+
+    }
+
     public Object getFuture(String name) throws ExecutionException, InterruptedException {
 
         return futureMap.get(name).get();
@@ -100,11 +109,14 @@ public class ThreadPool {
     public void removeThread(String name) {
 
         Thread thread = threadMap.remove(name);
+        executor.remove(thread);
 
     }
+
     public void removeCallable(String name) {
 
         Callable callable = callableMap.remove(name);
+
     }
 
     public void removeFuture(String name) {

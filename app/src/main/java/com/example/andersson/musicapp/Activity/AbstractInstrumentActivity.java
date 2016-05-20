@@ -35,18 +35,14 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
     public ThreadHolder threadHolder;
     public BeatHolder beatHolder;
     public MainHolder mainHolder;
-    protected SoundPoolHolder soundPoolHolder;
-
     public AbstractInstrumentThread instrument;
-
     public EditText soundListText;
     public TextView speedText;
     public TextView progressText;
     public SeekBar volumeSeekBar;
-
     public boolean playRealTime;
     public boolean record;
-
+    protected SoundPoolHolder soundPoolHolder;
     protected ArrayList<Integer> tempSoundList;
     private int index = 0;
     private String info;
@@ -197,8 +193,8 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                             });
 
 
-                                            sleep(1000);
                                             instrument.setBars(8);
+                                            instrument.setChangedStatus(true);
 
                                         }
 
@@ -240,19 +236,19 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                         progressText.setText("Updating server");
 
 
-                                                for(int i = 0 ; i < 10; i++) {
+                                        for (int i = 0; i < 10; i++) {
 
-                                                    instrument.setSoundList(tempSoundList);
-                                                    instrument.setChangedStatus(true);
+                                            instrument.setSoundList(tempSoundList);
+                                            instrument.setChangedStatus(true);
 
-                                                    try {
+                                            try {
 
-                                                        sleep(CLIENT_UPDATE_TIME/10);
+                                                sleep(CLIENT_UPDATE_TIME / 10);
 
-                                                    } catch (InterruptedException e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                }
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
 
                                         recordButton.setClickable(false);
 
@@ -291,26 +287,24 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
 
-                ThreadPool threadPool = ThreadPool.getInstance();
-
-
                 runOnUiThread(() -> {
 
                     int volume = volumeSeekBar.getProgress();
 
-                    for(int i = 0; i < 10 ; i++){
+                    for (int i = 0; i < 10; i++) {
 
-                    instrument.setVolume(((float) volume) / 100);
+                        instrument.setVolume(((float) volume) / 100);
+                        instrument.setChangedStatus(true);
 
-                    try {
+                        try {
 
-                        Thread.sleep(CLIENT_UPDATE_TIME/10);
+                            Thread.sleep(CLIENT_UPDATE_TIME / 10);
 
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
                     }
-
-                }
 
                 });
 
@@ -371,7 +365,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                 tempList.add(-1);
                                 soundListText.setText("");
 
-                                for(int i = 0; i < 10; i++) {
+                                for (int i = 0; i < 10; i++) {
 
                                     instrument.setSoundList(tempList);
                                     instrument.setChangedStatus(true);
@@ -379,7 +373,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                                     try {
 
-                                        sleep(CLIENT_UPDATE_TIME/10);
+                                        sleep(CLIENT_UPDATE_TIME / 10);
 
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
@@ -434,7 +428,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                         speedButton.setEnabled(false);
                         speedButton.setClickable(false);
 
-                        for(int i = 0; i < 10; i++) {
+                        for (int i = 0; i < 10; i++) {
 
                             instrument.setBars(16);
                             instrument.setSoundList(newList);
@@ -442,7 +436,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                             try {
 
-                                Thread.sleep(CLIENT_UPDATE_TIME/10);
+                                Thread.sleep(CLIENT_UPDATE_TIME / 10);
 
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
@@ -468,7 +462,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                         speedText.setText("Speed: 8 bars");
 
 
-                        for(int i = 0; i < 10; i++) {
+                        for (int i = 0; i < 10; i++) {
 
                             instrument.setBars(8);
                             instrument.setSoundList(
@@ -478,7 +472,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                             try {
 
-                                Thread.sleep(CLIENT_UPDATE_TIME/10);
+                                Thread.sleep(CLIENT_UPDATE_TIME / 10);
 
                             } catch (InterruptedException e) {
                                 e.printStackTrace();

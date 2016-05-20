@@ -37,7 +37,7 @@ public class UpdateTask {
      * Class for sending and retrieving data from HTTP server.
      *
      * @param observable - SharedInfoHolder to get information from threads. UpdateObservable to
-     *           notify threads.
+     *                   notify threads.
      * @return String - Dummy string
      */
     public static String saveAndLoad(UpdateObservable observable) {

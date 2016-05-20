@@ -160,12 +160,12 @@ public class MainActivity extends BaseActivity {
 
                 loopTime = (double) (8 * 60) / BPM;
 
-                for(int i = 0; i < 10 ; i++) {
+                for (int i = 0; i < 10; i++) {
 
                     threadHolder.setLoopTime(loopTime);
 
                     try {
-                        Thread.sleep(CLIENT_UPDATE_TIME/10);
+                        Thread.sleep(CLIENT_UPDATE_TIME / 10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -197,7 +197,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
 
                 sync = !sync;
-                Log.e("Main","Sync: " + sync);
+                Log.e("Main", "Sync: " + sync);
                 timer.setSync(sync);
 
             }
@@ -222,12 +222,12 @@ public class MainActivity extends BaseActivity {
 
         });
 
-        for(int i = 0; i < 10 ; i++) {
+        for (int i = 0; i < 10; i++) {
 
             threadHolder.setLoopTime(loopTime);
 
             try {
-                Thread.sleep(CLIENT_UPDATE_TIME/10);
+                Thread.sleep(CLIENT_UPDATE_TIME / 10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

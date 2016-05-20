@@ -87,55 +87,55 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
             instrument.playRealTime(0);
             updateList.add(0);
-            soundListText.setText(soundListText.getText() + " 0 ");
+            soundListText.setText(soundListText.getText() + " a1 ");
 
         } else if (X > tol && Y < tol && Z > 0) {
 
             instrument.playRealTime(1);
             updateList.add(1);
-            soundListText.setText(soundListText.getText() + " 1 ");
+            soundListText.setText(soundListText.getText() + " a2 ");
 
         } else if (X < tol && Y > tol && Z > 0) {
 
             instrument.playRealTime(2);
             updateList.add(2);
-            soundListText.setText(soundListText.getText() + " 2 ");
+            soundListText.setText(soundListText.getText() + " a3 ");
 
         } else if (X < tol && Y < tol && Z > 0) {
 
             instrument.playRealTime(3);
             updateList.add(3);
-            soundListText.setText(soundListText.getText() + " 3 ");
+            soundListText.setText(soundListText.getText() + " c1 ");
 
         } else if (X > tol && Y > tol && Z < 0) {
 
             instrument.playRealTime(4);
             updateList.add(4);
-            soundListText.setText(soundListText.getText() + " 4 ");
+            soundListText.setText(soundListText.getText() + " c2 ");
 
         } else if (X > tol && Y < tol && Z < 0) {
 
             instrument.playRealTime(5);
             updateList.add(5);
-            soundListText.setText(soundListText.getText() + " 5 ");
+            soundListText.setText(soundListText.getText() + " c3 ");
 
         } else if (X < tol && Y > tol && Z < 0) {
 
             instrument.playRealTime(6);
             updateList.add(6);
-            soundListText.setText(soundListText.getText() + " 6 ");
+            soundListText.setText(soundListText.getText() + " c4 ");
 
         } else if (X < tol && Y < tol && Z < 0) {
 
             instrument.playRealTime(8);
             updateList.add(7);
-            soundListText.setText(soundListText.getText() + " 7 ");
+            soundListText.setText(soundListText.getText() + " d1 ");
 
         } else {
 
             instrument.playRealTime(4);
             updateList.add(8);
-            soundListText.setText(soundListText.getText() + " 8 ");
+            soundListText.setText(soundListText.getText() + " d2 ");
 
         }
     }

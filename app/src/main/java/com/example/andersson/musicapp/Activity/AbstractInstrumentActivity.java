@@ -236,6 +236,8 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                                     runOnUiThread(() -> {
 
+                                        playRealTime = false;
+                                        instrument.setPlayRealTime(false);
                                         record = false;
                                         instrument.setRecord(false);
                                         progressText.setText("Updating server");

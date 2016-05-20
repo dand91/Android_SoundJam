@@ -64,7 +64,7 @@ public class BassThread extends AbstractInstrumentThread {
 
     private void soundCase(int value) {
 
-        float tempvolume = volume / 10f;
+        float tempvolume = volume;
 
         if (value == 0) {
 

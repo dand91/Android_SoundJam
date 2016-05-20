@@ -28,6 +28,7 @@ import java.util.Map;
 public class MainActivity extends BaseActivity {
 
     private Button BassButton;
+    private Button SinusButton;
     private Button GroupNameButton;
     private Button DrumsButton;
     private Button RestartButton;
@@ -123,6 +124,20 @@ public class MainActivity extends BaseActivity {
                 Intent myIntent = new Intent(MainActivity.this, BeatActivity.class);
                 myIntent.putExtra("backInfo", "notback");
                 MainActivity.this.startActivityForResult(myIntent, 10);
+
+            }
+        });
+
+
+        SinusButton = (Button) findViewById(R.id.sinusButton);
+        SinusButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(MainActivity.this, SinusActivity.class);
+                MainActivity.this.startActivity(myIntent);
 
             }
         });

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.andersson.musicapp.AsyncUpdate.UpdateThread;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
+import com.example.andersson.musicapp.Instrument.SinusThread;
 import com.example.andersson.musicapp.TimeTracking.TimeThread;
 
 import java.util.HashMap;
@@ -57,26 +58,28 @@ public class ThreadHolder {
 
     public void addThread(String name, Thread thread) {
 
-        if (timer != null) {
 
-            timer.add((AbstractInstrumentThread) thread);
+            if (timer != null) {
 
-        } else {
+                timer.add((AbstractInstrumentThread) thread);
 
-            Log.e("ThreadHolder", "Timer is null");
-            System.exit(0);
-        }
+            } else {
 
-        if (updater != null) {
+                Log.e("ThreadHolder", "Timer is null");
+                System.exit(0);
+            }
 
-            updater.add((AbstractInstrumentThread) thread);
+            if (updater != null) {
 
-        } else {
+                updater.add((AbstractInstrumentThread) thread);
 
-            Log.e("ThreadHolder", "Updater is null");
-            System.exit(0);
+            } else {
 
-        }
+                Log.e("ThreadHolder", "Updater is null");
+                System.exit(0);
+
+            }
+
 
         threads.put(name, thread);
 

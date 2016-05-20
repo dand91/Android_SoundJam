@@ -206,39 +206,18 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                     @Override
                     public void run() {
 
-                        while (true) {
+                        for(int i = 0; i < loopBars; i++){
 
-
-                            new Thread() {
-
-                                @Override
-                                public void run() {
-
-                                    playLoop(i);
-                                }
-
-                            }.start();
-
-
-                            i++;
-
-                            if (i == loopBars) {
-
-                                i = 0;
-
-                                break;
-
-                            } else {
+                            playLoop(i);
 
                                 try {
-                                    sleep((long) ((tempLoopTime / loopBars)));
+                                    sleep((long) ((tempLoopTime / loopBars)) - 8);
                                 } catch (InterruptedException e) {
 
                                     e.printStackTrace();
                                 }
-                            }
-                        }
 
+                        }
                     }
                 };
 

@@ -1,107 +1,110 @@
 package com.example.andersson.musicapp.Instrument;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.media.audiofx.EnvironmentalReverb;
+import android.os.Build;
 import android.os.Handler;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.andersson.musicapp.Activity.AbstractInstrumentActivity;
+import com.example.andersson.musicapp.Activity.SinusActivity;
+
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Andersson on 05/04/16.
  */
 
-public class SinusThread extends AbstractInstrumentThread {
+public class SinusThread extends Thread implements Observer {
 
-    long startTime = 0;
-    long sampleTime = 500;
-    Handler handler = new Handler();
-    private int duration = 1; // seconds
-    private int sampleRate = 8000;
-    private int numSamples = duration * sampleRate;
-    private final byte generatedSnd[] = new byte[2 * numSamples];
-    private double sample[] = new double[numSamples];
-    private double freqOfTone = 440; // hz
+    private SinusActivity activity;
 
-    public SinusThread(AbstractInstrumentActivity activity) {
-        super(activity);
+    private int amplitude = 50000;
+
+    private AudioTrack audioTrack;
+    private static final int SAMPLE_RATE = 44100;
+    private static final int BASE_FREQUENCY = 0;
+    private float frequency;
+    private float calculatedValue = 0;
+    boolean isRunning = true;
+
+
+    public SinusThread(SinusActivity activity){
+
+        this.activity = activity;
+
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void playLoop(int index) {
+    public void run() {
 
+        setPriority(Thread.MAX_PRIORITY);
 
-    }
+        int bufferSize = AudioTrack.getMinBufferSize(SAMPLE_RATE,
+                AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
 
-    public void playRealTime(int value) {
+        audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
+                SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO,
+                AudioFormat.ENCODING_PCM_16BIT, bufferSize,
+                AudioTrack.MODE_STREAM);
 
-        sampleTime = (long) (getLoopTime() / getBars());
+        EnvironmentalReverb reverb = new EnvironmentalReverb(1, 1);
+        reverb.setDecayHFRatio((short) 1000);
+        reverb.setDecayTime(10000);
+        reverb.setDensity((short) 1000);
+        reverb.setDiffusion((short) 1000);
+        reverb.setReverbLevel((short) 100000);
+        reverb.setReverbDelay(10000);
+        reverb.setEnabled(true);
 
-        if (System.currentTimeMillis() - startTime > sampleTime) {
+        audioTrack.attachAuxEffect(reverb.getId());
+        audioTrack.setAuxEffectSendLevel(audioTrack.getMaxVolume());
+        audioTrack.setVolume(0.05f);
 
-            freqOfTone = value;
-            final Thread thread = new Thread(new Runnable() {
-                public void run() {
-                    genTone();
-                    handler.post(new Runnable() {
+        //audioTrack.attachAuxEffect(PresetReverb.getId);
+        //audioTrack.setAuxEffectSendLevel(audioTrack.getMaxVolume());
+        //audioTrack.attachAuxEffect(EnvironmentalReverb.PARAM_DECAY_TIME);
 
-                        public void run() {
-                            playSound();
-                        }
-                    });
-                }
-            });
-            thread.start();
-            startTime = System.currentTimeMillis();
-        }
-
-
-    }
-
-    public void initiateSound() {
-
-
-    }
-
-    public int getVolume() {
-
-        return 1;
-    }
-
-    public void setVolume(float volume) {
-
-    }
-
-    void genTone() {
-        // fill out the array
-        for (int i = 0; i < numSamples; ++i) {
-            sample[i] = Math.sin(2 * Math.PI * i / (sampleRate / freqOfTone));
-        }
-
-        // convert to 16 bit pcm sound array
-        // assumes the sample buffer is normalised.
-        int idx = 0;
-        for (final double dVal : sample) {
-            // scale to maximum amplitude
-            final short val = (short) ((dVal * 32767));
-            // in 16 bit wav PCM, first byte is the low order byte
-            generatedSnd[idx++] = (byte) (val & 0x00ff);
-            generatedSnd[idx++] = (byte) ((val & 0xff00) >>> 8);
-
-        }
-    }
-
-    void playSound() {
-        final AudioTrack audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
-                sampleRate, AudioFormat.CHANNEL_OUT_MONO,
-                AudioFormat.ENCODING_PCM_16BIT, generatedSnd.length,
-                AudioTrack.MODE_STATIC);
-        audioTrack.write(generatedSnd, 0, generatedSnd.length);
         audioTrack.play();
+
+        short samples[] = new short[bufferSize];
+        double ph = 0.0;
+
+        while (isRunning) {
+
+
+            frequency = BASE_FREQUENCY + calculatedValue;
+
+            activity.setFreqText("" + round(frequency, 1));
+
+
+            for (int i = 0; i < bufferSize; i++) {
+                samples[i] = (short) (amplitude * Math.sin(ph));
+                ph += 2 * Math.PI * frequency / SAMPLE_RATE;
+            }
+            audioTrack.write(samples, 0, bufferSize);
+        }
+        audioTrack.stop();
+        audioTrack.release();
     }
 
+
+    public static double round(double value, int scale) {
+        return Math.round(value * Math.pow(10, scale)) / Math.pow(10, scale);
+    }
+
+
     @Override
-    protected void setBeat() {
+    public void update(Observable observable, Object o) {
+
+        calculatedValue = (float) o;
 
     }
 }

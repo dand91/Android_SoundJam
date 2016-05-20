@@ -70,6 +70,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
         mainHolder = MainHolder.getInstance();
         soundPoolHolder = SoundPoolHolder.getInstance();
 
+
         try {
 
             Intent i = getIntent();
@@ -177,7 +178,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                     try {
 
                                         Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                                        v.vibrate(3 * 1000);
 
                                         for (int i = 4; i >= 0; i--) {
 
@@ -190,7 +190,14 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                                             });
 
-                                            sleep(1000);
+                                            for(int j = 0 ; j < 2; j++ ){
+
+                                                sleep(200);
+                                                v.vibrate(50);
+                                                sleep((long) ((tempLoopTime / bars)) - 200);
+
+                                            }
+
                                             instrument.setBars(8);
                                             instrument.setChangedStatus(true);
 

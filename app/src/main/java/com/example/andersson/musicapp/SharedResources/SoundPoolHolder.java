@@ -13,6 +13,7 @@ public class SoundPoolHolder {
 
     public SoundPoolHolder() {
 
+
         this.mySound = new SoundPool(30, AudioManager.STREAM_MUSIC, 0);
 
     }

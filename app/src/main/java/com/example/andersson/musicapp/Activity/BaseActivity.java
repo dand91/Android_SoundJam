@@ -60,17 +60,6 @@ public class BaseActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        Thread resumeThread = new Thread() {
-
-            public void run() {
-
-                try {
-
-                    this.sleep(2000);
-
-                }catch(InterruptedException e){
-
-                }
 
                 ThreadHolder holder = ThreadHolder.getInstance();
                 HashMap<String, Thread> map = holder.getThreads();
@@ -86,8 +75,5 @@ public class BaseActivity extends AppCompatActivity {
                 }
             }
         }
-        };
 
-        ThreadPool.getInstance().add(resumeThread,"resumeThread");
-    }
 }

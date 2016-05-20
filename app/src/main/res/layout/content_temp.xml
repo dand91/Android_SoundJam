@@ -35,7 +35,7 @@
         android:text="Set amplitude" />
 
     <TextView
-        android:id="@+id/textViewAmplitude"
+        android:id="@+id/textViewFreqency"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Amplitude: no input"

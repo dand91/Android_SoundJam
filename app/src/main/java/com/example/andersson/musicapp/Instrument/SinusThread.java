@@ -107,4 +107,9 @@ public class SinusThread extends Thread implements Observer {
         calculatedValue = (float) o;
 
     }
+
+    public void addActivity(SinusActivity activity){
+
+        this.activity = activity;
+    }
 }

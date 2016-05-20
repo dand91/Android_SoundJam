@@ -1,54 +1,33 @@
 package com.example.andersson.musicapp.Activity;
 
-        import android.annotation.TargetApi;
-        import android.content.Intent;
-        import android.database.Observable;
-        import android.media.audiofx.EnvironmentalReverb;
-        import android.os.Build;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
         import android.hardware.Sensor;
         import android.hardware.SensorEvent;
         import android.hardware.SensorEventListener;
         import android.hardware.SensorManager;
-        import android.media.AudioFormat;
-        import android.media.AudioManager;
-        import android.media.AudioTrack;
-        import android.util.Log;
         import android.view.animation.Animation;
         import android.view.animation.RotateAnimation;
         import android.widget.ImageView;
-        import android.widget.SeekBar;
         import android.widget.TextView;
-        import android.widget.Button;
-        import android.widget.EditText;
 
         import com.example.andersson.musicapp.Instrument.SinusThread;
-        import com.example.andersson.musicapp.Pool.ThreadPool;
         import com.example.andersson.musicapp.R;
         import com.example.andersson.musicapp.SharedResources.SinusThreadHolder;
-        import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 public class SinusActivity extends AppCompatActivity implements SensorEventListener {
 
-
     private SensorManager mSensorManager;
-
     private float sensorValue;
     private float prevSensorValue;
     private int rotations;
     private float calculatedValue;
 
-    private String info;
-
     private SinusThread sinusThread;
-    private Sinusbservable sinusbservable;
+    private SinusObservable sinusbservable;
 
     private TextView freqDisp;
     private ImageView freqKnobScale;
-
-    private Thread audioGenerator;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +36,7 @@ public class SinusActivity extends AppCompatActivity implements SensorEventListe
 
         SinusThreadHolder sinThreadHolder = SinusThreadHolder.getInstance();
 
-        sinusbservable = new Sinusbservable();
+        sinusbservable = new SinusObservable();
 
         if (!sinThreadHolder.hasSinusTread()) {
 
@@ -69,7 +48,7 @@ public class SinusActivity extends AppCompatActivity implements SensorEventListe
             sinusThread = sinThreadHolder.getSinusThread();
 
         }
-
+        sinusThread.addActivity(this);
         sinusbservable.addObserver(sinusThread);
 
 
@@ -117,7 +96,7 @@ public class SinusActivity extends AppCompatActivity implements SensorEventListe
 
         calculatedValue = (rotations * 360) + sensorValue;
 
-        sinusbservable.Sinusnotify(calculatedValue);
+        sinusbservable.SinusNotify(calculatedValue);
 
         RotateAnimation ra = new RotateAnimation(-prevSensorValue, -sensorValue, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         //RotateAnimation ra = new RotateAnimation(prevSensorValue, sensorValue);
@@ -146,15 +125,14 @@ public class SinusActivity extends AppCompatActivity implements SensorEventListe
     public void setFreqText(String text) {
 
         runOnUiThread(() -> {
-
             freqDisp.setText(text);
 
         });
     }
 
-    private class Sinusbservable extends java.util.Observable {
+    private class SinusObservable extends java.util.Observable {
 
-        public void Sinusnotify(float value) {
+        public void SinusNotify(float value) {
 
             notifyObservers(value);
             setChanged();

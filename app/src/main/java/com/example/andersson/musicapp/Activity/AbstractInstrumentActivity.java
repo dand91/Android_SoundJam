@@ -250,7 +250,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                             }
                                         }
 
-                                        recordButton.setClickable(false);
+                                        recordButton.setClickable(true);
 
                                     });
 

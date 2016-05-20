@@ -192,7 +192,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                                             });
 
-
+                                            sleep(1000);
                                             instrument.setBars(8);
                                             instrument.setChangedStatus(true);
 

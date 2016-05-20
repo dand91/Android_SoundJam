@@ -28,6 +28,7 @@ public class MainActivity extends BaseActivity {
     private Button DrumsButton;
     private Button RestartButton;
     private Button SyncButton;
+    private Button PauseButton;
     private SeekBar BPMBar;
     private EditText BPMText;
     private EditText groupNameText;
@@ -202,6 +203,18 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+
+        PauseButton = (Button) findViewById(R.id.pauseButton);
+        PauseButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+
+
+            }
+        });
+
 
         InfoView = (TextView) findViewById(R.id.InfoView);
     }

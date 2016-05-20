@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
+import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
@@ -59,18 +60,34 @@ public class BaseActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        ThreadHolder holder = ThreadHolder.getInstance();
-        HashMap<String, Thread> map = holder.getThreads();
+        Thread resumeThread = new Thread() {
 
-        for (Map.Entry thread : map.entrySet()) {
+            public void run() {
 
-            try {
+                try {
 
-                ((AbstractInstrumentThread) thread.getValue()).setPause(false);
+                    this.sleep(2000);
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                }catch(InterruptedException e){
+
+                }
+
+                ThreadHolder holder = ThreadHolder.getInstance();
+                HashMap<String, Thread> map = holder.getThreads();
+
+            for(Map.Entry thread:map.entrySet()){
+
+                try {
+
+                    ((AbstractInstrumentThread) thread.getValue()).setPause(false);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
+        };
+
+        ThreadPool.getInstance().add(resumeThread,"resumeThread");
     }
 }

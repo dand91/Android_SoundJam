@@ -17,6 +17,7 @@ public class BassThread extends AbstractInstrumentThread {
     private int soundId6;
     private int soundId7;
     private int soundId8;
+    private int soundId9;
 
     public BassThread(AbstractInstrumentActivity activity) {
 
@@ -49,20 +50,21 @@ public class BassThread extends AbstractInstrumentThread {
 
     protected void initiateSound() {
 
-        soundId1 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano1, 1);
-        soundId2 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano2, 1);
-        soundId3 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano3, 1);
-        soundId4 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano4, 1);
-        soundId5 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano1, 1);
-        soundId6 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano2, 1);
-        soundId7 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano3, 1);
-        soundId8 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.piano4, 1);
+        soundId1 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.sawtootha1, 1);
+        soundId2 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.sawtootha2, 1);
+        soundId3 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.sawtootha3, 1);
+        soundId4 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.sawtoothc1, 1);
+        soundId5 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.sawtoothc2, 1);
+        soundId6 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.sawtoothc3, 1);
+        soundId7 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.sawtoothc4, 1);
+        soundId8 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.sawtoothd1, 1);
+        soundId9 = sph.getSoundPool().load(activity.getBaseContext(), R.raw.sawtoothd2, 1);
 
     }
 
     private void soundCase(int value) {
 
-        float tempvolume = volume / 15f;
+        float tempvolume = volume / 10f;
 
         if (value == 0) {
 
@@ -95,6 +97,9 @@ public class BassThread extends AbstractInstrumentThread {
         } else if (value == 7) {
 
             sph.getSoundPool().play(soundId8, tempvolume, tempvolume, 1, 0, 1f);
+        } else if (value == 8) {
+
+            sph.getSoundPool().play(soundId9, tempvolume, tempvolume, 1, 0, 1f);
         }
 
 

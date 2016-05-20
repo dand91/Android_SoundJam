@@ -54,22 +54,22 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
 
         if (X > tol && Y > tol && Z > 0) {
             instrument.playRealTime(0);
-        } else if (X > tol && Y < tol && Z > 0) {
+        } else if (X > tol && Y < tol && Z > tol) {
             instrument.playRealTime(1);
-        } else if (X < tol && Y > tol && Z > 0) {
+        } else if (X > tol && Y > tol && Z > tol) {
             instrument.playRealTime(2);
-        } else if (X < tol && Y < tol && Z > 0) {
+        } else if (X < tol && Y < tol && Z > tol) {
             instrument.playRealTime(3);
-        } else if (X > tol && Y > tol && Z < 0) {
+        } else if (X < tol && Y > tol && Z > tol) {
             instrument.playRealTime(4);
-        } else if (X > tol && Y < tol && Z < 0) {
+        } else if (X > tol && Y < tol && Z < tol) {
             instrument.playRealTime(5);
-        } else if (X < tol && Y > tol && Z < 0) {
+        } else if (X > tol && Y > tol && Z < tol) {
             instrument.playRealTime(6);
-        } else if (X < tol && Y < tol && Z < 0) {
+        } else if (X < tol && Y < tol && Z < tol) {
             instrument.playRealTime(8);
-        } else {
-            instrument.playRealTime(4);
+        } else if (X < tol && Y > tol && Z < tol) {
+            instrument.playRealTime(9);
         }
     }
 

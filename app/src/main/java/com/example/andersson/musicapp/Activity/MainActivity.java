@@ -14,11 +14,15 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.andersson.musicapp.AsyncUpdate.UpdateThread;
+import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.MainHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.TimeTracking.TimeThread;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends BaseActivity {
@@ -164,6 +168,15 @@ public class MainActivity extends BaseActivity {
                 for (int i = 0; i < 10; i++) {
 
                     threadHolder.setLoopTime(loopTime);
+
+                    ThreadHolder holder = ThreadHolder.getInstance();
+                    HashMap<String, Thread> map = holder.getThreads();
+
+                    for(Map.Entry thread:map.entrySet()){
+
+                        ((AbstractInstrumentThread)thread.getValue()).setChangedStatus(true);
+
+                    }
 
                     try {
                         Thread.sleep(CLIENT_UPDATE_TIME / 10);

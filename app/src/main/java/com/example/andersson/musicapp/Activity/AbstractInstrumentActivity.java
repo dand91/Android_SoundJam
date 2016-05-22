@@ -207,6 +207,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                                             }
 
+
                                             instrument.setBars(8);
                                             instrument.setChangedStatus(true);
 
@@ -314,9 +315,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                Thread tempThread = new Thread() {
-
-                    public void run() {
 
                 int volume = volumeSeekBar.getProgress();
 
@@ -349,18 +347,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                 }
 
-            }
-        };
-                ThreadPool.getInstance().add(tempThread,"volume");
-
-                while( ((Thread)ThreadPool.getInstance().getThread("volume")).isAlive() ){
-
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         });
     }

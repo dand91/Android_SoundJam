@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class ThreadPool {
 
-    private static final Integer MAX_THREAD = 30;
+    private static final Integer MAX_THREAD = 10;
 
     private static ThreadPool instance = null;
 

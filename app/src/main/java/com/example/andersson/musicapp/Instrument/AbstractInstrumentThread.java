@@ -224,10 +224,12 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                                 }
                         }
 
+                        double difference = (loopTime*1000 - (double)(System.currentTimeMillis() - startTime));
 
-                        timeDifference = (loopTime*1000 - (double)(System.currentTimeMillis() - startTime) + timeDifference);
+                        timeDifference = difference + timeDifference;
 
-                        Log.e("TEST","" + (loopTime*1000 - (double)(System.currentTimeMillis() - startTime)));
+                        Log.e("TEST","Time: "  + (loopTime*1000 - (double)(System.currentTimeMillis() - startTime)));
+
                     }
                 };
 
@@ -249,6 +251,9 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                     double tempBar = Double.valueOf((int) map.get("bars"));
                     ArrayList<Integer> tempList = (ArrayList<Integer>) map.get("soundList");
 
+                    Log.e("TEST2","Updating tempVolume: " + tempVolume);
+                    Log.e("TEST2","Updating tempBar: " + tempVolume);
+                    Log.e("TEST2","Updating tempList: " + tempList);
 
                     setVolume(tempVolume);
 

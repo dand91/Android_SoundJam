@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -214,6 +215,7 @@ public class MainActivity extends BaseActivity {
                     for (Map.Entry thread : map.entrySet()) {
 
                         AbstractInstrumentThread tempThread = ((AbstractInstrumentThread) thread.getValue());
+                        tempThread.setLoopTime(loopTime);
                         tempThread.setChangedStatus(true);
 
                         if (i == 0) {
@@ -263,6 +265,14 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
 
                 sync = !sync;
+                final boolean syncTemp = sync;
+                
+                runOnUiThread(() -> {
+
+                    InfoView.setText("Sync is: " + syncTemp);
+
+                });
+
                 Log.i("Main", "Sync: " + sync);
                 timer.setSync(sync);
 
@@ -277,6 +287,7 @@ public class MainActivity extends BaseActivity {
 
                 pause = !pause;
                 Log.i("Main", "Pause: " + pause);
+
 
                 if(SinusThreadHolder.getInstance().getSinusThread() != null) {
                     SinusThreadHolder.getInstance().getSinusThread().setMute(pause);
@@ -300,8 +311,9 @@ public class MainActivity extends BaseActivity {
 
         if (!settingBPM){
 
-            this.BPM = newBPM;
-        loopTime = (double) (8 * 60) / BPM;
+            BPM = newBPM;
+            loopTime = (double) (8 * 60) / BPM;
+            threadHolder.setLoopTime(loopTime);
 
         runOnUiThread(() -> {
 
@@ -310,16 +322,6 @@ public class MainActivity extends BaseActivity {
 
         });
 
-        for (int i = 0; i < 10; i++) {
-
-            threadHolder.setLoopTime(loopTime);
-
-            try {
-                Thread.sleep(CLIENT_UPDATE_TIME / 10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
     }
 

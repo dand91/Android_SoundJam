@@ -314,8 +314,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
-
+                
                 int volume = volumeSeekBar.getProgress();
 
                 if (MainHolder.getInstance().getGroupName() != "noName") {

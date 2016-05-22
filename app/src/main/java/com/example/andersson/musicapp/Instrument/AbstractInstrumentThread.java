@@ -201,7 +201,6 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                     (playRealTime & this instanceof BassThread) |
                     (record & this instanceof BassThread)) {
 
-
                 Thread playThread = new Thread() {
 
                     @Override
@@ -225,7 +224,6 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                         }
 
                         double difference = (loopTime*1000 - (double)(System.currentTimeMillis() - startTime));
-
                         timeDifference = difference + timeDifference;
 
                         Log.e("TEST","Time: "  + (loopTime*1000 - (double)(System.currentTimeMillis() - startTime)));

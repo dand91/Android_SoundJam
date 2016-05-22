@@ -37,7 +37,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
     protected SoundPoolHolder sph;
     protected double bars;
     private double loopTime;
-    private long timeDifference = 0;
+    private double timeDifference = 0;
 
     public AbstractInstrumentThread(AbstractInstrumentActivity activity) {
 
@@ -216,7 +216,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                                 try {
 
                                    sleep( (long) ( (tempLoopTime / loopBars)
-                                           + ( ( (double) timeDifference) / loopBars) ) );
+                                           + ( ( timeDifference) / loopBars) ) );
 
                                 } catch (InterruptedException e) {
 
@@ -225,7 +225,9 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                         }
 
 
-                        timeDifference = (long)(loopTime*1000 - (System.currentTimeMillis() - startTime) + timeDifference);
+                        timeDifference = (loopTime*1000 - (double)(System.currentTimeMillis() - startTime) + timeDifference);
+
+                        Log.e("TEST","" + (loopTime*1000 - (double)(System.currentTimeMillis() - startTime)));
                     }
                 };
 
@@ -234,6 +236,8 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
             }
 
         } else if (o instanceof UpdateObservable) {
+
+            ((MainActivity) MainHolder.getInstance().getMainActivity()).setGroupNameButton(true);
 
             final HashMap<String, Object> map = (HashMap<String, Object>) arg;
 
@@ -262,5 +266,11 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
             threadPool.add(new Thread(updateThread), "update");
 
         }
+    }
+
+    public void resetTimeDifference(){
+
+        timeDifference = 0;
+
     }
 }

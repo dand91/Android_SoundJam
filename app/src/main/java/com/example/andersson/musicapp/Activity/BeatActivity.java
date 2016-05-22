@@ -190,8 +190,6 @@ public class BeatActivity extends BaseActivity {
                             Log.e("BeatActivity", "Error while setting: " + key);
 
                         }
-
-
                     }
                 });
             }

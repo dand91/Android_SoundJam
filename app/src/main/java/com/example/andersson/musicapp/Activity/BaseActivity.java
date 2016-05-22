@@ -49,6 +49,7 @@ public class BaseActivity extends AppCompatActivity {
             try {
 
                 ((AbstractInstrumentThread) thread.getValue()).setPause(true);
+                ((AbstractInstrumentThread) thread.getValue()).resetTimeDifference();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -60,6 +61,7 @@ public class BaseActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
+
                 ThreadHolder holder = ThreadHolder.getInstance();
                 HashMap<String, Thread> map = holder.getThreads();
 
@@ -68,7 +70,7 @@ public class BaseActivity extends AppCompatActivity {
                 try {
 
                     ((AbstractInstrumentThread) thread.getValue()).setPause(false);
-
+                    ((AbstractInstrumentThread) thread.getValue()).resetTimeDifference();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -21,6 +21,8 @@ import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 public abstract class AbstractInstrumentActivity extends BaseActivity {
 
@@ -280,6 +282,8 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                         recordButton.setEnabled(true);
 
                                     });
+
+                                    break;
                                 }
                             }
                         }
@@ -348,6 +352,15 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
             }
         };
                 ThreadPool.getInstance().add(tempThread,"volume");
+
+                while( ((Thread)ThreadPool.getInstance().getThread("volume")).isAlive() ){
+
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }
@@ -385,29 +398,29 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
         removeButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-
             public void onClick(View view) {
-
-                Thread tempThread = new Thread() {
-
-                    public void run() {
 
                 ArrayList<Integer> tempList = new ArrayList<Integer>();
                 tempList.add(Integer.MAX_VALUE);
+
+                Thread tempThread = new Thread() {
+
+                    @Override
+                    public void run() {
+
+                        beatHolder.clearBeatArray();
+
 
                 if (MainHolder.getInstance().getGroupName() != "noName") {
 
                     if (!instrument.getSoundList().isEmpty()) {
 
-
                         runOnUiThread(() -> {
 
                             soundListText.setText("");
                             progressText.setText("Updating server");
-
-
-                        removeButton.setClickable(false);
-                        removeButton.setEnabled(false);
+                            removeButton.setClickable(false);
+                            removeButton.setEnabled(false);
 
                         });
 
@@ -415,7 +428,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                             instrument.setSoundList(tempList);
                             instrument.setChangedStatus(true);
-                            beatHolder.clearBeatArray();
 
                             try {
 
@@ -439,16 +451,16 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                         soundListText.setText("");
                         progressText.setText("Instrument removed");
+
                     });
 
                     instrument.setSoundList(tempList);
-                    beatHolder.clearBeatArray();
 
                 }
-
             }
         };
                 ThreadPool.getInstance().add(tempThread,"remove");
+
             }
         });
     }
@@ -622,4 +634,14 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
     }
 
+    private void freeze(int time){
+
+
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

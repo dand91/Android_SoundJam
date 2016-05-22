@@ -157,6 +157,7 @@ public class MainActivity extends BaseActivity {
 
             public void onClick(View view) {
 
+                setGroupNameButton(false);
                 groupName = groupNameText.getText().toString();
                 groupNameText.setText("");
                 updater.wake();
@@ -185,8 +186,21 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-
                 settingBPM = true;
+
+                ThreadHolder holder = ThreadHolder.getInstance();
+                HashMap<String, Thread> map = holder.getThreads();
+
+                for (Map.Entry thread : map.entrySet()) {
+
+                    try {
+
+                        ((AbstractInstrumentThread) thread.getValue()).resetTimeDifference();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 loopTime = (double) (8 * 60) / BPM;
 
@@ -194,23 +208,22 @@ public class MainActivity extends BaseActivity {
 
                     threadHolder.setLoopTime(loopTime);
 
-                    ThreadHolder holder = ThreadHolder.getInstance();
-                    HashMap<String, Thread> map = holder.getThreads();
+                    holder = ThreadHolder.getInstance();
+                    map = holder.getThreads();
 
-                    for(Map.Entry thread:map.entrySet()){
+                    for (Map.Entry thread : map.entrySet()) {
 
-                        AbstractInstrumentThread tempThread = ((AbstractInstrumentThread)thread.getValue());
+                        AbstractInstrumentThread tempThread = ((AbstractInstrumentThread) thread.getValue());
                         tempThread.setChangedStatus(true);
 
-                        if(i == 0){
+                        if (i == 0) {
                             tempThread.setPause(true);
 
-                        }else if(i == 10 -1 ){
+                        } else if (i == 10 - 1) {
 
                             tempThread.setPause(false);
 
                         }
-
                     }
 
                     try {
@@ -219,6 +232,7 @@ public class MainActivity extends BaseActivity {
                         e.printStackTrace();
                     }
                 }
+
 
                 settingBPM = false;
 
@@ -328,6 +342,17 @@ public class MainActivity extends BaseActivity {
         return loopTime;
     }
 
+    public void setGroupNameButton(Boolean onoff){
+
+
+        runOnUiThread(() -> {
+
+            GroupNameButton.setClickable(onoff);
+            GroupNameButton.setEnabled(onoff);
+
+        });
+
+    }
 
     /**
      * Method for creating an Dialog box which prints out the message contained in parameter message.

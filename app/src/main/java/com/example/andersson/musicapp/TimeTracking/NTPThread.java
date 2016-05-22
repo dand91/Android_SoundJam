@@ -60,9 +60,9 @@ public class NTPThread extends Thread {
                     observable.NTPnotify(adjust);
 
                 }
+                getInfo();
             }
 
-            getInfo();
 
             try {
 

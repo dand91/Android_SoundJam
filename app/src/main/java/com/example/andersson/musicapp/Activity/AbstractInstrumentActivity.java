@@ -145,6 +145,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                     soundListText.setText("");
                     recordButton.setClickable(false);
+                    progressText.setText("Waiting for loop");
 
                     while (true) {
 
@@ -190,7 +191,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                                             });
 
-                                            for(int j = 0 ; j < 2; j++ ){
+                                            for (int j = 0; j < 2; j++) {
 
                                                 sleep(200);
                                                 v.vibrate(50);
@@ -234,31 +235,42 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                     }
 
 
-                                    runOnUiThread(() -> {
+                                    playRealTime = false;
+                                    instrument.setPlayRealTime(false);
+                                    record = false;
+                                    instrument.setRecord(false);
 
-                                        playRealTime = false;
-                                        instrument.setPlayRealTime(false);
-                                        record = false;
-                                        instrument.setRecord(false);
-                                        progressText.setText("Updating server");
 
-                                        for (int i = 0; i < 10; i++) {
+                                        if (MainHolder.getInstance().getGroupName() != "noName") {
+
+                                            runOnUiThread(() -> {
+
+                                                progressText.setText("Updating server");
+                                          });
+
+                                            for (int i = 0; i < 10; i++) {
+
+                                                instrument.setSoundList(tempSoundList);
+                                                instrument.setChangedStatus(true);
+
+                                                try {
+
+                                                    sleep(CLIENT_UPDATE_TIME / 10);
+
+                                                } catch (InterruptedException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+
+                                        }else{
 
                                             instrument.setSoundList(tempSoundList);
-                                            instrument.setChangedStatus(true);
 
-                                            try {
-
-                                                sleep(CLIENT_UPDATE_TIME / 10);
-
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
-                                            }
                                         }
 
                                         recordButton.setClickable(true);
 
-                                    });
+
 
 
                                 }
@@ -279,7 +291,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
         volumeSeekBar = (SeekBar) findViewById(R.id.volumeSeekBar);
         volumeSeekBar.setProgress(instrument.getVolume());
         volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
@@ -293,10 +304,19 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+                Thread tempThread = new Thread() {
 
-                runOnUiThread(() -> {
+                    public void run() {
 
-                    int volume = volumeSeekBar.getProgress();
+                int volume = volumeSeekBar.getProgress();
+
+                if (MainHolder.getInstance().getGroupName() != "noName") {
+
+                    runOnUiThread(() -> {
+
+                        progressText.setText("Updating server");
+
+                    });
 
                     for (int i = 0; i < 10; i++) {
 
@@ -310,13 +330,19 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-
                     }
 
-                });
+
+                } else {
+
+                    instrument.setVolume(((float) volume) / 100);
+
+                }
 
             }
-
+        };
+                ThreadPool.getInstance().add(tempThread,"volume");
+            }
         });
     }
 
@@ -356,53 +382,64 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
             public void onClick(View view) {
 
+                ArrayList<Integer> tempList = new ArrayList<Integer>();
+                tempList.add(Integer.MAX_VALUE);
 
-                ThreadPool threadPool = ThreadPool.getInstance();
+                if (MainHolder.getInstance().getGroupName() != "noName") {
 
-                Thread removeThread = new Thread() {
+                    if (!instrument.getSoundList().isEmpty()) {
 
-                    @Override
-                    public void run() {
 
                         runOnUiThread(() -> {
 
-                            if (!instrument.getSoundList().isEmpty()) {
-
-                                ArrayList<Integer> tempList = new ArrayList<Integer>();
-                                tempList.add(Integer.MAX_VALUE);
-                                soundListText.setText("");
-
-                                for (int i = 0; i < 10; i++) {
-
-                                    instrument.setSoundList(tempList);
-                                    instrument.setChangedStatus(true);
-                                    beatHolder.clearBeatArray();
-
-                                    try {
-
-                                        sleep(CLIENT_UPDATE_TIME / 10);
-
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                progressText.setText("Instrument removed.");
-
-                            }
+                            soundListText.setText("");
+                            progressText.setText("Updating server");
                         });
+
+                        removeButton.setClickable(false);
+                        removeButton.setEnabled(false);
+
+                        for (int i = 0; i < 10; i++) {
+
+                            instrument.setSoundList(tempList);
+                            instrument.setChangedStatus(true);
+                            beatHolder.clearBeatArray();
+
+                            try {
+
+                                Thread.sleep(CLIENT_UPDATE_TIME / 10);
+
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        removeButton.setClickable(true);
+                        removeButton.setEnabled(true);
+
                     }
-                };
 
-                threadPool.add(removeThread, "removeThread");
+                } else {
 
+                    runOnUiThread(() -> {
+
+                        soundListText.setText("");
+                        progressText.setText("Instrument removed");
+                    });
+
+                    instrument.setSoundList(tempList);
+                    beatHolder.clearBeatArray();
+
+                }
             }
         });
     }
 
+
     protected void speedGUI() {
 
         speedText = (TextView) findViewById(R.id.speedText);
+
         if (instrument.getBars() == 8 && instrument.getSoundList().size() == 8) {
             speedText.setText("Speed: 8 bars");
         } else if (instrument.getBars() == 16 && instrument.getSoundList().size() == 16) {
@@ -416,7 +453,10 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
             public void onClick(View view) {
 
-                progressText.setText("Updating server");
+
+                Thread tempThread = new Thread() {
+
+                    public void run() {
 
                 if (instrument.getBars() == 8 && instrument.getSoundList().size() == 8) {
 
@@ -425,36 +465,63 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                     if (tempList.size() == 8) {
 
-                        speedText.setText("Speed: 16 bars");
+                        runOnUiThread(() -> {
 
+                            speedText.setText("Speed: 16 bars");
+
+                        });
 
                         ArrayList<Integer> newList = new ArrayList<Integer>();
                         newList.addAll(tempList);
                         newList.addAll(tempList);
 
-                        speedButton.setEnabled(false);
-                        speedButton.setClickable(false);
+                        if (MainHolder.getInstance().getGroupName() != "noName") {
 
-                        for (int i = 0; i < 10; i++) {
+
+                            runOnUiThread(() -> {
+
+                                progressText.setText("Updating server");
+                                speedButton.setEnabled(false);
+                                speedButton.setClickable(false);
+                            });
+
+
+
+                            for (int i = 0; i < 10; i++) {
+
+                                instrument.setBars(16);
+                                instrument.setSoundList(newList);
+                                instrument.setChangedStatus(true);
+
+                                try {
+
+                                    Thread.sleep(CLIENT_UPDATE_TIME / 10);
+
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            runOnUiThread(() -> {
+
+                                speedButton.setEnabled(true);
+                                speedButton.setClickable(true);
+
+                            });
+
+                        } else {
 
                             instrument.setBars(16);
                             instrument.setSoundList(newList);
-                            instrument.setChangedStatus(true);
-
-                            try {
-
-                                Thread.sleep(CLIENT_UPDATE_TIME / 10);
-
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
                         }
-
-                        speedButton.setEnabled(true);
-                        speedButton.setClickable(true);
                     }
 
-                    speedText.setText("Speed: 16 bars");
+
+                    runOnUiThread(() -> {
+
+                        speedText.setText("Speed: 16 bars");
+
+                    });
 
 
                 } else if (instrument.getBars() == 16 && instrument.getSoundList().size() == 16) {
@@ -464,35 +531,68 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                     if (tempList.size() == 16) {
 
-                        speedButton.setEnabled(false);
-                        speedButton.setClickable(false);
-                        speedText.setText("Speed: 8 bars");
+                        if (MainHolder.getInstance().getGroupName() != "noName") {
 
+                            runOnUiThread(() -> {
 
-                        for (int i = 0; i < 10; i++) {
+                                speedText.setText("Speed: 8 bars");
+                                progressText.setText("Updating server");
+
+                                speedButton.setEnabled(false);
+                                speedButton.setClickable(false);
+
+                            });
+
+                            for (int i = 0; i < 10; i++) {
+
+                                instrument.setBars(8);
+                                instrument.setSoundList(
+                                        new ArrayList<Integer>(
+                                                tempList.subList(0, 8)));
+                                instrument.setChangedStatus(true);
+
+                                try {
+
+                                    Thread.sleep(CLIENT_UPDATE_TIME / 10);
+
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            runOnUiThread(() -> {
+
+                                speedButton.setEnabled(true);
+                                speedButton.setClickable(true);
+                            });
+
+                        } else {
 
                             instrument.setBars(8);
                             instrument.setSoundList(
                                     new ArrayList<Integer>(
                                             tempList.subList(0, 8)));
-                            instrument.setChangedStatus(true);
 
-                            try {
-
-                                Thread.sleep(CLIENT_UPDATE_TIME / 10);
-
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
                         }
 
-                        speedButton.setEnabled(true);
-                        speedButton.setClickable(true);
-
                     }
-                }
-                progressText.setText("");
 
+                    runOnUiThread(() -> {
+
+                        speedText.setText("Speed: 8 bars");
+                    });
+
+                }
+
+                runOnUiThread(() -> {
+
+                    progressText.setText("");
+
+                });
+
+            }
+        };
+                ThreadPool.getInstance().add(tempThread,"speed");
             }
         });
     }

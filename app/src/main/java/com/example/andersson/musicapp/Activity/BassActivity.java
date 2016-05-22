@@ -128,14 +128,8 @@ public class BassActivity extends AbstractInstrumentActivity implements SensorEv
         } else if (X < tol && Y < tol && Z < 0) {
 
             instrument.playRealTime(8);
-            updateList.add(7);
-            soundListText.setText(soundListText.getText() + " d1 ");
-
-        } else {
-
-            instrument.playRealTime(4);
             updateList.add(8);
-            soundListText.setText(soundListText.getText() + " d2 ");
+            soundListText.setText(soundListText.getText() + " d1 ");
 
         }
     }

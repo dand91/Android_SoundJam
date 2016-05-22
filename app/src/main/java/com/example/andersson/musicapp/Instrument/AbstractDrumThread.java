@@ -36,7 +36,7 @@ public abstract class AbstractDrumThread extends AbstractInstrumentThread {
     @Override
     protected void setBeat() {
 
-        if (!soundList.isEmpty() && soundList.get(0) != -1) {
+        if (!soundList.isEmpty() && soundList.get(0) != Integer.MAX_VALUE ) {
 
             int k = 1;
 

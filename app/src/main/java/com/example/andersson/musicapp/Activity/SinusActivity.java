@@ -6,34 +6,35 @@ package com.example.andersson.musicapp.Activity;
         import android.hardware.SensorEvent;
         import android.hardware.SensorEventListener;
         import android.hardware.SensorManager;
+        import android.util.Log;
         import android.view.View;
         import android.view.animation.Animation;
         import android.view.animation.RotateAnimation;
         import android.widget.Button;
-        import android.widget.ImageButton;
         import android.widget.ImageView;
+        import android.widget.SeekBar;
         import android.widget.TextView;
 
         import com.example.andersson.musicapp.Instrument.SinusThread;
         import com.example.andersson.musicapp.R;
         import com.example.andersson.musicapp.SharedResources.SinusThreadHolder;
 
-public class SinusActivity extends AppCompatActivity implements SensorEventListener {
+public class SinusActivity extends BaseActivity implements SensorEventListener {
 
     private SensorManager mSensorManager;
     private float sensorValue;
     private float prevSensorValue;
     private int rotations;
     private float calculatedValue;
+    private boolean mute;
 
     private SinusThread sinusThread;
     private SinusObservable sinusbservable;
 
+    private SeekBar volumeSeekBar;
     private TextView freqDisp;
     private ImageView freqKnobScale;
-    private Button muteButton;
-
-
+    private Button MuteButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,39 +55,57 @@ public class SinusActivity extends AppCompatActivity implements SensorEventListe
             sinusThread = sinThreadHolder.getSinusThread();
 
         }
+
         sinusThread.addActivity(this);
         sinusbservable.addObserver(sinusThread);
-
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         freqDisp = (TextView) findViewById(R.id.textViewFreqency);
         freqKnobScale = (ImageView) findViewById(R.id.imageViewFreqKnobScale);
 
-        muteButton = (Button) findViewById(R.id.buttonMute);
-
-        muteButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //audioTrack.setVolume(0.5f);
-                    }
-                }
-        );
-
-
         prevSensorValue = 0;
         rotations = 0;
 
+        volumeSeekBar = (SeekBar) findViewById(R.id.volumeSeekBar);
+        volumeSeekBar.setProgress((int)(sinusThread.getVolume()*1000));
+        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                sinusThread.setVolume(((float)i/1000));
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
 
+            }
+
+        });
+
+        MuteButton = (Button) findViewById(R.id.muteButton);
+        MuteButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                mute = !mute;
+                Log.e("SinusAtivity", "Mute: " + mute);
+                sinusThread.setMute(mute);
+
+            }
+        });
     }
 
 
-
-
-
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
 
@@ -94,11 +113,6 @@ public class SinusActivity extends AppCompatActivity implements SensorEventListe
                 , SensorManager.SENSOR_DELAY_GAME);
     }
 
-
-    protected void onPause() {
-        super.onPause();
-
-    }
 
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {

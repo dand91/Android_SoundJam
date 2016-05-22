@@ -27,12 +27,13 @@ public class SinusThread extends Thread implements Observer {
 
     private int amplitude = 50000;
 
+    private float volume = 0.05f;
     private AudioTrack audioTrack;
     private static final int SAMPLE_RATE = 44100;
     private static final int BASE_FREQUENCY = 0;
     private float frequency;
     private float calculatedValue = 0;
-    boolean isRunning = true;
+    boolean mute = false;
 
 
     public SinusThread(SinusActivity activity){
@@ -66,7 +67,7 @@ public class SinusThread extends Thread implements Observer {
 
         audioTrack.attachAuxEffect(reverb.getId());
         audioTrack.setAuxEffectSendLevel(audioTrack.getMaxVolume());
-        audioTrack.setVolume(0.05f);
+        audioTrack.setVolume(volume);
 
         //audioTrack.attachAuxEffect(PresetReverb.getId);
         //audioTrack.setAuxEffectSendLevel(audioTrack.getMaxVolume());
@@ -77,10 +78,19 @@ public class SinusThread extends Thread implements Observer {
         short samples[] = new short[bufferSize];
         double ph = 0.0;
 
-        while (isRunning) {
+        while (true) {
 
 
-            frequency = BASE_FREQUENCY + calculatedValue;
+            if(mute){
+
+                frequency = 0;
+
+
+            }else{
+
+                frequency = BASE_FREQUENCY + calculatedValue;
+
+            }
 
             activity.setFreqText("" + round(frequency, 1));
 
@@ -90,9 +100,9 @@ public class SinusThread extends Thread implements Observer {
                 ph += 2 * Math.PI * frequency / SAMPLE_RATE;
             }
             audioTrack.write(samples, 0, bufferSize);
+
         }
-        audioTrack.stop();
-        audioTrack.release();
+
     }
 
 
@@ -111,5 +121,22 @@ public class SinusThread extends Thread implements Observer {
     public void addActivity(SinusActivity activity){
 
         this.activity = activity;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public void setVolume(float volume){
+
+        this.volume = volume;
+        audioTrack.setVolume(volume);
+
+    }
+
+    public float getVolume(){
+        return volume;
+    }
+
+    public void setMute(boolean mute){
+
+        this.mute = mute;
     }
 }

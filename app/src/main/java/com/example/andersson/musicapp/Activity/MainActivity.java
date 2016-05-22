@@ -18,6 +18,7 @@ import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.R;
 import com.example.andersson.musicapp.SharedResources.MainHolder;
+import com.example.andersson.musicapp.SharedResources.SinusThreadHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 import com.example.andersson.musicapp.TimeTracking.TimeThread;
 
@@ -38,15 +39,20 @@ public class MainActivity extends BaseActivity {
     private EditText BPMText;
     private EditText groupNameText;
     private TextView InfoView;
+
     private ThreadHolder threadHolder;
     private MainHolder mainHolder;
-    private String groupName = "noName";
+
     private UpdateThread updater;
     private TimeThread timer;
+
     private double loopTime = 4;
     private int BPM = 120;
+    private String groupName = "noName";
+
     private boolean sync = false;
-    private boolean settintBPM = false;
+    private boolean pause;
+    private boolean settingBPM = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,7 +186,7 @@ public class MainActivity extends BaseActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
 
-                settintBPM = true;
+                settingBPM = true;
 
                 loopTime = (double) (8 * 60) / BPM;
 
@@ -214,7 +220,7 @@ public class MainActivity extends BaseActivity {
                     }
                 }
 
-                settintBPM = false;
+                settingBPM = false;
 
             }
 
@@ -243,7 +249,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
 
                 sync = !sync;
-                Log.e("Main", "Sync: " + sync);
+                Log.i("Main", "Sync: " + sync);
                 timer.setSync(sync);
 
             }
@@ -255,8 +261,15 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
+                pause = !pause;
+                Log.i("Main", "Pause: " + pause);
 
+                SinusThreadHolder.getInstance().getSinusThread().setMute(pause);
 
+                for(Map.Entry entry : threadHolder.getThreads().entrySet()){
+
+                    ((AbstractInstrumentThread)entry.getValue()).setPause(pause);
+                }
             }
         });
 
@@ -270,7 +283,7 @@ public class MainActivity extends BaseActivity {
 
     public void setBPM(int newBPM) {
 
-        if (!settintBPM){
+        if (!settingBPM){
 
             this.BPM = newBPM;
         loopTime = (double) (8 * 60) / BPM;

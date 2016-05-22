@@ -68,7 +68,7 @@ public class UpdateTask {
         if (!haveNetworkConnection(tempMain)) { // Check internet connection
 
             Log.e("UpdateTask", "No internet connection");
-            tempMain.CreateDialog("No internet connection");
+            tempMain.CreateDialog("No internet connection, unable to fetch data.");
 
         } else {
 

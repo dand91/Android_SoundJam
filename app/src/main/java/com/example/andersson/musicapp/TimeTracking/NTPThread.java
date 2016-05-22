@@ -2,6 +2,8 @@ package com.example.andersson.musicapp.TimeTracking;
 
 import android.util.Log;
 
+import com.example.andersson.musicapp.SharedResources.MainHolder;
+
 import org.apache.commons.net.ntp.NTPUDPClient;
 import org.apache.commons.net.ntp.TimeInfo;
 
@@ -31,7 +33,6 @@ public class NTPThread extends Thread {
 
         this.observable = new NTPObservable();
         this.timeList = new ArrayList<Long>();
-
     }
 
     @Override

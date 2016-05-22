@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class ThreadPool {
 
-    private static final Integer MAX_THREAD = 50;
+    private static final Integer MAX_THREAD = 30;
 
     private static ThreadPool instance = null;
 
@@ -30,6 +30,7 @@ public class ThreadPool {
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_THREAD);
 
         Log.d("ThreadPool", "Pre starting threads: " + executor.prestartAllCoreThreads());
+
         threadMap = new HashMap<String, Thread>();
         futureMap = new HashMap<String, Future>();
         callableMap = new HashMap<String, Callable>();

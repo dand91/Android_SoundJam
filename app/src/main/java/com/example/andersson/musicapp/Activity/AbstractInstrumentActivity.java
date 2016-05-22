@@ -279,6 +279,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
         volumeSeekBar = (SeekBar) findViewById(R.id.volumeSeekBar);
         volumeSeekBar.setProgress(instrument.getVolume());
         volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
@@ -368,7 +369,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                             if (!instrument.getSoundList().isEmpty()) {
 
                                 ArrayList<Integer> tempList = new ArrayList<Integer>();
-                                tempList.add(-1);
+                                tempList.add(Integer.MAX_VALUE);
                                 soundListText.setText("");
 
                                 for (int i = 0; i < 10; i++) {
@@ -389,7 +390,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                 progressText.setText("Instrument removed.");
 
                             }
-
                         });
                     }
                 };

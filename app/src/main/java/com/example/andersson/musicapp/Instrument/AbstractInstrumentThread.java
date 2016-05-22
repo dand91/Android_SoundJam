@@ -197,7 +197,7 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
             final double tempLoopTime = getLoopTime() * 1000;
             final double loopBars = getBars();
 
-            if ((!soundList.isEmpty() && soundList.get(0) != -1) |
+            if ((!soundList.isEmpty() && soundList.get(0) != Integer.MAX_VALUE) |
                     (playRealTime & this instanceof BassThread) |
                     (record & this instanceof BassThread)) {
 
@@ -215,16 +215,17 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
                                 try {
 
-                                   sleep((long) ((tempLoopTime / loopBars)) );
+                                   sleep( (long) ( (tempLoopTime / loopBars)
+                                           + ( ( (double) timeDifference) / loopBars) ) );
 
                                 } catch (InterruptedException e) {
 
                                     e.printStackTrace();
                                 }
-
                         }
 
 
+                        timeDifference = (long)(loopTime*1000 - (System.currentTimeMillis() - startTime) + timeDifference);
                     }
                 };
 
@@ -240,18 +241,21 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
                 if (((String) map.get("instrumentName")).equals(activity.getName())) {
 
-                    setVolume((float) map.get("volume"));
+                    float tempVolume = (float) map.get("volume");
+                    double tempBar = Double.valueOf((int) map.get("bars"));
+                    ArrayList<Integer> tempList = (ArrayList<Integer>) map.get("soundList");
+
+
+                    setVolume(tempVolume);
 
                     if(!record) {
 
-                        ArrayList<Integer> tempList = (ArrayList<Integer>) map.get("soundList");
                         setSoundList(tempList);
+                        setBars(tempBar);
+
                         setBeat();
-                        setBars(Double.valueOf((int) map.get("bars")));
 
                     }
-
-
                 }
             };
 
@@ -259,5 +263,4 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
 
         }
     }
-
 }

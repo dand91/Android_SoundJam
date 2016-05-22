@@ -60,7 +60,6 @@ public class BaseActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-
                 ThreadHolder holder = ThreadHolder.getInstance();
                 HashMap<String, Thread> map = holder.getThreads();
 

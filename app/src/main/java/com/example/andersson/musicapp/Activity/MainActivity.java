@@ -264,8 +264,9 @@ public class MainActivity extends BaseActivity {
                 pause = !pause;
                 Log.i("Main", "Pause: " + pause);
 
-                SinusThreadHolder.getInstance().getSinusThread().setMute(pause);
-
+                if(SinusThreadHolder.getInstance().getSinusThread() != null) {
+                    SinusThreadHolder.getInstance().getSinusThread().setMute(pause);
+                }
                 for(Map.Entry entry : threadHolder.getThreads().entrySet()){
 
                     ((AbstractInstrumentThread)entry.getValue()).setPause(pause);

@@ -74,7 +74,7 @@ public class UpdateTask {
 
             ThreadPool.getInstance().getInfo();
 
-            HttpURLConnection conn = initiateConnection(SERVER_ADDRESS);
+            HttpURLConnection conn = initiateConnection(SERVER_ADDRESS,tempMain);
             SendClassList scl = collectDataFromThreads(mainHolder, threadHolder);
             sendXMLData(conn, scl, mainHolder);
             receiveXMLData(conn, observable, mainHolder);
@@ -93,7 +93,7 @@ public class UpdateTask {
      * @param addressList - String address to server
      * @return conn - The connection object
      */
-    private static HttpURLConnection initiateConnection(String[] addressList) {
+    private static HttpURLConnection initiateConnection(String[] addressList,MainActivity main) {
 
         for (int i = 0; i < addressList.length; i++) {
 
@@ -126,6 +126,7 @@ public class UpdateTask {
 
             } catch (IOException e3) {
 
+                main.CreateDialog("No internet connection, unable to fetch data.");
                 Log.e("UpdateTask", "Error while connecting to server.");
                 Log.e("UpdateTask", "Message 1: " + e3.getMessage());
                 e3.printStackTrace();

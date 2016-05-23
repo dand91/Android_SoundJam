@@ -135,7 +135,6 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
                     instrument.playRealTime(1);
 
                 }
-
             }
         });
     }
@@ -151,14 +150,4 @@ public abstract class AbstractDrumActivity extends AbstractInstrumentActivity im
         removeGUI();
     }
 
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        ((BeatActivity) BeatHolder.getInstance().getActivity()).updateBeat();
-
-        finish();
-
-    }
 }

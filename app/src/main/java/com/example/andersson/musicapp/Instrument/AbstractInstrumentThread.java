@@ -206,28 +206,26 @@ public abstract class AbstractInstrumentThread extends Thread implements Observe
                     @Override
                     public void run() {
 
-                        long startTime = System.currentTimeMillis();
 
                         for(int i = 0; i < loopBars; i++){
+
+                            long startTime = System.currentTimeMillis();
 
                             playLoop(i);
 
                                 try {
 
                                    sleep( (long) ( (tempLoopTime / loopBars)
-                                           + ( ( timeDifference) / loopBars) ) );
+                                           + ( timeDifference ) ) );
 
                                 } catch (InterruptedException e) {
 
                                     e.printStackTrace();
                                 }
+
+                            double difference = ((tempLoopTime / loopBars) - (double)(System.currentTimeMillis() - startTime));
+                            timeDifference = difference + timeDifference;
                         }
-
-                        double difference = (loopTime*1000 - (double)(System.currentTimeMillis() - startTime));
-                        timeDifference = difference + timeDifference;
-
-                        Log.e("TEST","Time: "  + (loopTime*1000 - (double)(System.currentTimeMillis() - startTime)));
-
                     }
                 };
 

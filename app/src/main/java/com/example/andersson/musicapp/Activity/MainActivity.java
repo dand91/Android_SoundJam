@@ -112,7 +112,6 @@ public class MainActivity extends BaseActivity {
         BassButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(MainActivity.this, BassActivity.class);
@@ -126,7 +125,6 @@ public class MainActivity extends BaseActivity {
         DrumsButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(MainActivity.this, BeatActivity.class);
@@ -135,7 +133,6 @@ public class MainActivity extends BaseActivity {
 
             }
         });
-
 
         SinusButton = (Button) findViewById(R.id.sinusButton);
         SinusButton.setOnClickListener(new View.OnClickListener() {
@@ -235,9 +232,7 @@ public class MainActivity extends BaseActivity {
                     }
                 }
 
-
                 settingBPM = false;
-
             }
 
         });
@@ -266,7 +261,7 @@ public class MainActivity extends BaseActivity {
 
                 sync = !sync;
                 final boolean syncTemp = sync;
-                
+
                 runOnUiThread(() -> {
 
                     InfoView.setText("Sync is: " + syncTemp);
@@ -287,7 +282,6 @@ public class MainActivity extends BaseActivity {
 
                 pause = !pause;
                 Log.i("Main", "Pause: " + pause);
-
 
                 if(SinusThreadHolder.getInstance().getSinusThread() != null) {
                     SinusThreadHolder.getInstance().getSinusThread().setMute(pause);
@@ -321,7 +315,6 @@ public class MainActivity extends BaseActivity {
             BPMBar.setProgress(BPM - 120);
 
         });
-
     }
     }
 
@@ -353,7 +346,6 @@ public class MainActivity extends BaseActivity {
             GroupNameButton.setEnabled(onoff);
 
         });
-
     }
 
     /**
@@ -371,6 +363,7 @@ public class MainActivity extends BaseActivity {
             builder1.setPositiveButton(
                     "OK",
                     new DialogInterface.OnClickListener() {
+
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                         }
@@ -381,7 +374,6 @@ public class MainActivity extends BaseActivity {
 
         });
     }
-
 
     /**
      * Method for checking if WIFI or other network connection is established.

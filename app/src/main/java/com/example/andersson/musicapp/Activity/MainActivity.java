@@ -229,6 +229,7 @@ public class MainActivity extends BaseActivity {
                         tempThread.setChangedStatus(true);
 
                         if (i == 0) {
+
                             tempThread.setPause(true);
 
                         } else if (i == 10 - 1) {
@@ -239,7 +240,9 @@ public class MainActivity extends BaseActivity {
                     }
 
                     try {
+
                         Thread.sleep(CLIENT_UPDATE_TIME / 10);
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

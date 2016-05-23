@@ -11,6 +11,7 @@ package com.example.andersson.musicapp.Activity;
         import android.view.animation.Animation;
         import android.view.animation.RotateAnimation;
         import android.widget.Button;
+        import android.widget.ImageButton;
         import android.widget.ImageView;
         import android.widget.SeekBar;
         import android.widget.TextView;
@@ -34,7 +35,7 @@ public class SinusActivity extends BaseActivity implements SensorEventListener {
     private SeekBar volumeSeekBar;
     private TextView freqDisp;
     private ImageView freqKnobScale;
-    private Button MuteButton;
+    private ImageButton MuteButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,7 @@ public class SinusActivity extends BaseActivity implements SensorEventListener {
 
         });
 
-        MuteButton = (Button) findViewById(R.id.muteButton);
+        MuteButton = (ImageButton) findViewById(R.id.muteButton);
         MuteButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

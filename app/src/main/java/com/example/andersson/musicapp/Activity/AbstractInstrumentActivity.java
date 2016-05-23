@@ -21,8 +21,7 @@ import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
+
 
 public abstract class AbstractInstrumentActivity extends BaseActivity {
 
@@ -141,13 +140,13 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
+                record = true;
                 ThreadPool threadPool = ThreadPool.getInstance();
 
                 Thread tempThread = new Thread() {
 
                     public void run() {
 
-                        if (!record) {
 
                             runOnUiThread(() -> {
 
@@ -182,7 +181,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                     index = 0;
                                     tempSoundList = new ArrayList<Integer>();
 
-                                    record = true;
                                     instrument.setRecord(true);
 
                                     try {
@@ -243,7 +241,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                         e.printStackTrace();
                                     }
 
-
                                     playRealTime = false;
                                     instrument.setPlayRealTime(false);
                                     record = false;
@@ -287,7 +284,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
                                     break;
                                 }
                             }
-                        }
+
                     }
                 };
 
@@ -314,7 +311,7 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                
+
                 int volume = volumeSeekBar.getProgress();
 
                 if (MainHolder.getInstance().getGroupName() != "noName") {
@@ -395,7 +392,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
                         beatHolder.clearBeatArray();
 
-
                 if (MainHolder.getInstance().getGroupName() != "noName") {
 
                     if (!instrument.getSoundList().isEmpty()) {
@@ -449,7 +445,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
             }
         });
     }
-
 
     protected void speedGUI() {
 
@@ -619,14 +614,18 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
     }
 
-    private void freeze(int time){
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(!record) {
+
+            ((BeatActivity) BeatHolder.getInstance().getActivity()).updateBeat();
+
+            finish();
+
         }
-
     }
+
 }

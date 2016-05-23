@@ -16,6 +16,10 @@ public class BaseActivity extends AppCompatActivity {
 
     public final static int CLIENT_UPDATE_TIME = 3000;
 
+    @Override
+    public void onBackPressed() {
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

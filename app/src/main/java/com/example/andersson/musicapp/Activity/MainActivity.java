@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -43,6 +42,7 @@ public class MainActivity extends BaseActivity {
     private TextView BPMText;
     private EditText groupNameText;
     private TextView InfoView;
+    private TextView groupNameTextView;
 
     private ThreadHolder threadHolder;
     private MainHolder mainHolder;
@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity {
 
     private double loopTime = 4;
     private int BPM = 120;
-    private String groupName = "noName";
+    private static String groupName = "noName";
 
     private boolean sync = false;
     private boolean pause;
@@ -150,17 +150,27 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        groupNameTextView = (TextView) findViewById(R.id.groupName);
+
+        if(!groupName.equals("noName")) {
+            groupNameTextView.setText(groupName);
+        }
         groupNameText = (EditText) findViewById(R.id.groupNameText);
         GroupNameButton = (Button) findViewById(R.id.groupNameButton);
         GroupNameButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-
             public void onClick(View view) {
 
                 setGroupNameButton(false);
                 groupName = groupNameText.getText().toString();
-                groupNameText.setText("");
+
+                runOnUiThread(() -> {
+
+                            groupNameTextView.setText(groupName);
+                            groupNameText.setText("");
+                        });
+
                 updater.wake();
                 Log.d("Main", "New group name: " + groupName);
             }
@@ -341,7 +351,6 @@ public class MainActivity extends BaseActivity {
     }
 
     public void setGroupNameButton(Boolean onoff){
-
 
         runOnUiThread(() -> {
 

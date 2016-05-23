@@ -25,7 +25,6 @@ import java.util.Calendar;
 
 public abstract class AbstractInstrumentActivity extends BaseActivity {
 
-
     public Button recordButton;
     public Button playButton;
     public Button stopButton;
@@ -70,7 +69,6 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
         beatHolder = BeatHolder.getInstance();
         mainHolder = MainHolder.getInstance();
         soundPoolHolder = SoundPoolHolder.getInstance();
-
 
         try {
 
@@ -614,15 +612,16 @@ public abstract class AbstractInstrumentActivity extends BaseActivity {
 
     }
 
-
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
 
         if(!record) {
 
-            ((BeatActivity) BeatHolder.getInstance().getActivity()).updateBeat();
+            BeatActivity beat = (BeatActivity) BeatHolder.getInstance().getActivity();
 
+                    if(beat != null) {
+                        beat.updateBeat();
+                    }
             finish();
 
         }

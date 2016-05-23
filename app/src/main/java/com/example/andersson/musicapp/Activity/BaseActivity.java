@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import com.example.andersson.musicapp.Instrument.AbstractInstrumentThread;
 import com.example.andersson.musicapp.Pool.ThreadPool;
 import com.example.andersson.musicapp.R;
+import com.example.andersson.musicapp.SharedResources.BeatHolder;
 import com.example.andersson.musicapp.SharedResources.ThreadHolder;
 
 import java.util.HashMap;
@@ -16,10 +17,6 @@ public class BaseActivity extends AppCompatActivity {
 
     public final static int CLIENT_UPDATE_TIME = 3000;
 
-    @Override
-    public void onBackPressed() {
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -40,10 +40,10 @@
         android:id="@+id/imageViewFreqKnobScale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/freqbackground"
         android:layout_below="@+id/textViewFreqHeader"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:src="@drawable/freqknobscale"
         android:layout_marginTop="90dp"
         />
 

@@ -1,15 +1,18 @@
 package com.example.andersson.musicapp.Activity;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -35,9 +38,9 @@ public class MainActivity extends BaseActivity {
     private Button DrumsButton;
     private Button RestartButton;
     private Button SyncButton;
-    private Button PauseButton;
+    private ImageButton PauseButton;
     private SeekBar BPMBar;
-    private EditText BPMText;
+    private TextView BPMText;
     private EditText groupNameText;
     private TextView InfoView;
 
@@ -108,7 +111,7 @@ public class MainActivity extends BaseActivity {
 
         }
 
-        BassButton = (Button) findViewById(R.id.BassButton);
+        BassButton = (Button) findViewById(R.id.bassButton);
         BassButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -134,7 +137,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        SinusButton = (Button) findViewById(R.id.sinusButton);
+        SinusButton = (Button) findViewById(R.id.synthButton);
         SinusButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -163,7 +166,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        BPMText = (EditText) findViewById(R.id.BPMText);
+        BPMText = (TextView) findViewById(R.id.BPMText);
 
         BPMBar = (SeekBar) findViewById(R.id.BPMBar);
         BPMBar.setProgress(0);
@@ -240,8 +243,8 @@ public class MainActivity extends BaseActivity {
         RestartButton = (Button) findViewById(R.id.restartButton);
         RestartButton.setOnClickListener(new View.OnClickListener() {
 
+            @TargetApi(Build.VERSION_CODES.CUPCAKE)
             @Override
-
             public void onClick(View view) {
 
                 Intent i = getBaseContext().getPackageManager()
@@ -274,7 +277,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        PauseButton = (Button) findViewById(R.id.pauseButton);
+        PauseButton = (ImageButton) findViewById(R.id.muteButton);
         PauseButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -294,7 +297,7 @@ public class MainActivity extends BaseActivity {
         });
 
 
-        InfoView = (TextView) findViewById(R.id.InfoView);
+        InfoView = (TextView) findViewById(R.id.infoView);
     }
 
     public int getBPM() {

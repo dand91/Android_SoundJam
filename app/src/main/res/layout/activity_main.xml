@@ -1,117 +1,189 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:id="@+id/layout"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingTop="60dp"
+    android:weightSum="1"
+
     tools:context=".Activity.MainActivity">
 
-    <EditText
-        android:id="@+id/groupNameText"
+
+    <RelativeLayout
+        android:id="@+id/groups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <EditText
+            android:id="@+id/groupNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="create/select group"
+            android:textSize="22sp"
+            android:layout_alignParentTop="true"
+
+            android:layout_toLeftOf="@+id/groupNameButton"/>
+
+        <Button
+            android:id="@+id/groupNameButton"
+            android:layout_width="60dp"
+            android:layout_height="42dp"
+            android:text="OK"
+            android:textSize="14sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="32dp"
+            android:layout_marginEnd="32dp" />
+
+        <TextView
+            android:id="@+id/groupNameHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/groupNameButton"
+            android:paddingTop="10dp"
+            android:text="Selected group:"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/groupName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/groupNameHeader"
+            android:text="No group selected"
+            android:textSize="18sp" />
+
+
+
+        <TextView
+            android:id="@+id/statusHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/groupName"
+            android:paddingTop="10dp"
+            android:text="Status"
+            android:textSize="22sp"
+            />
+
+        <TextView
+            android:id="@+id/infoView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/statusHeader"
+            android:paddingBottom="10dp"
+            android:text="No actions performed"
+            android:textSize="18sp"
+            />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/instruments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/groupNameButton"
-        android:layout_centerHorizontal="true"
-        android:hint="Input name" />
+        android:paddingTop="20dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/groupNameButton"
-        android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/drumsButton"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:backgroundTint="#842525"
+            android:text="Drums"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/bassButton"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_toRightOf="@+id/drumsButton"
+            android:backgroundTint="#842525"
+            android:text="Bass"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/synthButton"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_toRightOf="@+id/bassButton"
+            android:backgroundTint="#842525"
+            android:text="Synth"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/bpm"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/BPMText"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/BPMText"
-        android:layout_marginBottom="53dp"
-        android:text="Done" />
+        android:paddingTop="20dp"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/sinusButton"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/BPMText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="BPM: 120"
+            android:textSize="20sp" />
+
+        <SeekBar
+            android:id="@+id/BPMBar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:indeterminate="false"
+            android:max="10" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/options"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/BPMText"
-        android:layout_alignRight="@+id/BPMText"
-        android:layout_below="@+id/BPMText"
-        android:layout_marginTop="44dp"
-        android:text="Sinus" />
+        android:paddingTop="20dp"
+        >
 
-    <Button
-        android:id="@+id/BassButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/sinusButton"
-        android:layout_toLeftOf="@+id/sinusButton"
-        android:layout_toStartOf="@+id/sinusButton"
-        android:backgroundTint="#842525"
-        android:text="Bass" />
 
-    <SeekBar
-        android:id="@+id/BPMBar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="145dp"
-        android:focusable="true"
-        android:indeterminate="false"
-        android:max="10" />
 
-    <EditText
-        android:id="@+id/BPMText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/BPMBar"
-        android:layout_centerHorizontal="true"
-        android:text="BPM: 120" />
 
-    <Button
-        android:id="@+id/drumsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/sinusButton"
-        android:layout_toEndOf="@+id/sinusButton"
-        android:layout_toRightOf="@+id/sinusButton"
-        android:backgroundTint="#842525"
-        android:text="drums" />
 
-    <TextView
-        android:id="@+id/InfoView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/BassButton"
-        android:layout_alignStart="@+id/BassButton"
-        android:layout_below="@+id/BassButton"
-        android:layout_marginTop="21dp" />
+        <ImageButton
+            android:id="@+id/muteButton"
+            android:layout_width="90dp"
+            android:layout_height="60dp"
+            android:src="@drawable/mute"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            />
 
-    <Button
-        android:id="@+id/restartButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/BPMBar"
-        android:layout_marginBottom="44dp"
-        android:layout_toLeftOf="@+id/pauseButton"
-        android:layout_toStartOf="@+id/pauseButton"
-        android:text="restart" />
+        <Button
+            android:id="@+id/restartButton"
+            android:layout_width="90dp"
+            android:layout_height="60dp"
+            android:text="Restart"
+            android:textSize="30px"
+            android:layout_toLeftOf="@+id/muteButton"
+            />
 
-    <Button
-        android:id="@+id/syncButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/pauseButton"
-        android:layout_toEndOf="@+id/pauseButton"
-        android:layout_toRightOf="@+id/pauseButton"
-        android:text="NTP sync" />
+        <Button
+            android:id="@+id/syncButton"
+            android:layout_width="90dp"
+            android:layout_height="60dp"
+            android:text="NTP Sync"
+            android:textSize="30px"
+            android:layout_toRightOf="@+id/muteButton" />
 
-    <Button
-        android:id="@+id/pauseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/restartButton"
-        android:layout_centerHorizontal="true"
-        android:text="pause" />
+    </RelativeLayout>
 
-</RelativeLayout>
+
+</LinearLayout>
+
+
